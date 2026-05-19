@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio Admin</title>
+<style>
+:root{
+  --bg:#1A1225;--surface:#221530;--surface2:#2C1C3E;
+  --border:rgba(201,146,43,.18);--gold:#C9922B;--gold-l:#E8B84B;
+  --white:#fff;--gray:rgba(255,255,255,.5);
+  --purple:#3D1F5C;--green:#4ade80;--red:#f87171;
+  --mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--white);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* ── Header ─────────────────────────────────────────── */
+header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.h-title{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+.h-status{font-size:11px;color:var(--gray)}
+.h-status b{color:var(--green)}
+
+/* ── Layout ─────────────────────────────────────────── */
+.app{display:flex;flex:1;overflow:hidden}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+.sidebar{width:250px;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.sb-section{}
+.sb-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);background:var(--surface2);position:sticky;top:0;z-index:1}
+.sb-label{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.add-btn{background:none;border:1px solid var(--border);color:var(--gold);font-size:17px;width:22px;height:22px;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .15s}
+.add-btn:hover{background:var(--gold);color:var(--purple)}
+.sb-list{list-style:none}
+.sb-item{padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--gray);display:flex;align-items:center;gap:8px;transition:background .12s}
+.sb-item:hover{background:rgba(255,255,255,.05);color:var(--white)}
+.sb-item.active{background:var(--purple);color:var(--white)}
+.sb-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.sb-period{font-family:var(--mono);font-size:9px;color:var(--gold);opacity:.65;flex-shrink:0}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.released{background:var(--green)}
+.dot.unreleased{background:var(--red)}
+.dot.wip{background:rgba(255,255,255,.3)}
+
+/* drag-and-drop */
+#list-projects .sb-item{cursor:grab}
+#list-projects .sb-item:active{cursor:grabbing}
+#list-projects .sb-item.dragging{opacity:.3;background:rgba(201,146,43,.04)}
+#list-projects .sb-item.drag-over{border-top:2px solid var(--gold)}
+
+/* ── Main ─────────────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;padding:28px 36px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray);text-align:center;gap:8px}
+.empty h2{font-size:20px;color:rgba(255,255,255,.2)}
+
+/* ── Form ──────────────────────────────────────────────── */
+.form-head{font-family:'Georgia',serif;font-size:22px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:1px;border:1px solid;text-transform:uppercase;letter-spacing:.08em;display:inline-block}
+.badge.released{color:var(--green);border-color:rgba(74,222,128,.35)}
+.badge.unreleased{color:var(--red);border-color:rgba(248,113,113,.35)}
+.badge.wip{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.18)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+.fg{display:flex;flex-direction:column;gap:5px}
+label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+input[type=text],textarea,select{background:var(--surface2);border:1px solid var(--border);border-radius:2px;color:var(--white);padding:8px 11px;font-size:13px;width:100%;font-family:inherit;transition:border-color .15s}
+input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:90px;line-height:1.6}
+select option{background:var(--surface2)}
+
+/* tag input */
+.tag-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:5px 7px;display:flex;flex-wrap:wrap;gap:5px;min-height:38px;cursor:text;transition:border-color .15s}
+.tag-wrap:focus-within{border-color:var(--gold)}
+.pill{background:var(--purple);color:rgba(255,255,255,.8);font-size:11px;padding:3px 8px 3px 10px;border-radius:2px;display:flex;align-items:center;gap:4px}
+.pill button{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:13px;line-height:1;padding:0;display:flex;align-items:center}
+.pill button:hover{color:var(--red)}
+.tag-wrap input{background:none;border:none;outline:none;color:var(--white);font-size:12px;min-width:70px;flex:1;padding:3px 0;font-family:inherit}
+
+/* bullets */
+.bullet-list{display:flex;flex-direction:column;gap:6px}
+.bullet-row{display:flex;gap:6px;align-items:center}
+.bullet-row input{flex:1}
+.icon-btn{background:none;border:1px solid var(--border);color:rgba(255,255,255,.35);width:30px;height:30px;border-radius:2px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.icon-btn:hover{border-color:var(--red);color:var(--red)}
+.icon-btn.add{width:100%;color:var(--gold);border-color:rgba(201,146,43,.35);font-size:12px;margin-top:6px;padding:6px}
+.icon-btn.add:hover{background:rgba(201,146,43,.08);border-color:var(--gold)}
+
+/* images */
+.img-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.img-thumb{position:relative;width:78px;height:78px;border-radius:2px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border-color .15s;flex-shrink:0}
+.img-thumb:hover{border-color:rgba(201,146,43,.5)}
+.img-thumb.cover{border-color:var(--gold)}
+.img-thumb img{width:100%;height:100%;object-fit:cover;display:block;background:var(--surface2)}
+.img-thumb .rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);border:none;color:var(--red);width:17px;height:17px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;line-height:1}
+.img-thumb:hover .rm{opacity:1}
+.cover-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(201,146,43,.9);font-size:8px;text-align:center;padding:2px;color:#1A1225;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+
+.upload-zone{border:1px dashed var(--border);border-radius:2px;padding:14px;text-align:center;cursor:pointer;transition:border-color .15s;margin-top:8px;font-size:12px;color:var(--gray)}
+.upload-zone:hover{border-color:var(--gold);color:var(--gold-l)}
+.upload-zone strong{color:var(--gold)}
+.upload-zone input{display:none}
+.cover-hint{font-size:11px;color:var(--gray);margin-top:4px}
+
+/* range slider */
+input[type=range]{-webkit-appearance:none;appearance:none;background:var(--surface2);border:1px solid var(--border);border-radius:2px;height:6px;padding:0;cursor:pointer;width:100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer}
+input[type=range]:focus{outline:none;border-color:var(--gold)}
+
+/* filter tag chips */
+.ftag-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0}
+.ftag-chip{background:var(--surface2);border:1px solid var(--border);color:var(--gray);font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:5px 13px;border-radius:2px;cursor:pointer;transition:all .15s;user-select:none}
+.ftag-chip:hover{border-color:rgba(201,146,43,.5);color:var(--white)}
+.ftag-chip.active{background:rgba(201,146,43,.12);border-color:var(--gold);color:var(--gold-l)}
+
+/* timeline toggle switch */
+.switch-row{display:flex;align-items:center;gap:12px;padding:4px 0}
+.switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0;position:absolute}
+.switch-track{position:absolute;cursor:pointer;inset:0;background:var(--surface2);border:1px solid var(--border);border-radius:10px;transition:.2s}
+.switch-track:before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:rgba(255,255,255,.3);border-radius:50%;transition:.2s}
+.switch input:checked+.switch-track{background:rgba(201,146,43,.12);border-color:var(--gold)}
+.switch input:checked+.switch-track:before{transform:translateX(16px);background:var(--gold)}
+.switch-desc{font-size:12px;color:var(--gray)}
+
+/* section divider */
+.sec-label{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);margin:22px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* actions */
+.actions{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);align-items:center}
+.btn-save{background:var(--gold);color:var(--purple);border:none;padding:9px 26px;font-size:12px;font-weight:600;letter-spacing:.06em;border-radius:2px;cursor:pointer;transition:background .15s}
+.btn-save:hover{background:var(--gold-l)}
+.btn-del{background:none;border:1px solid rgba(248,113,113,.35);color:var(--red);padding:9px 18px;font-size:12px;border-radius:2px;cursor:pointer;margin-left:auto;transition:all .15s}
+.btn-del:hover{background:rgba(248,113,113,.1)}
+.saved{font-size:11px;color:var(--green);display:none;align-items:center;gap:5px}
+.saved.show{display:flex}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="h-title">◈ Portfolio Admin</span>
+  <span class="h-status" id="h-status">connecting…</span>
+</header>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sb-section">
+      <div class="sb-head">
+        <span class="sb-label">Projects</span>
+        <button class="add-btn" onclick="newItem('project')" title="Add project">+</button>
+      </div>
+      <ul class="sb-list" id="list-projects"></ul>
+    </div>
+    <div class="sb-section">
+      <div class="sb-head">
+        <span class="sb-label">Work History</span>
+        <button class="add-btn" onclick="newItem('career')" title="Add career entry">+</button>
+      </div>
+      <ul class="sb-list" id="list-career"></ul>
+    </div>
+    <div class="sb-section">
+      <div class="sb-head">
+        <span class="sb-label">Skills</span>
+        <button class="add-btn" onclick="newItem('skill')" title="Add skill">+</button>
+      </div>
+      <ul class="sb-list" id="list-skills"></ul>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="empty"><h2>Select an entry</h2><p>Choose from the sidebar or add a new one.</p></div>
+  </main>
+</div>
+
+<script>
+let DATA = { projects:[], career:[], timeline:[], skills:[] }
+let curSection = null, curId = null
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const res = await fetch('/api/data')
+    DATA = await res.json()
+    renderSidebar()
+    document.getElementById('h-status').innerHTML =
+      `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
+  } catch(e) {
+    document.getElementById('h-status').textContent = 'Cannot connect — is npm run admin running?'
+  }
+}
+
+// ── Sidebar ──────────────────────────────────────────────────────────────────
+function sbYear(str) {
+  const m = String(str||'').match(/\d{4}/); return m ? parseInt(m[0],10) : 0
+}
+
+function renderSidebar() {
+  document.getElementById('list-projects').innerHTML = DATA.projects.map(p => `
+    <li class="sb-item${curSection==='project'&&curId===p.id?' active':''}" draggable="true" data-id="${p.id}" onclick="editItem('project','${p.id}')">
+      <span class="sb-item-name">${esc(p.title)}</span>
+      <span class="dot ${p.status}"></span>
+    </li>`).join('')
+  initProjectDrag()
+
+  const career = [...DATA.career].sort((a,b) => sbYear(b.period) - sbYear(a.period))
+  document.getElementById('list-career').innerHTML = career.map(c => `
+    <li class="sb-item${curSection==='career'&&curId===c.id?' active':''}" onclick="editItem('career','${c.id}')">
+      <span class="sb-item-name">${esc(c.role)}</span>
+      <span class="sb-period">${(c.period||'').split('–')[0].trim()}</span>
+    </li>`).join('')
+
+  document.getElementById('list-skills').innerHTML = (DATA.skills||[]).map(s => `
+    <li class="sb-item${curSection==='skill'&&curId===s.id?' active':''}" onclick="editItem('skill','${s.id}')">
+      <span class="sb-item-name">${esc(s.name)}</span>
+      <span class="sb-period">${s.category||''}</span>
+    </li>`).join('')
+}
+
+// ── Edit / New ──────────────────────────────────────────────────────────────
+function editItem(section, id) {
+  curSection = section; curId = id
+  let item
+  if (section==='project')  item = DATA.projects.find(p=>p.id===id)
+  else if (section==='career') item = DATA.career.find(c=>c.id===id)
+  else if (section==='timeline') item = DATA.timeline.find(t=>t.id===id)
+  else item = (DATA.skills||[]).find(s=>s.id===id)
+  renderSidebar()
+  renderForm(section, item)
+}
+
+function newItem(section) {
+  curSection = section
+  curId = 'new_' + Date.now()
+  const blank = section==='project'
+    ? { id:curId, title:'', date:'', status:'wip', team:'', tags:[], filterTags:'', cardSize:'default', coverImage:'', sub:'', cardDesc:'', description:'', images:[], tools:[], link:null, showInTimeline:false }
+    : section==='career'
+    ? { id:curId, period:'', role:'', company:'', bullets:[] }
+    : section==='timeline'
+    ? { id:curId, period:'', title:'', company:'', status:'wip', bullets:[] }
+    : { id:curId, name:'', abbr:'', level:75, category:'Concept Art' }
+  renderForm(section, blank)
+}
+
+// ── Forms ─────────────────────────────────────────────────────────────────────
+function renderForm(section, item) {
+  const main = document.getElementById('main')
+  if (section==='project') main.innerHTML = projectForm(item)
+  else if (section==='career') main.innerHTML = careerForm(item)
+  else if (section==='timeline') main.innerHTML = timelineForm(item)
+  else main.innerHTML = skillForm(item)
+  main.scrollTop = 0
+}
+
+function pills(arr) {
+  return arr.map(t=>`<span class="pill">${esc(t)}<button onclick="removeTag(this)" type="button">×</button></span>`).join('')
+}
+
+function projectForm(p) {
+  const imgHtml = p.images.map(img => {
+    if (!img.startsWith('data/images/')) return ''
+    return `<div class="img-thumb${img===p.coverImage?' cover':''}" onclick="setCover('${img}')" data-img="${img}">
+      <img src="/${img}" onerror="this.style.opacity='.3'">
+      <button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button>
+      ${img===p.coverImage?'<div class="cover-lbl">cover</div>':''}
+    </div>`
+  }).filter(Boolean).join('')
+
+  return `
+  <div class="form-head">${esc(p.title)||'New Project'} ${p.status?`<span class="badge ${p.status}">${p.status}</span>`:''}</div>
+  <form onsubmit="saveItem(event)">
+    <div class="grid2">
+      <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(p.id)}" required></div>
+      <div class="fg"><label>Title</label><input type="text" name="title" value="${esc(p.title)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg"><label>Date</label><input type="text" name="date" value="${esc(p.date)}" placeholder="2024 – Present"></div>
+      <div class="fg"><label>Status</label>
+        <select name="status" onchange="updateBadge(this.value)">
+          <option value="wip"${p.status==='wip'?' selected':''}>WIP</option>
+          <option value="released"${p.status==='released'?' selected':''}>Released</option>
+          <option value="unreleased"${p.status==='unreleased'?' selected':''}>Unreleased</option>
+        </select>
+      </div>
+      <div class="fg"><label>Team / Company</label><input type="text" name="team" value="${esc(p.team)}"></div>
+      <div class="fg"><label>Card Size</label>
+        <select name="cardSize">
+          <option value="default"${p.cardSize==='default'?' selected':''}>Default (1 col)</option>
+          <option value="featured"${p.cardSize==='featured'?' selected':''}>Featured (2 cols)</option>
+          <option value="wide"${p.cardSize==='wide'?' selected':''}>Wide (3 cols)</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Display Tags</label>
+        <div class="tag-wrap" id="tags-wrap" onclick="focusTag('tags-in')">${pills(p.tags)}<input id="tags-in" type="text" placeholder="Add tag, press Enter…" onkeydown="addTag(event,'tags-wrap','tags-in')"></div>
+      </div>
+      <div class="fg full"><label>Filter Tags</label>
+        <div class="ftag-wrap">${
+          ['concept','character','creature','weapon','3d','fortnite','roblox','illustration'].map(t => {
+            const on = (p.filterTags||'').split(' ').includes(t)
+            return `<button type="button" class="ftag-chip${on?' active':''}" data-tag="${t}" onclick="this.classList.toggle('active')">${t}</button>`
+          }).join('')
+        }</div>
+      </div>
+      <div class="fg full"><label>Modal Subtitle (sub)</label>
+        <input type="text" name="sub" value="${esc(p.sub)}" placeholder="Studio · 2024 · Tools">
+      </div>
+      <div class="fg full"><label>Card Hover Description</label>
+        <input type="text" name="cardDesc" value="${esc(p.cardDesc)}" placeholder="Short text shown on hover…">
+      </div>
+      <div class="fg full"><label>Full Description</label>
+        <textarea name="description">${esc(p.description)}</textarea>
+      </div>
+      <div class="fg full"><label>Tools</label>
+        <div class="tag-wrap" id="tools-wrap" onclick="focusTag('tools-in')">${pills(p.tools)}<input id="tools-in" type="text" placeholder="Add tool, press Enter…" onkeydown="addTag(event,'tools-wrap','tools-in')"></div>
+      </div>
+    </div>
+
+    <div class="sec-label">Link (optional)</div>
+    <div class="grid2">
+      <div class="fg"><label>Label</label><input type="text" name="linkLabel" value="${esc(p.link?.label||'')}" placeholder="View on ArtStation ↗"></div>
+      <div class="fg"><label>URL</label><input type="text" name="linkUrl" value="${esc(p.link?.url||'')}" placeholder="https://…"></div>
+    </div>
+
+    <div class="sec-label">Timeline</div>
+    <div class="switch-row">
+      <label class="switch">
+        <input type="checkbox" name="showInTimeline"${p.showInTimeline?' checked':''}>
+        <span class="switch-track"></span>
+      </label>
+      <span class="switch-desc">Show in Project Timeline</span>
+    </div>
+
+    <div class="sec-label">Images</div>
+    <p class="cover-hint">Click an image to set as cover (gold border). Legacy IMGS keys are not shown here.</p>
+    <div class="img-grid" id="img-grid">${imgHtml}</div>
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="img-input" accept="image/*" multiple onchange="uploadImages(this)">
+      <strong>Click to upload</strong> or drag &amp; drop &nbsp;·&nbsp; <span>JPEG, PNG, WebP</span>
+    </div>
+    <input type="hidden" name="coverImage" id="cover-in" value="${esc(p.coverImage)}">
+    <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(p.images))}">
+
+    <div class="actions">
+      <button type="submit" class="btn-save">Save</button>
+      <div class="saved" id="saved-msg">✓ Saved</div>
+      <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
+    </div>
+  </form>`
+}
+
+function careerForm(c) {
+  return `
+  <div class="form-head">${esc(c.role)||'New Career Entry'}</div>
+  <form onsubmit="saveItem(event)">
+    <div class="grid2">
+      <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(c.id)}" required></div>
+      <div class="fg"><label>Period</label><input type="text" name="period" value="${esc(c.period)}" placeholder="2020 – 2025" required></div>
+      <div class="fg full"><label>Role / Title</label><input type="text" name="role" value="${esc(c.role)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg full"><label>Company / Organisation</label><input type="text" name="company" value="${esc(c.company)}"></div>
+    </div>
+    <div class="sec-label">Bullet Points</div>
+    <div class="bullet-list" id="bullet-list">
+      ${c.bullets.map(b=>bulletRow(b)).join('')}
+    </div>
+    <button type="button" class="icon-btn add" onclick="addBullet()">+ Add bullet</button>
+    <div class="actions">
+      <button type="submit" class="btn-save">Save</button>
+      <div class="saved" id="saved-msg">✓ Saved</div>
+      <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
+    </div>
+  </form>`
+}
+
+function timelineForm(t) {
+  return `
+  <div class="form-head">${esc(t.title)||'New Timeline Entry'} ${t.status?`<span class="badge ${t.status}">${t.status}</span>`:''}</div>
+  <form onsubmit="saveItem(event)">
+    <div class="grid2">
+      <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(t.id)}" required></div>
+      <div class="fg"><label>Period</label><input type="text" name="period" value="${esc(t.period)}" placeholder="2024" required></div>
+      <div class="fg full"><label>Title</label><input type="text" name="title" value="${esc(t.title)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg full"><label>Company / Organisation</label><input type="text" name="company" value="${esc(t.company)}"></div>
+      <div class="fg"><label>Status</label>
+        <select name="status" onchange="updateBadge(this.value)">
+          <option value="wip"${t.status==='wip'?' selected':''}>WIP</option>
+          <option value="released"${t.status==='released'?' selected':''}>Released</option>
+          <option value="unreleased"${t.status==='unreleased'?' selected':''}>Unreleased</option>
+        </select>
+      </div>
+    </div>
+    <div class="sec-label">Bullet Points</div>
+    <div class="bullet-list" id="bullet-list">
+      ${t.bullets.map(b=>bulletRow(b)).join('')}
+    </div>
+    <button type="button" class="icon-btn add" onclick="addBullet()">+ Add bullet</button>
+    <div class="actions">
+      <button type="submit" class="btn-save">Save</button>
+      <div class="saved" id="saved-msg">✓ Saved</div>
+      <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
+    </div>
+  </form>`
+}
+
+function skillForm(s) {
+  const cats = ['Concept Art','2D Tools','3D & Engine','Game Dev','Soft Skills','Languages']
+  return `
+  <div class="form-head">${esc(s.name)||'New Skill'}</div>
+  <form onsubmit="saveItem(event)">
+    <div class="grid2">
+      <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(s.id)}" required></div>
+      <div class="fg"><label>Category</label>
+        <input type="text" name="category" value="${esc(s.category)}" list="cat-list" placeholder="Concept Art">
+        <datalist id="cat-list">${cats.map(c=>`<option value="${c}">`).join('')}</datalist>
+      </div>
+      <div class="fg"><label>Full Name</label><input type="text" name="name" value="${esc(s.name)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg"><label>Abbreviation (2–3 chars, fallback)</label><input type="text" name="abbr" value="${esc(s.abbr)}" maxlength="3" placeholder="Ps"></div>
+      <div class="fg full"><label>Icon — emoji or https://cdn.simpleicons.org/…</label><input type="text" name="icon" value="${esc(s.icon||'')}" placeholder="✏️  or  https://cdn.simpleicons.org/blender/E87D0D"></div>
+      <div class="fg full">
+        <label>Level — <span id="level-val">${s.level}</span>%</label>
+        <input type="range" name="level" min="0" max="100" value="${s.level}" oninput="document.getElementById('level-val').textContent=this.value">
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn-save">Save</button>
+      <div class="saved" id="saved-msg">✓ Saved</div>
+      <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
+    </div>
+  </form>`
+}
+
+function bulletRow(text) {
+  return `<div class="bullet-row"><input type="text" class="bullet-in" value="${esc(text)}" placeholder="Describe what you did…"><button type="button" class="icon-btn" onclick="this.parentElement.remove()">×</button></div>`
+}
+
+// ── Tag helpers ───────────────────────────────────────────────────────────────
+function focusTag(id) { document.getElementById(id)?.focus() }
+
+function addTag(e, wrapId, inputId) {
+  if (e.key!=='Enter' && e.key!==',') return
+  e.preventDefault()
+  const input = document.getElementById(inputId)
+  const val = input.value.trim().replace(/,$/, '')
+  if (!val) return
+  const wrap = document.getElementById(wrapId)
+  const span = document.createElement('span')
+  span.className = 'pill'
+  span.innerHTML = `${esc(val)}<button onclick="removeTag(this)" type="button">×</button>`
+  wrap.insertBefore(span, input)
+  input.value = ''
+}
+
+function removeTag(btn) { btn.parentElement.remove() }
+
+function getTags(wrapId) {
+  return [...document.getElementById(wrapId).querySelectorAll('.pill')]
+    .map(p => p.childNodes[0].textContent.trim())
+}
+
+// ── Bullet helpers ────────────────────────────────────────────────────────────
+function addBullet() {
+  const list = document.getElementById('bullet-list')
+  const div = document.createElement('div')
+  div.innerHTML = bulletRow('')
+  list.appendChild(div.firstChild)
+  list.lastChild.querySelector('input').focus()
+}
+
+function getBullets() {
+  return [...document.querySelectorAll('.bullet-in')].map(i=>i.value.trim()).filter(Boolean)
+}
+
+function getFilterTags() {
+  return [...document.querySelectorAll('.ftag-chip.active')].map(c=>c.dataset.tag).join(' ')
+}
+
+// ── Image helpers ─────────────────────────────────────────────────────────────
+async function uploadImages(input) {
+  const id = document.querySelector('[name=id]')?.value || 'temp'
+  for (const file of input.files) {
+    const fd = new FormData()
+    fd.append('image', file)
+    const res = await fetch(`/api/upload/${id}`, { method:'POST', body:fd })
+    const { path } = await res.json()
+    addThumb(path)
+  }
+  input.value = ''
+  updateImagesIn()
+}
+
+function addThumb(p) {
+  const grid = document.getElementById('img-grid')
+  const div = document.createElement('div')
+  div.className = 'img-thumb'; div.dataset.img = p; div.onclick = () => setCover(p)
+  div.innerHTML = `<img src="/${p}"><button class="rm" onclick="removeImage(event,'${p}')" type="button">×</button>`
+  grid.appendChild(div)
+  updateImagesIn()
+}
+
+function setCover(img) {
+  document.querySelectorAll('.img-thumb').forEach(t => {
+    t.classList.remove('cover')
+    t.querySelector('.cover-lbl')?.remove()
+  })
+  const th = document.querySelector(`.img-thumb[data-img="${img}"]`)
+  if (th) {
+    th.classList.add('cover')
+    const l = document.createElement('div'); l.className='cover-lbl'; l.textContent='cover'
+    th.appendChild(l)
+  }
+  const ci = document.getElementById('cover-in')
+  if (ci) ci.value = img
+}
+
+async function removeImage(e, img) {
+  e.stopPropagation()
+  if (!confirm('Remove this image from disk?')) return
+  if (img.startsWith('data/images/')) {
+    await fetch('/api/image', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({path:img}) })
+  }
+  document.querySelector(`.img-thumb[data-img="${img}"]`)?.remove()
+  const ci = document.getElementById('cover-in')
+  if (ci?.value===img) ci.value=''
+  updateImagesIn()
+}
+
+function updateImagesIn() {
+  const imgs = [...document.querySelectorAll('.img-thumb')].map(t=>t.dataset.img)
+  const el = document.getElementById('images-in')
+  if (el) el.value = JSON.stringify(imgs)
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function updateHead(val) {
+  const h = document.querySelector('.form-head')
+  if (h) h.childNodes[0].textContent = val || 'Untitled'
+}
+function updateBadge(val) {
+  let b = document.querySelector('.form-head .badge')
+  if (!b) { b=document.createElement('span'); document.querySelector('.form-head').appendChild(b) }
+  b.className = `badge ${val}`; b.textContent = val
+}
+
+// ── Save ─────────────────────────────────────────────────────────────────────
+async function saveItem(e) {
+  e.preventDefault()
+  const fd = new FormData(e.target)
+  let item
+
+  if (curSection==='project') {
+    item = {
+      id: fd.get('id'),
+      title: fd.get('title'),
+      date: fd.get('date'),
+      status: fd.get('status'),
+      team: fd.get('team'),
+      tags: getTags('tags-wrap'),
+      filterTags: getFilterTags(),
+      cardSize: fd.get('cardSize'),
+      coverImage: fd.get('coverImage'),
+      sub: fd.get('sub'),
+      cardDesc: fd.get('cardDesc'),
+      description: fd.get('description'),
+      images: JSON.parse(fd.get('images')||'[]'),
+      tools: getTags('tools-wrap'),
+      link: fd.get('linkUrl') ? { label:fd.get('linkLabel'), url:fd.get('linkUrl') } : null,
+      showInTimeline: fd.get('showInTimeline') === 'on'
+    }
+    const idx = DATA.projects.findIndex(p=>p.id===curId)
+    if (idx>=0) DATA.projects[idx]=item; else DATA.projects.push(item)
+
+  } else if (curSection==='career') {
+    item = { id:fd.get('id'), period:fd.get('period'), role:fd.get('role'), company:fd.get('company'), bullets:getBullets() }
+    const idx = DATA.career.findIndex(c=>c.id===curId)
+    if (idx>=0) DATA.career[idx]=item; else DATA.career.push(item)
+
+  } else if (curSection==='timeline') {
+    item = { id:fd.get('id'), period:fd.get('period'), title:fd.get('title'), company:fd.get('company'), status:fd.get('status'), bullets:getBullets() }
+    const idx = DATA.timeline.findIndex(t=>t.id===curId)
+    if (idx>=0) DATA.timeline[idx]=item; else DATA.timeline.push(item)
+
+  } else {
+    if (!DATA.skills) DATA.skills = []
+    item = { id:fd.get('id'), name:fd.get('name'), abbr:fd.get('abbr'), icon:fd.get('icon')||'', level:Number(fd.get('level')), category:fd.get('category') }
+    const idx = DATA.skills.findIndex(s=>s.id===curId)
+    if (idx>=0) DATA.skills[idx]=item; else DATA.skills.push(item)
+  }
+
+  curId = item.id
+  await fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
+
+  const s = document.getElementById('saved-msg')
+  if (s) { s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),2200) }
+  renderSidebar()
+  document.getElementById('h-status').innerHTML =
+    `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
+}
+
+// ── Delete ────────────────────────────────────────────────────────────────────
+async function deleteItem() {
+  if (!confirm('Delete this entry?')) return
+  if (curSection==='project') DATA.projects = DATA.projects.filter(p=>p.id!==curId)
+  else if (curSection==='career') DATA.career = DATA.career.filter(c=>c.id!==curId)
+  else if (curSection==='timeline') DATA.timeline = DATA.timeline.filter(t=>t.id!==curId)
+  else DATA.skills = (DATA.skills||[]).filter(s=>s.id!==curId)
+  await fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
+  curSection=null; curId=null
+  renderSidebar()
+  document.getElementById('main').innerHTML='<div class="empty"><h2>Deleted</h2><p>Choose another entry or add a new one.</p></div>'
+}
+
+// ── Upload zone click / drag ──────────────────────────────────────────────────
+document.addEventListener('click', e => {
+  if (e.target.closest('#upload-zone') && !e.target.closest('input')) {
+    document.getElementById('img-input')?.click()
+  }
+})
+document.addEventListener('dragover', e => e.preventDefault())
+document.addEventListener('drop', e => {
+  e.preventDefault()
+  if (!document.getElementById('upload-zone')) return
+  const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'))
+  if (!files.length) return
+  const dt = new DataTransfer(); files.forEach(f=>dt.items.add(f))
+  const input = document.getElementById('img-input')
+  if (input) { input.files=dt.files; uploadImages(input) }
+})
+
+// ── Escape helper ──────────────────────────────────────────────────────────────
+function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+// ── Drag-and-drop project reorder ─────────────────────────────────────────────
+let _dragId = null
+
+function initProjectDrag() {
+  document.querySelectorAll('#list-projects .sb-item').forEach(li => {
+    li.addEventListener('dragstart', e => {
+      _dragId = li.dataset.id
+      li.classList.add('dragging')
+      e.dataTransfer.effectAllowed = 'move'
+    })
+    li.addEventListener('dragend', () => {
+      li.classList.remove('dragging')
+      document.querySelectorAll('#list-projects .sb-item').forEach(i => i.classList.remove('drag-over'))
+    })
+    li.addEventListener('dragover', e => {
+      e.preventDefault()
+      document.querySelectorAll('#list-projects .sb-item').forEach(i => i.classList.remove('drag-over'))
+      if (li.dataset.id !== _dragId) li.classList.add('drag-over')
+    })
+    li.addEventListener('dragleave', () => li.classList.remove('drag-over'))
+    li.addEventListener('drop', e => {
+      e.preventDefault()
+      const tgtId = li.dataset.id
+      if (!_dragId || _dragId === tgtId) return
+      const from = DATA.projects.findIndex(p => p.id === _dragId)
+      const to   = DATA.projects.findIndex(p => p.id === tgtId)
+      if (from < 0 || to < 0) return
+      DATA.projects.splice(to, 0, DATA.projects.splice(from, 1)[0])
+      fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
+      renderSidebar()
+    })
+  })
+}
+
+init()
+</script>
+</body>
+</html>
