@@ -31,7 +31,8 @@
         "Blender"
       ],
       "link": null,
-      "showInTimeline": false
+      "showInTimeline": false,
+      "visible": true
     },
     {
       "id": "indie",
@@ -62,7 +63,8 @@
         "label": "Wiev the Website ↗",
         "url": "https://bewdbros.studio/"
       },
-      "showInTimeline": true
+      "showInTimeline": true,
+      "visible": true
     },
     {
       "id": "new_1779155856406",
@@ -78,13 +80,15 @@
       "cardDesc": "",
       "description": "",
       "images": [
-        "data/images/new_1779155856406/1779156032765_thumb1.png"
+        "data/images/new_1779155856406/1779156032765_thumb1.png",
+        "data/images/new_1779155856406/1779189794917_Screenshot_2026-04-10_121920.png"
       ],
       "tools": [],
       "link": {
         "label": "Play on Roblox ↗",
         "url": "https://www.roblox.com/games/119050089766144/GHOSTED-Stregone-Cerca"
       },
+      "visible": true,
       "showInTimeline": true
     },
     {
@@ -129,7 +133,8 @@
         "label": "View on ArtStation ↗",
         "url": "https://www.artstation.com/artwork/zPqKgm"
       },
-      "showInTimeline": false
+      "showInTimeline": false,
+      "visible": true
     },
     {
       "id": "illustrations 2026",
@@ -161,7 +166,8 @@
         "Digital Painting"
       ],
       "link": null,
-      "showInTimeline": false
+      "showInTimeline": false,
+      "visible": true
     },
     {
       "id": "roblox",
@@ -191,7 +197,8 @@
         "Gameplay Prototyping"
       ],
       "link": null,
-      "showInTimeline": false
+      "showInTimeline": true,
+      "visible": true
     },
     {
       "id": "animatronics",
@@ -224,7 +231,8 @@
         "3D Modelling"
       ],
       "link": null,
-      "showInTimeline": true
+      "showInTimeline": true,
+      "visible": true
     },
     {
       "id": "charillus",
@@ -256,7 +264,8 @@
         "Character Design"
       ],
       "link": null,
-      "showInTimeline": false
+      "showInTimeline": false,
+      "visible": true
     },
     {
       "id": "animals",
@@ -290,12 +299,13 @@
         "Environment Art"
       ],
       "link": null,
-      "showInTimeline": false
+      "showInTimeline": false,
+      "visible": true
     },
     {
       "id": "backrooms",
       "title": "Backrooms — Fortnite Creative 2.0",
-      "date": "2024",
+      "date": "2025",
       "status": "unreleased",
       "team": "Studio Neptune — Fortnite Creative 2.0",
       "tags": [
@@ -321,7 +331,8 @@
         "Environment Design"
       ],
       "link": null,
-      "showInTimeline": true
+      "showInTimeline": true,
+      "visible": true
     },
     {
       "id": "eventhorizon",
@@ -350,6 +361,7 @@
         "Creature Design"
       ],
       "link": null,
+      "visible": false,
       "showInTimeline": true
     }
   ],
@@ -595,12 +607,12 @@
       "icon": "https://cdn.simpleicons.org/html5/E34F26"
     },
     {
-      "id": "Sbrambol 3",
-      "name": "Sbrambol 3",
+      "id": "Sbrambol 4",
+      "name": "Sbrambol 4",
       "abbr": "SB",
-      "level": 8,
-      "category": "2D Tools",
-      "icon": ""
+      "icon": "💩",
+      "level": 100,
+      "category": "2D Tools"
     }
   ]
 }

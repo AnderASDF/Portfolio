@@ -42,6 +42,10 @@ header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-it
 .dot.unreleased{background:var(--red)}
 .dot.wip{background:rgba(255,255,255,.3)}
 
+/* hidden project in sidebar */
+.sb-item.sb-hidden .sb-item-name{opacity:.4}
+.sb-eye{font-size:11px;color:var(--red);opacity:.7;flex-shrink:0}
+
 /* drag-and-drop */
 #list-projects .sb-item{cursor:grab}
 #list-projects .sb-item:active{cursor:grabbing}
@@ -197,8 +201,9 @@ function sbYear(str) {
 
 function renderSidebar() {
   document.getElementById('list-projects').innerHTML = DATA.projects.map(p => `
-    <li class="sb-item${curSection==='project'&&curId===p.id?' active':''}" draggable="true" data-id="${p.id}" onclick="editItem('project','${p.id}')">
+    <li class="sb-item${curSection==='project'&&curId===p.id?' active':''}${p.visible===false?' sb-hidden':''}" draggable="true" data-id="${p.id}" onclick="editItem('project','${p.id}')">
       <span class="sb-item-name">${esc(p.title)}</span>
+      ${p.visible===false?'<span class="sb-eye" title="Hidden">◌</span>':''}
       <span class="dot ${p.status}"></span>
     </li>`).join('')
   initProjectDrag()
@@ -233,7 +238,7 @@ function newItem(section) {
   curSection = section
   curId = 'new_' + Date.now()
   const blank = section==='project'
-    ? { id:curId, title:'', date:'', status:'wip', team:'', tags:[], filterTags:'', cardSize:'default', coverImage:'', sub:'', cardDesc:'', description:'', images:[], tools:[], link:null, showInTimeline:false }
+    ? { id:curId, title:'', date:'', status:'wip', team:'', tags:[], filterTags:'', cardSize:'default', coverImage:'', sub:'', cardDesc:'', description:'', images:[], tools:[], link:null, visible:true, showInTimeline:false }
     : section==='career'
     ? { id:curId, period:'', role:'', company:'', bullets:[] }
     : section==='timeline'
@@ -317,6 +322,15 @@ function projectForm(p) {
     <div class="grid2">
       <div class="fg"><label>Label</label><input type="text" name="linkLabel" value="${esc(p.link?.label||'')}" placeholder="View on ArtStation ↗"></div>
       <div class="fg"><label>URL</label><input type="text" name="linkUrl" value="${esc(p.link?.url||'')}" placeholder="https://…"></div>
+    </div>
+
+    <div class="sec-label">Visibility</div>
+    <div class="switch-row">
+      <label class="switch">
+        <input type="checkbox" name="visible"${p.visible!==false?' checked':''}>
+        <span class="switch-track"></span>
+      </label>
+      <span class="switch-desc">Show in Portfolio</span>
     </div>
 
     <div class="sec-label">Timeline</div>
@@ -561,6 +575,7 @@ async function saveItem(e) {
       images: JSON.parse(fd.get('images')||'[]'),
       tools: getTags('tools-wrap'),
       link: fd.get('linkUrl') ? { label:fd.get('linkLabel'), url:fd.get('linkUrl') } : null,
+      visible: fd.get('visible') === 'on',
       showInTimeline: fd.get('showInTimeline') === 'on'
     }
     const idx = DATA.projects.findIndex(p=>p.id===curId)
