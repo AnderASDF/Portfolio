@@ -122,13 +122,18 @@
         "rkn_prop",
         "rkn_creature"
       ],
-      "tools": [],
+      "tools": [
+        "Photoshop",
+        "Procreate",
+        "Blender",
+        "Silhouette ideation",
+        "Worldbuilding"
+      ],
       "link": {
         "label": "View on ArtStation ↗",
         "url": "https://www.artstation.com/artwork/zPqKgm"
       },
       "visible": true,
-      "sectionAspectRatio": "16/9",
       "inSelection": true,
       "showInTimeline": false,
       "subprojects": [
@@ -145,16 +150,11 @@
             "data/images/sub_1779708234888/1779708629969_untitled.png"
           ],
           "tags": [],
-          "filterTags": "concept creature weapon  ",
+          "filterTags": "concept creature weapon",
           "cardSize": "featured",
           "inSelection": true,
           "visible": true,
-          "description": "End-to-end design and 3D asset creation, covering the entire pipeline from initial concept art to final 3D modeling and texturing. The asset design follows a strict narrative constraint: every weapon and prop is structurally derived from the anatomical remains and corrupted fragments of an ancient defeated demon.",
-          "tools": [
-            "Photoshop",
-            "Blender"
-          ],
-          "sectionAspectRatio": "16/9"
+          "description": "End-to-end design and 3D asset creation, covering the entire pipeline from initial concept art to final 3D modeling and texturing. The asset design follows a strict narrative constraint: every weapon and prop is structurally derived from the anatomical remains and corrupted fragments of an ancient defeated demon."
         },
         {
           "id": "sub_1779708490933",
@@ -169,15 +169,29 @@
             "data/images/sub_1779708490933/1779708585189_slide_4.png"
           ],
           "tags": [],
-          "filterTags": "concept character creature  ",
+          "filterTags": "concept character creature",
           "cardSize": "featured",
           "inSelection": true,
           "visible": true,
-          "description": "",
-          "tools": [
-            "Photoshop",
-            "Procreate"
-          ]
+          "description": ""
+        },
+        {
+          "id": "sub_1779739945418",
+          "title": "Main Characters",
+          "order": 3,
+          "coverImage": "data/images/sub_1779739945418/1779740031384_slide_4.png",
+          "images": [
+            "data/images/sub_1779739945418/1779740031030_slide_1.png",
+            "data/images/sub_1779739945418/1779740031335_slide_2.png",
+            "data/images/sub_1779739945418/1779740031354_slide_3.png",
+            "data/images/sub_1779739945418/1779740031384_slide_4.png"
+          ],
+          "tags": [],
+          "filterTags": "concept character",
+          "cardSize": "featured",
+          "inSelection": true,
+          "visible": true,
+          "description": ""
         }
       ]
     },
@@ -243,14 +257,13 @@
         "Gameplay Prototyping"
       ],
       "link": null,
+      "showInTimeline": true,
       "visible": true,
-      "inSelection": true,
-      "showInTimeline": false,
-      "subprojects": []
+      "inSelection": true
     },
     {
       "id": "animatronics",
-      "title": "Pizzeria Tycoon",
+      "title": "Bun Bun Band — Animatronics",
       "date": "2024",
       "status": "released",
       "team": "Studio Neptune — Fortnite Creative / UEFN",
@@ -281,8 +294,7 @@
       "link": null,
       "visible": true,
       "inSelection": true,
-      "showInTimeline": true,
-      "subprojects": []
+      "showInTimeline": true
     },
     {
       "id": "charillus",
@@ -382,7 +394,7 @@
       ],
       "link": null,
       "visible": false,
-      "showInTimeline": false,
+      "showInTimeline": true,
       "inSelection": true
     },
     {
@@ -414,16 +426,16 @@
         "Environment Design"
       ],
       "link": null,
-      "showInTimeline": false,
+      "showInTimeline": true,
       "visible": true,
       "inSelection": true
     },
     {
       "id": "comune041",
       "title": "Comune 041",
-      "date": "2025",
+      "date": "2023",
       "status": "released",
-      "team": "Studio Neptune — Game Jam",
+      "team": "Game Jam",
       "tags": [
         "Environment",
         "Modular",
@@ -445,15 +457,14 @@
       "link": null,
       "visible": true,
       "inSelection": true,
-      "showInTimeline": true,
-      "subprojects": []
+      "showInTimeline": true
     },
     {
       "id": "cloudpillars",
       "title": "Cloud Pillars",
-      "date": "2025",
+      "date": "2023",
       "status": "released",
-      "team": "Studio Neptune — Fortnite Creative / UEFN",
+      "team": "Personal Work",
       "tags": [
         "Environment",
         "Stylized"
@@ -474,8 +485,7 @@
       "link": null,
       "visible": true,
       "inSelection": true,
-      "showInTimeline": true,
-      "subprojects": []
+      "showInTimeline": true
     },
     {
       "id": "pokeos",
@@ -534,55 +544,30 @@
       "visible": true,
       "inSelection": true,
       "showInTimeline": false
-    },
-    {
-      "id": "Backrooms Tycoon",
-      "title": "Backrooms — Fortnite Creative 2.0",
-      "date": "2025",
-      "status": "unreleased",
-      "team": "Studio Neptune — Fortnite Creative / UEFN",
-      "tags": [
-        "Fortnite UEFN",
-        "3D Modelling",
-        "Environment",
-        "Published"
-      ],
-      "filterTags": "character creature 3d environment fortnite",
-      "cardSize": "default",
-      "coverImage": "backrooms",
-      "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
-      "cardDesc": "Environment design and full character/creature roster — from concept through final 3D implementation on Fortnite Creative 2.0.",
-      "description": "The last project developed for Fortnite Creative 2.0. Like the other Studio Neptune projects, this covered both the environment design and all characters and creatures — from concept through to final 3D model implementation. Assets include a yellow robot guard character, a humanoid creature sculpt, environment props, and game UI icons. Published and playable on Fortnite.",
-      "images": [
-        "backrooms"
-      ],
-      "tools": [
-        "Blender",
-        "Unreal Engine 5 (UEFN)",
-        "Photoshop",
-        "3D Modelling",
-        "Environment Design"
-      ],
-      "link": null,
-      "visible": true,
-      "inSelection": true,
-      "showInTimeline": false,
-      "subprojects": []
     }
   ],
   "career": [
     {
+      "id": "indie_studio",
+      "period": "2025 – Present",
+      "role": "VFX & Weapon Concept Artist",
+      "company": "Indie Studio (Confidential) — 15-person team",
+      "bullets": [
+        "Designing VFX and weapon concept sheets for an unreleased title in active production.",
+        "Maintaining visual consistency across weapon systems in close collaboration with the art lead."
+      ]
+    },
+    {
       "id": "neptune",
-      "period": "2021 – 2025",
-      "role": "Lead Concept Artist · Lead 3D Artist",
-      "company": "Studio Neptune — Fortnite Creative  / Roblox",
+      "period": "2020 – 2025",
+      "role": "Art Director · Concept Artist · 3D Generalist",
+      "company": "Studio Neptune — Fortnite Creative / UEFN / Roblox",
       "bullets": [
         "Led art direction for multiple shipped projects — 500,000+ players reached collectively.",
         "Full pipeline: concept → 3D modelling → texturing → engine implementation.",
         "Character, creature, environment and prop design across stylized and dark-realism aesthetics.",
         "Contributed to three Event Horizon game jam titles: Deadline, Kronoparadox, Bad to the Root."
-      ],
-      "visible": true
+      ]
     },
     {
       "id": "rkn_career",
@@ -598,23 +583,11 @@
       "id": "qa_tester",
       "period": "2021 – Present",
       "role": "Video Game QA Tester",
-      "company": "Lionbridge · Game Tester",
+      "company": "Game Tester Platform · Aurora Studio",
       "bullets": [
         "Tested AA/AAA titles and participated in closed online betas.",
         "Structured bug reporting and UX documentation."
-      ],
-      "visible": true
-    },
-    {
-      "id": "indie vfx",
-      "period": "2024 – Present",
-      "role": "Concept Artist VFX & Weapon — Bloody Ending",
-      "company": "BEWD Bros Studio",
-      "bullets": [
-        "Designing VFX and weapon concept sheets for an unreleased title in active production.",
-        "Maintaining visual consistency across weapon systems in close collaboration with the art lead."
-      ],
-      "visible": true
+      ]
     }
   ],
   "timeline": [
@@ -730,10 +703,9 @@
       "id": "photoshop",
       "name": "Photoshop",
       "abbr": "Ps",
-      "icon": "https://cdn.simpleicons.org/adobephotoshop/31A8FF",
       "level": 93,
       "category": "2D Tools",
-      "visible": true
+      "icon": "https://cdn.simpleicons.org/adobephotoshop/31A8FF"
     },
     {
       "id": "procreate",
@@ -908,13 +880,6 @@
       "columns": 6,
       "aspectRatio": "3/2",
       "projectOrder": []
-    },
-    {
-      "id": "view_1779731159304",
-      "label": "Animation",
-      "tag": "animation",
-      "projectOrder": [],
-      "visible": true
     }
   ],
   "recruiterProfiles": [
@@ -1082,6 +1047,6 @@
   ],
   "gridSettings": {
     "columns": 4,
-    "aspectRatio": "4/3"
+    "aspectRatio": "3/2"
   }
 }
