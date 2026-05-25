@@ -24,10 +24,10 @@
 <section class="hero" id="home">
   <div class="hero-left">
     <p class="tag-line">Concept Artist · 3D Generalist · VFX & Weapon Designer</p>
-    <div class="hero-mobile-propic">
-      <img src="images/propic.jpg" alt="Andrea Fanese">
+    <div class="hero-identity">
+      <img class="hero-propic-img" src="images/propic.jpg" alt="Andrea Fanese">
+      <h1 class="hero-name">Andrea<br><em>Fanese</em></h1>
     </div>
-    <h1 class="hero-name">Andrea<br><em>Fanese</em></h1>
     <p class="hero-desc">I design characters, weapons, and worlds — from dark fantasy creatures to stylized game-ready 3D assets. 5+ years shaping visual identities for projects that reached <strong style="color:var(--gold-light)">500,000+ players</strong>.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -35,22 +35,12 @@
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-card">
-      <div class="propic-wrap">
-        <img class="propic-img" src="images/propic.jpg" alt="Andrea Fanese">
-      </div>
-      <h3>By the numbers</h3>
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-number">500K+</div><div class="stat-label">Players reached across published projects</div></div>
-        <div class="stat"><div class="stat-number">5+</div><div class="stat-label">Years of game art & concept work</div></div>
-        <div class="stat"><div class="stat-number">10+</div><div class="stat-label">Published & shipped projects</div></div>
-        <div class="stat"><div class="stat-number">C1</div><div class="stat-label">English — IELTS certified</div></div>
-      </div>
-      <ul class="contact-list">
-        <li><span class="cicon">📧</span>faneseandrea@gmail.com</li>
-        <li><span class="cicon">🎨</span>artstation.com/andrea_fanese</li>
-        <li><span class="cicon">📍</span>Pescara, IT · Open to relocation</li>
-      </ul>
+    <div class="hero-stats">
+      <p class="hero-stats-label">By the numbers</p>
+      <div class="stat"><div class="stat-number">500K+</div><div class="stat-label">Players reached across published projects</div></div>
+      <div class="stat"><div class="stat-number">5+</div><div class="stat-label">Years of game art & concept work</div></div>
+      <div class="stat"><div class="stat-number">10+</div><div class="stat-label">Published & shipped projects</div></div>
+      <div class="stat"><div class="stat-number">C1</div><div class="stat-label">English — IELTS certified</div></div>
     </div>
   </div>
   <button class="hero-arrow" onclick="scrollToAbout()" aria-label="Scroll down">
@@ -89,18 +79,11 @@
   <h2 class="section-title">Projects</h2>
   <p class="section-sub">Click any project to explore the full work.</p>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
-    <button class="filter-btn" onclick="filterProjects('concept',this)">Concept Art</button>
-    <button class="filter-btn" onclick="filterProjects('character',this)">Character</button>
-    <button class="filter-btn" onclick="filterProjects('3d',this)">3D</button>
-    <button class="filter-btn" onclick="filterProjects('fortnite',this)">Fortnite / UEFN</button>
-    <button class="filter-btn" onclick="filterProjects('roblox',this)">Roblox</button>
-    <button class="filter-btn" onclick="filterProjects('illustration',this)">Illustration</button>
-  </div>
-
-  <div class="projects-grid" id="projects-grid">
-
+  <div class="projects-layout">
+    <div class="filter-sidebar" id="filter-sidebar"></div>
+    <div class="projects-wrapper">
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
   </div>
 </section>
 
@@ -144,32 +127,41 @@
   <h2 class="section-title" style="text-align:center;">Let's build something<br><em style="color:var(--gold-light)">memorable</em></h2>
   <p class="section-sub">Looking for a full-time position as a concept artist. Open to studios worldwide.</p>
   <div class="contact-links">
-    <a class="contact-link" href="mailto:faneseandrea@gmail.com">📧 faneseandrea@gmail.com</a>
-    <a class="contact-link" href="https://www.artstation.com/andrea_fanese" target="_blank">🎨 ArtStation</a>
-    <a class="contact-link" href="https://www.linkedin.com/in/andrea-fanese" target="_blank">💼 LinkedIn</a>
-    <a class="contact-link" href="https://x.com/andre_fnfn" target="_blank">🐦 Twitter / X</a>
-    <a class="contact-link" href="tel:+393480443450">📱 +39 348 044 3450</a>
+    <a class="contact-icon-btn" href="mailto:faneseandrea@gmail.com" title="faneseandrea@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+    </a>
+    <a class="contact-icon-btn" href="https://www.artstation.com/andrea_fanese" target="_blank" rel="noopener" title="ArtStation" aria-label="ArtStation">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24 .025c0-.484-.143-.935-.388-1.314L15.728 2.728a2.424 2.424 0 0 0-2.142-1.289H9.419L21.598 22.54l1.92-3.325c.378-.637.482-.919.482-1.467zm-11.129-3.462L7.428 4.858l-5.444 9.428h10.887z"/></svg>
+    </a>
+    <a class="contact-icon-btn" href="https://www.linkedin.com/in/andrea-fanese" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a class="contact-icon-btn" href="https://x.com/andre_fnfn" target="_blank" rel="noopener" title="Twitter / X" aria-label="Twitter / X">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="contact-icon-btn" href="tel:+393480443450" title="+39 348 044 3450" aria-label="Phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.9a16 16 0 0 0 6.06 6.06l1.77-1.79a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </a>
   </div>
   <p class="footer-note">Andrea Fanese · Concept Artist · Portfolio 2026 · Pescara, Italy</p>
 </section>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <button class="modal-nav modal-prev" id="modal-prev" onclick="event.stopPropagation();modalNav(-1)">&#8249;</button>
   <div class="modal" id="modal">
     <div class="modal-header">
       <div>
         <div class="modal-tags" id="modal-tags"></div>
         <div class="modal-title" id="modal-title"></div>
         <div class="modal-sub" id="modal-sub"></div>
+        <p class="modal-header-desc" id="modal-header-desc"></p>
       </div>
       <button class="modal-close" onclick="closeModalBtn()">✕</button>
     </div>
-    <div class="modal-body">
-      <p class="modal-desc" id="modal-desc"></p>
-      <div class="modal-gallery" id="modal-gallery"></div>
-      <div class="modal-tools" id="modal-tools"></div>
-    </div>
+    <div class="modal-body"></div>
   </div>
+  <button class="modal-nav modal-next" id="modal-next" onclick="event.stopPropagation();modalNav(1)">&#8250;</button>
 </div>
 
 <!-- LIGHTBOX -->

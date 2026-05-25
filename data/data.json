@@ -14,7 +14,7 @@
         "Creatures",
         "Cyberpunk"
       ],
-      "filterTags": "concept character creature",
+      "filterTags": "concept character creature vfx",
       "cardSize": "featured",
       "coverImage": "data/images/new_1779154077466/1779154981900_Opera_senza_titolo.png",
       "sub": "",
@@ -32,7 +32,8 @@
       ],
       "link": null,
       "showInTimeline": false,
-      "visible": true
+      "visible": false,
+      "inSelection": false
     },
     {
       "id": "indie",
@@ -45,7 +46,7 @@
         "VFX Concept",
         "Weapon Design"
       ],
-      "filterTags": "concept weapon",
+      "filterTags": "concept weapon vfx",
       "cardSize": "default",
       "coverImage": "data/images/indie/1779158652530_Opera_senza_titolo_2.png",
       "sub": "Active project · 2025–Present · 15-person team",
@@ -64,7 +65,8 @@
         "url": "https://bewdbros.studio/"
       },
       "showInTimeline": true,
-      "visible": true
+      "visible": false,
+      "inSelection": false
     },
     {
       "id": "new_1779155856406",
@@ -73,7 +75,7 @@
       "status": "released",
       "team": "",
       "tags": [],
-      "filterTags": "3d roblox",
+      "filterTags": "character 3d roblox",
       "cardSize": "default",
       "coverImage": "data/images/new_1779155856406/1779156032765_thumb1.png",
       "sub": "",
@@ -89,7 +91,8 @@
         "url": "https://www.roblox.com/games/119050089766144/GHOSTED-Stregone-Cerca"
       },
       "visible": true,
-      "showInTimeline": true
+      "showInTimeline": true,
+      "inSelection": true
     },
     {
       "id": "rkn",
@@ -98,14 +101,11 @@
       "status": "wip",
       "team": "Personal",
       "tags": [
-        "Character",
-        "Weapon",
-        "Prop",
-        "Creature",
-        "Dark Fantasy"
+        "Dark Fantasy",
+        "Worldbuilding"
       ],
-      "filterTags": "concept character creature 3d",
-      "cardSize": "featured",
+      "filterTags": "",
+      "cardSize": null,
       "coverImage": "rkn_char_1",
       "sub": "Personal IP · 2023 – Present · Photoshop, Procreate, Blender",
       "cardDesc": "Self-directed dark fantasy IP — characters, demons, living bio-mechanical weapons and environmental props.",
@@ -122,19 +122,64 @@
         "rkn_prop",
         "rkn_creature"
       ],
-      "tools": [
-        "Photoshop",
-        "Procreate",
-        "Blender",
-        "Silhouette ideation",
-        "Worldbuilding"
-      ],
+      "tools": [],
       "link": {
         "label": "View on ArtStation ↗",
         "url": "https://www.artstation.com/artwork/zPqKgm"
       },
+      "visible": true,
+      "sectionAspectRatio": "16/9",
+      "inSelection": true,
       "showInTimeline": false,
-      "visible": true
+      "subprojects": [
+        {
+          "id": "sub_1779708234888",
+          "title": "Weapons",
+          "order": 1,
+          "coverImage": "data/images/sub_1779708234888/1779708629070_chest_cover.png",
+          "images": [
+            "data/images/sub_1779708234888/1779708629070_chest_cover.png",
+            "data/images/sub_1779708234888/1779708629367_gun_cover.png",
+            "data/images/sub_1779708234888/1779708629612_sack_cover.png",
+            "data/images/sub_1779708234888/1779708629664_tome_cover.png",
+            "data/images/sub_1779708234888/1779708629969_untitled.png"
+          ],
+          "tags": [],
+          "filterTags": "concept creature weapon  ",
+          "cardSize": "featured",
+          "inSelection": true,
+          "visible": true,
+          "description": "End-to-end design and 3D asset creation, covering the entire pipeline from initial concept art to final 3D modeling and texturing. The asset design follows a strict narrative constraint: every weapon and prop is structurally derived from the anatomical remains and corrupted fragments of an ancient defeated demon.",
+          "tools": [
+            "Photoshop",
+            "Blender"
+          ],
+          "sectionAspectRatio": "16/9"
+        },
+        {
+          "id": "sub_1779708490933",
+          "title": "Demon Character",
+          "order": 2,
+          "coverImage": "data/images/sub_1779708490933/1779708554799_Cover.png",
+          "images": [
+            "data/images/sub_1779708490933/1779708554799_Cover.png",
+            "data/images/sub_1779708490933/1779708575797_slide_3.png",
+            "data/images/sub_1779708490933/1779708576400_slide_5.png",
+            "data/images/sub_1779708490933/1779708576463_slide_6.png",
+            "data/images/sub_1779708490933/1779708585189_slide_4.png"
+          ],
+          "tags": [],
+          "filterTags": "concept character creature  ",
+          "cardSize": "featured",
+          "inSelection": true,
+          "visible": true,
+          "description": "",
+          "tools": [
+            "Photoshop",
+            "Procreate"
+          ]
+        }
+      ]
     },
     {
       "id": "illustrations 2026",
@@ -167,7 +212,8 @@
       ],
       "link": null,
       "showInTimeline": false,
-      "visible": true
+      "visible": true,
+      "inSelection": true
     },
     {
       "id": "roblox",
@@ -197,12 +243,14 @@
         "Gameplay Prototyping"
       ],
       "link": null,
-      "showInTimeline": true,
-      "visible": true
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": false,
+      "subprojects": []
     },
     {
       "id": "animatronics",
-      "title": "Bun Bun Band — Animatronics",
+      "title": "Pizzeria Tycoon",
       "date": "2024",
       "status": "released",
       "team": "Studio Neptune — Fortnite Creative / UEFN",
@@ -231,8 +279,10 @@
         "3D Modelling"
       ],
       "link": null,
+      "visible": true,
+      "inSelection": true,
       "showInTimeline": true,
-      "visible": true
+      "subprojects": []
     },
     {
       "id": "charillus",
@@ -245,7 +295,7 @@
         "Illustration",
         "Stylized"
       ],
-      "filterTags": "illustration",
+      "filterTags": "illustration character",
       "cardSize": "featured",
       "coverImage": "char_illus_1",
       "sub": "Character sheets & polished illustration",
@@ -265,7 +315,8 @@
       ],
       "link": null,
       "showInTimeline": false,
-      "visible": true
+      "visible": true,
+      "inSelection": true
     },
     {
       "id": "animals",
@@ -279,7 +330,7 @@
         "Character Design",
         "Unreleased"
       ],
-      "filterTags": "concept character 3d",
+      "filterTags": "concept character creature 3d environment",
       "cardSize": "default",
       "coverImage": "animals_concept_1",
       "sub": "Horror Game Prototype · Unreal Engine 5, Blender",
@@ -299,40 +350,9 @@
         "Environment Art"
       ],
       "link": null,
-      "showInTimeline": false,
-      "visible": true
-    },
-    {
-      "id": "backrooms",
-      "title": "Backrooms — Fortnite Creative 2.0",
-      "date": "2025",
-      "status": "unreleased",
-      "team": "Studio Neptune — Fortnite Creative 2.0",
-      "tags": [
-        "Fortnite UEFN",
-        "3D Modelling",
-        "Environment",
-        "Published"
-      ],
-      "filterTags": "character creature 3d fortnite",
-      "cardSize": "default",
-      "coverImage": "backrooms",
-      "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
-      "cardDesc": "Environment design and full character/creature roster — from concept through final 3D implementation on Fortnite Creative 2.0.",
-      "description": "The last project developed for Fortnite Creative 2.0. Like the other Studio Neptune projects, this covered both the environment design and all characters and creatures — from concept through to final 3D model implementation. Assets include a yellow robot guard character, a humanoid creature sculpt, environment props, and game UI icons. Published and playable on Fortnite.",
-      "images": [
-        "backrooms"
-      ],
-      "tools": [
-        "Blender",
-        "Unreal Engine 5 (UEFN)",
-        "Photoshop",
-        "3D Modelling",
-        "Environment Design"
-      ],
-      "link": null,
-      "showInTimeline": true,
-      "visible": true
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": false
     },
     {
       "id": "eventhorizon",
@@ -362,31 +382,207 @@
       ],
       "link": null,
       "visible": false,
-      "showInTimeline": true
+      "showInTimeline": false,
+      "inSelection": true
+    },
+    {
+      "id": "backrooms",
+      "title": "Backrooms — Fortnite Creative 2.0",
+      "date": "2025",
+      "status": "unreleased",
+      "team": "Studio Neptune — Fortnite Creative 2.0",
+      "tags": [
+        "Fortnite UEFN",
+        "3D Modelling",
+        "Environment",
+        "Published"
+      ],
+      "filterTags": "character creature 3d fortnite environment",
+      "cardSize": "default",
+      "coverImage": "backrooms",
+      "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
+      "cardDesc": "Environment design and full character/creature roster — from concept through final 3D implementation on Fortnite Creative 2.0.",
+      "description": "The last project developed for Fortnite Creative 2.0. Like the other Studio Neptune projects, this covered both the environment design and all characters and creatures — from concept through to final 3D model implementation. Assets include a yellow robot guard character, a humanoid creature sculpt, environment props, and game UI icons. Published and playable on Fortnite.",
+      "images": [
+        "backrooms"
+      ],
+      "tools": [
+        "Blender",
+        "Unreal Engine 5 (UEFN)",
+        "Photoshop",
+        "3D Modelling",
+        "Environment Design"
+      ],
+      "link": null,
+      "showInTimeline": false,
+      "visible": true,
+      "inSelection": true
+    },
+    {
+      "id": "comune041",
+      "title": "Comune 041",
+      "date": "2025",
+      "status": "released",
+      "team": "Studio Neptune — Game Jam",
+      "tags": [
+        "Environment",
+        "Modular",
+        "Game Jam",
+        "PS1 Aesthetic"
+      ],
+      "filterTags": "3d environment",
+      "cardSize": "default",
+      "coverImage": "",
+      "sub": "Game Jam · Blender, Unreal Engine 5",
+      "cardDesc": "Rapid environment built from original modular assets — PS1/modern hybrid aesthetic, game jam project.",
+      "description": "A game jam project with a hybrid PS1/modern aesthetic. Environment built entirely from original modular assets designed and modelled by Andrea — buildings, modules, and environmental props. The level was assembled rapidly in Unreal Engine 5.",
+      "images": [],
+      "tools": [
+        "Blender",
+        "Unreal Engine 5",
+        "Modular Design"
+      ],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": true,
+      "subprojects": []
+    },
+    {
+      "id": "cloudpillars",
+      "title": "Cloud Pillars",
+      "date": "2025",
+      "status": "released",
+      "team": "Studio Neptune — Fortnite Creative / UEFN",
+      "tags": [
+        "Environment",
+        "Stylized"
+      ],
+      "filterTags": "3d environment",
+      "cardSize": "default",
+      "coverImage": "data/images/cloudpillars/1779702819912_cover_pillars_notext.png",
+      "sub": "Personal Work · Blender, Unreal Engine 5",
+      "cardDesc": "Stylized floating-island environment — a selection of the best pieces.",
+      "description": "A stylized environment piece featuring cloud pillars and floating islands. A small selection of the strongest renders.",
+      "images": [
+        "data/images/cloudpillars/1779702819912_cover_pillars_notext.png"
+      ],
+      "tools": [
+        "Blender",
+        "Unreal Engine 5"
+      ],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": true,
+      "subprojects": []
+    },
+    {
+      "id": "pokeos",
+      "title": "Pokeos",
+      "date": "2024",
+      "status": "released",
+      "team": "Personal Work",
+      "tags": [
+        "3D",
+        "Illustration",
+        "Stylized",
+        "Pokémon"
+      ],
+      "filterTags": "3d illustration",
+      "cardSize": "default",
+      "coverImage": "data/images/pokeos/1779702931752_00_missingno_johto_fusion_recolor2.png",
+      "sub": "Personal Work · Blender, Photoshop",
+      "cardDesc": "3D models and illustrations in Pokémon HOME style — stylistic versatility across 3D and 2D.",
+      "description": "A personal project combining 3D modelling and digital illustration in the style of Pokémon HOME. Demonstrates stylistic range across both 3D and 2D disciplines.",
+      "images": [
+        "data/images/pokeos/1779702931752_00_missingno_johto_fusion_recolor2.png"
+      ],
+      "tools": [
+        "Blender",
+        "Photoshop",
+        "Procreate"
+      ],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": false
+    },
+    {
+      "id": "sketchbook",
+      "title": "Sketchbook & Studies",
+      "date": "2022 – Present",
+      "status": "released",
+      "team": "Personal Work",
+      "tags": [
+        "Anatomy",
+        "Studies",
+        "Sketches"
+      ],
+      "filterTags": "concept character",
+      "cardSize": "featured",
+      "coverImage": "",
+      "sub": "Personal Work · Photoshop, Procreate",
+      "cardDesc": "Anatomy studies and figure sketches — foundational work showing solid fundamentals.",
+      "description": "A curated selection of anatomy studies and figure sketches. Grouped by subject, showing strong foundational understanding of form, proportion, and gesture.",
+      "images": [],
+      "tools": [
+        "Photoshop",
+        "Procreate"
+      ],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": false
+    },
+    {
+      "id": "Backrooms Tycoon",
+      "title": "Backrooms — Fortnite Creative 2.0",
+      "date": "2025",
+      "status": "unreleased",
+      "team": "Studio Neptune — Fortnite Creative / UEFN",
+      "tags": [
+        "Fortnite UEFN",
+        "3D Modelling",
+        "Environment",
+        "Published"
+      ],
+      "filterTags": "character creature 3d environment fortnite",
+      "cardSize": "default",
+      "coverImage": "backrooms",
+      "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
+      "cardDesc": "Environment design and full character/creature roster — from concept through final 3D implementation on Fortnite Creative 2.0.",
+      "description": "The last project developed for Fortnite Creative 2.0. Like the other Studio Neptune projects, this covered both the environment design and all characters and creatures — from concept through to final 3D model implementation. Assets include a yellow robot guard character, a humanoid creature sculpt, environment props, and game UI icons. Published and playable on Fortnite.",
+      "images": [
+        "backrooms"
+      ],
+      "tools": [
+        "Blender",
+        "Unreal Engine 5 (UEFN)",
+        "Photoshop",
+        "3D Modelling",
+        "Environment Design"
+      ],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "showInTimeline": false,
+      "subprojects": []
     }
   ],
   "career": [
     {
-      "id": "indie_studio",
-      "period": "2025 – Present",
-      "role": "VFX & Weapon Concept Artist",
-      "company": "Indie Studio (Confidential) — 15-person team",
-      "bullets": [
-        "Designing VFX and weapon concept sheets for an unreleased title in active production.",
-        "Maintaining visual consistency across weapon systems in close collaboration with the art lead."
-      ]
-    },
-    {
       "id": "neptune",
-      "period": "2020 – 2025",
-      "role": "Art Director · Concept Artist · 3D Generalist",
-      "company": "Studio Neptune — Fortnite Creative / UEFN / Roblox",
+      "period": "2021 – 2025",
+      "role": "Lead Concept Artist · Lead 3D Artist",
+      "company": "Studio Neptune — Fortnite Creative  / Roblox",
       "bullets": [
         "Led art direction for multiple shipped projects — 500,000+ players reached collectively.",
         "Full pipeline: concept → 3D modelling → texturing → engine implementation.",
         "Character, creature, environment and prop design across stylized and dark-realism aesthetics.",
         "Contributed to three Event Horizon game jam titles: Deadline, Kronoparadox, Bad to the Root."
-      ]
+      ],
+      "visible": true
     },
     {
       "id": "rkn_career",
@@ -402,11 +598,23 @@
       "id": "qa_tester",
       "period": "2021 – Present",
       "role": "Video Game QA Tester",
-      "company": "Game Tester Platform · Aurora Studio",
+      "company": "Lionbridge · Game Tester",
       "bullets": [
         "Tested AA/AAA titles and participated in closed online betas.",
         "Structured bug reporting and UX documentation."
-      ]
+      ],
+      "visible": true
+    },
+    {
+      "id": "indie vfx",
+      "period": "2024 – Present",
+      "role": "Concept Artist VFX & Weapon — Bloody Ending",
+      "company": "BEWD Bros Studio",
+      "bullets": [
+        "Designing VFX and weapon concept sheets for an unreleased title in active production.",
+        "Maintaining visual consistency across weapon systems in close collaboration with the art lead."
+      ],
+      "visible": true
     }
   ],
   "timeline": [
@@ -522,9 +730,10 @@
       "id": "photoshop",
       "name": "Photoshop",
       "abbr": "Ps",
+      "icon": "https://cdn.simpleicons.org/adobephotoshop/31A8FF",
       "level": 93,
       "category": "2D Tools",
-      "icon": "https://cdn.simpleicons.org/adobephotoshop/31A8FF"
+      "visible": true
     },
     {
       "id": "procreate",
@@ -605,14 +814,274 @@
       "level": 72,
       "category": "Game Dev",
       "icon": "https://cdn.simpleicons.org/html5/E34F26"
+    }
+  ],
+  "filterViews": [
+    {
+      "id": "all",
+      "label": "All",
+      "tag": "all",
+      "projectOrder": [
+        "rkn",
+        "new_1779155856406",
+        "roblox",
+        "backrooms",
+        "animatronics",
+        "animals",
+        "illustrations 2026",
+        "charillus",
+        "comune041",
+        "cloudpillars",
+        "pokeos",
+        "sketchbook"
+      ],
+      "visible": true
     },
     {
-      "id": "Sbrambol 4",
-      "name": "Sbrambol 4",
-      "abbr": "SB",
-      "icon": "💩",
-      "level": 100,
-      "category": "2D Tools"
+      "id": "concept",
+      "label": "Concept Art",
+      "tag": "concept",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "character",
+      "label": "Character",
+      "tag": "character",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "creature",
+      "label": "Creature",
+      "tag": "creature",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "vfx",
+      "label": "VFX",
+      "tag": "vfx",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "3d",
+      "label": "3D",
+      "tag": "3d",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "environment",
+      "label": "Environment",
+      "tag": "environment",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "fortnite",
+      "label": "Fortnite / UEFN",
+      "tag": "fortnite",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "roblox",
+      "label": "Roblox",
+      "tag": "roblox",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "illustration",
+      "label": "Illustration",
+      "tag": "illustration",
+      "columns": 6,
+      "aspectRatio": "3/2",
+      "projectOrder": []
+    },
+    {
+      "id": "view_1779731159304",
+      "label": "Animation",
+      "tag": "animation",
+      "projectOrder": [],
+      "visible": true
     }
-  ]
+  ],
+  "recruiterProfiles": [
+    {
+      "id": "rp_character",
+      "label": "Character Designer",
+      "tag": "character",
+      "filterTags": [
+        "character",
+        "creature",
+        "3d"
+      ],
+      "projectOrder": [
+        "rkn",
+        "animatronics",
+        "charillus",
+        "new_1779154077466",
+        "animals",
+        "backrooms",
+        "roblox",
+        "eventhorizon",
+        "indie",
+        "new_1779155856406",
+        "illustrations 2026"
+      ]
+    },
+    {
+      "id": "rp_creature",
+      "label": "Creature Designer",
+      "tag": "creature",
+      "filterTags": [
+        "creature",
+        "character"
+      ],
+      "projectOrder": [
+        "rkn",
+        "animals",
+        "backrooms",
+        "new_1779154077466",
+        "eventhorizon",
+        "animatronics",
+        "indie",
+        "charillus",
+        "new_1779155856406",
+        "illustrations 2026",
+        "roblox"
+      ]
+    },
+    {
+      "id": "rp_vfx",
+      "label": "VFX Concept Artist",
+      "tag": "vfx",
+      "filterTags": [
+        "vfx",
+        "weapon",
+        "concept"
+      ],
+      "projectOrder": [
+        "indie",
+        "rkn",
+        "new_1779154077466",
+        "backrooms",
+        "eventhorizon",
+        "animals",
+        "animatronics",
+        "charillus",
+        "new_1779155856406",
+        "illustrations 2026",
+        "roblox"
+      ]
+    },
+    {
+      "id": "rp_3d",
+      "label": "3D Generalist",
+      "tag": "3d",
+      "filterTags": [
+        "3d",
+        "character",
+        "creature",
+        "environment"
+      ],
+      "projectOrder": [
+        "animatronics",
+        "backrooms",
+        "animals",
+        "new_1779155856406",
+        "roblox",
+        "rkn",
+        "new_1779154077466",
+        "indie",
+        "charillus",
+        "eventhorizon",
+        "illustrations 2026"
+      ]
+    },
+    {
+      "id": "rp_fortnite",
+      "label": "Fortnite / UEFN Artist",
+      "tag": "fortnite",
+      "filterTags": [
+        "fortnite",
+        "3d",
+        "creature",
+        "character"
+      ],
+      "projectOrder": [
+        "animatronics",
+        "backrooms",
+        "rkn",
+        "animals",
+        "new_1779154077466",
+        "indie",
+        "charillus",
+        "eventhorizon",
+        "new_1779155856406",
+        "illustrations 2026",
+        "roblox"
+      ]
+    },
+    {
+      "id": "rp_roblox",
+      "label": "Roblox Artist",
+      "tag": "roblox",
+      "filterTags": [
+        "roblox",
+        "3d",
+        "character"
+      ],
+      "projectOrder": [
+        "new_1779155856406",
+        "roblox",
+        "animatronics",
+        "backrooms",
+        "animals",
+        "rkn",
+        "indie",
+        "new_1779154077466",
+        "charillus",
+        "eventhorizon",
+        "illustrations 2026"
+      ]
+    },
+    {
+      "id": "rp_illustration",
+      "label": "Illustrator",
+      "tag": "illustration",
+      "filterTags": [
+        "illustration",
+        "character"
+      ],
+      "projectOrder": [
+        "illustrations 2026",
+        "charillus",
+        "rkn",
+        "new_1779154077466",
+        "animatronics",
+        "animals",
+        "eventhorizon",
+        "indie",
+        "backrooms",
+        "new_1779155856406",
+        "roblox"
+      ]
+    }
+  ],
+  "gridSettings": {
+    "columns": 4,
+    "aspectRatio": "4/3"
+  }
 }

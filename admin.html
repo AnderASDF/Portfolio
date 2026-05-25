@@ -16,10 +16,19 @@
 body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--white);display:flex;flex-direction:column;height:100vh;overflow:hidden}
 
 /* ── Header ─────────────────────────────────────────── */
-header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
-.h-title{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
-.h-status{font-size:11px;color:var(--gray)}
+header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;gap:16px}
+.h-title{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;flex-shrink:0}
+.h-right{display:flex;align-items:center;gap:14px;min-width:0}
+.h-status{font-size:11px;color:var(--gray);white-space:nowrap}
 .h-status b{color:var(--green)}
+.h-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.h-dirty{font-family:var(--mono);font-size:10px;color:var(--gold);opacity:.8}
+.h-btn{background:none;border:1px solid var(--border);color:var(--gray);padding:4px 14px;font-size:10px;font-family:var(--mono);font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.h-btn:hover{border-color:var(--gold);color:var(--gold)}
+.h-btn.gold{background:var(--gold);color:var(--purple);border-color:var(--gold)}
+.h-btn.gold:hover{background:var(--gold-l)}
+.h-saved{font-size:10px;color:var(--green);opacity:0;transition:opacity .4s;white-space:nowrap}
+.h-saved.show{opacity:1}
 
 /* ── Layout ─────────────────────────────────────────── */
 .app{display:flex;flex:1;overflow:hidden}
@@ -32,25 +41,67 @@ header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-it
 .add-btn{background:none;border:1px solid var(--border);color:var(--gold);font-size:17px;width:22px;height:22px;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .15s}
 .add-btn:hover{background:var(--gold);color:var(--purple)}
 .sb-list{list-style:none}
-.sb-item{padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--gray);display:flex;align-items:center;gap:8px;transition:background .12s}
+.sb-item{padding:7px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--gray);display:flex;align-items:center;gap:8px;transition:background .12s}
 .sb-item:hover{background:rgba(255,255,255,.05);color:var(--white)}
 .sb-item.active{background:var(--purple);color:var(--white)}
-.sb-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.sb-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;transition:opacity .15s}
+.sb-item.sb-disabled .sb-item-name{opacity:.35}
 .sb-period{font-family:var(--mono);font-size:9px;color:var(--gold);opacity:.65;flex-shrink:0}
-.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.dot.released{background:var(--green)}
-.dot.unreleased{background:var(--red)}
-.dot.wip{background:rgba(255,255,255,.3)}
+.sb-floppy{background:none;border:none;color:var(--gold);font-size:13px;cursor:pointer;padding:0 2px;line-height:1;flex-shrink:0;opacity:.85;transition:all .15s}
+.sb-floppy:hover{opacity:1;transform:scale(1.15)}
 
-/* hidden project in sidebar */
-.sb-item.sb-hidden .sb-item-name{opacity:.4}
-.sb-eye{font-size:11px;color:var(--red);opacity:.7;flex-shrink:0}
+/* sidebar micro-switch */
+.sb-sw{position:relative;display:inline-block;width:26px;height:14px;flex-shrink:0}
+.sb-sw input{opacity:0;width:0;height:0;position:absolute}
+.sb-sw-track{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;transition:.15s}
+.sb-sw-track:before{content:'';position:absolute;width:8px;height:8px;left:2px;top:2px;background:rgba(255,255,255,.25);border-radius:50%;transition:.15s}
+.sb-sw input:checked+.sb-sw-track{background:rgba(201,146,43,.18);border-color:var(--gold)}
+.sb-sw input:checked+.sb-sw-track:before{transform:translateX(12px);background:var(--gold)}
+
+/* subproject items */
+.sb-expand{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;padding:3px 4px;flex-shrink:0;line-height:0;border-radius:3px;transition:color .15s,opacity .15s,background .15s}
+.sb-expand svg{display:block;transition:transform .22s cubic-bezier(.4,0,.2,1);transform:rotate(-90deg)}
+.sb-expand.open svg{transform:rotate(0deg)}
+.sb-expand:hover{color:var(--gold);background:rgba(201,146,43,.08)}
+.sb-expand.no-subs{opacity:0;pointer-events:none}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:2px}
+.sb-subitem{padding-left:28px!important;background:rgba(0,0,0,.14)!important;border-bottom:1px solid rgba(255,255,255,.03)!important;border-left:2px solid rgba(201,146,43,.18)!important}
+.sb-subitem:hover{background:rgba(0,0,0,.22)!important}
+.sb-subitem.active{background:var(--purple)!important;border-left-color:var(--gold)!important}
+.sb-sub-add{background:none;border:none;color:rgba(201,146,43,.55);font-size:15px;cursor:pointer;padding:0 3px;flex-shrink:0;line-height:1;opacity:0;transition:opacity .15s,color .15s}
+.sb-item:hover .sb-sub-add{opacity:1}
+.sb-sub-add:hover{color:var(--gold)}
 
 /* drag-and-drop */
 #list-projects .sb-item{cursor:grab}
 #list-projects .sb-item:active{cursor:grabbing}
 #list-projects .sb-item.dragging{opacity:.3;background:rgba(201,146,43,.04)}
 #list-projects .sb-item.drag-over{border-top:2px solid var(--gold)}
+#list-views .sb-item,#list-profiles .sb-item{cursor:grab}
+#list-views .sb-item:active,#list-profiles .sb-item:active{cursor:grabbing}
+#list-views .sb-item.dragging,#list-profiles .sb-item.dragging{opacity:.3;background:rgba(201,146,43,.04)}
+#list-views .sb-item.drag-over,#list-profiles .sb-item.drag-over{border-top:2px solid var(--gold)}
+
+/* ── Content pane ──────────────────────────────────────── */
+.content-pane{display:flex;flex-direction:column;flex:1;overflow:hidden}
+
+/* ── Sticky form topbar ────────────────────────────────── */
+.form-topbar{flex-shrink:0;background:var(--surface2);border-bottom:1px solid var(--border);padding:10px 36px;display:none;align-items:center;gap:14px;flex-wrap:wrap}
+.form-topbar.visible{display:flex}
+.ftb-title{font-family:'Georgia',serif;font-size:15px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ftb-switches{display:flex;gap:18px;align-items:center;flex-shrink:0}
+.ftb-sw{display:flex;align-items:center;gap:7px;transition:opacity .15s}
+.ftb-sw.hidden{opacity:0;pointer-events:none}
+.ftb-sw-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.ftb-sel{background:var(--surface);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--mono);font-size:10px;padding:3px 6px;cursor:pointer;transition:border-color .15s}
+.ftb-sel:focus{outline:none;border-color:var(--gold)}
+.ftb-sel option{background:var(--surface2)}
+.ftb-saved{font-size:10px;color:var(--green);opacity:0;transition:opacity .4s;flex-shrink:0;white-space:nowrap}
+.ftb-saved.show{opacity:1}
+.ftb-save{background:none;border:1px solid var(--border);color:var(--gray);padding:6px 20px;font-size:10px;font-weight:700;letter-spacing:.1em;border-radius:2px;cursor:pointer;flex-shrink:0;font-family:var(--mono);text-transform:uppercase;transition:all .15s}
+.ftb-save:hover{border-color:var(--gold);color:var(--gold)}
+.ftb-save.dirty{background:var(--gold);color:var(--purple);border-color:var(--gold)}
+.ftb-save.dirty:hover{background:var(--gold-l)}
 
 /* ── Main ─────────────────────────────────────────────── */
 .main{flex:1;overflow-y:auto;padding:28px 36px}
@@ -63,7 +114,6 @@ header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-it
 .badge.released{color:var(--green);border-color:rgba(74,222,128,.35)}
 .badge.unreleased{color:var(--red);border-color:rgba(248,113,113,.35)}
 .badge.wip{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.18)}
-
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .full{grid-column:1/-1}
 .fg{display:flex;flex-direction:column;gap:5px}
@@ -72,16 +122,12 @@ input[type=text],textarea,select{background:var(--surface2);border:1px solid var
 input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
 textarea{resize:vertical;min-height:90px;line-height:1.6}
 select option{background:var(--surface2)}
-
-/* tag input */
 .tag-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:5px 7px;display:flex;flex-wrap:wrap;gap:5px;min-height:38px;cursor:text;transition:border-color .15s}
 .tag-wrap:focus-within{border-color:var(--gold)}
 .pill{background:var(--purple);color:rgba(255,255,255,.8);font-size:11px;padding:3px 8px 3px 10px;border-radius:2px;display:flex;align-items:center;gap:4px}
 .pill button{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:13px;line-height:1;padding:0;display:flex;align-items:center}
 .pill button:hover{color:var(--red)}
 .tag-wrap input{background:none;border:none;outline:none;color:var(--white);font-size:12px;min-width:70px;flex:1;padding:3px 0;font-family:inherit}
-
-/* bullets */
 .bullet-list{display:flex;flex-direction:column;gap:6px}
 .bullet-row{display:flex;gap:6px;align-items:center}
 .bullet-row input{flex:1}
@@ -89,8 +135,6 @@ select option{background:var(--surface2)}
 .icon-btn:hover{border-color:var(--red);color:var(--red)}
 .icon-btn.add{width:100%;color:var(--gold);border-color:rgba(201,146,43,.35);font-size:12px;margin-top:6px;padding:6px}
 .icon-btn.add:hover{background:rgba(201,146,43,.08);border-color:var(--gold)}
-
-/* images */
 .img-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .img-thumb{position:relative;width:78px;height:78px;border-radius:2px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border-color .15s;flex-shrink:0}
 .img-thumb:hover{border-color:rgba(201,146,43,.5)}
@@ -99,52 +143,69 @@ select option{background:var(--surface2)}
 .img-thumb .rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);border:none;color:var(--red);width:17px;height:17px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;line-height:1}
 .img-thumb:hover .rm{opacity:1}
 .cover-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(201,146,43,.9);font-size:8px;text-align:center;padding:2px;color:#1A1225;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
-
 .upload-zone{border:1px dashed var(--border);border-radius:2px;padding:14px;text-align:center;cursor:pointer;transition:border-color .15s;margin-top:8px;font-size:12px;color:var(--gray)}
 .upload-zone:hover{border-color:var(--gold);color:var(--gold-l)}
 .upload-zone strong{color:var(--gold)}
 .upload-zone input{display:none}
 .cover-hint{font-size:11px;color:var(--gray);margin-top:4px}
-
-/* range slider */
 input[type=range]{-webkit-appearance:none;appearance:none;background:var(--surface2);border:1px solid var(--border);border-radius:2px;height:6px;padding:0;cursor:pointer;width:100%}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer}
 input[type=range]:focus{outline:none;border-color:var(--gold)}
-
-/* filter tag chips */
 .ftag-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0}
 .ftag-chip{background:var(--surface2);border:1px solid var(--border);color:var(--gray);font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:5px 13px;border-radius:2px;cursor:pointer;transition:all .15s;user-select:none}
 .ftag-chip:hover{border-color:rgba(201,146,43,.5);color:var(--white)}
 .ftag-chip.active{background:rgba(201,146,43,.12);border-color:var(--gold);color:var(--gold-l)}
-
-/* timeline toggle switch */
-.switch-row{display:flex;align-items:center;gap:12px;padding:4px 0}
 .switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
 .switch input{opacity:0;width:0;height:0;position:absolute}
 .switch-track{position:absolute;cursor:pointer;inset:0;background:var(--surface2);border:1px solid var(--border);border-radius:10px;transition:.2s}
 .switch-track:before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:rgba(255,255,255,.3);border-radius:50%;transition:.2s}
 .switch input:checked+.switch-track{background:rgba(201,146,43,.12);border-color:var(--gold)}
 .switch input:checked+.switch-track:before{transform:translateX(16px);background:var(--gold)}
-.switch-desc{font-size:12px;color:var(--gray)}
-
-/* section divider */
 .sec-label{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);margin:22px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-
-/* actions */
 .actions{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);align-items:center}
-.btn-save{background:var(--gold);color:var(--purple);border:none;padding:9px 26px;font-size:12px;font-weight:600;letter-spacing:.06em;border-radius:2px;cursor:pointer;transition:background .15s}
-.btn-save:hover{background:var(--gold-l)}
 .btn-del{background:none;border:1px solid rgba(248,113,113,.35);color:var(--red);padding:9px 18px;font-size:12px;border-radius:2px;cursor:pointer;margin-left:auto;transition:all .15s}
 .btn-del:hover{background:rgba(248,113,113,.1)}
-.saved{font-size:11px;color:var(--green);display:none;align-items:center;gap:5px}
-.saved.show{display:flex}
+
+/* ── Cover grid ──────────────────────────────────────── */
+.cg-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:8px}
+.cg-item{position:relative;border-radius:2px;overflow:hidden;cursor:grab;border:2px solid transparent;transition:border-color .15s}
+.cg-item:active{cursor:grabbing}
+.cg-item.dragging{opacity:.3}
+.cg-item.drag-over{border-color:var(--gold)}
+.cg-item img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:var(--surface2)}
+.cg-placeholder{width:100%;aspect-ratio:3/2;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--gray);text-align:center;padding:4px}
+.cg-overlay{position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.78));opacity:0;transition:opacity .15s;display:flex;flex-direction:column;justify-content:flex-end;padding:6px;gap:3px}
+.cg-item:hover .cg-overlay{opacity:1}
+.cg-name{font-size:9px;color:rgba(255,255,255,.85);line-height:1.3}
+.cg-edit{background:var(--gold);color:var(--purple);border:none;font-size:9px;font-weight:700;padding:3px 7px;border-radius:1px;cursor:pointer;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;align-self:flex-start}
+.cg-edit:hover{background:var(--gold-l)}
+.cg-num{position:absolute;top:4px;left:5px;background:rgba(0,0,0,.65);color:rgba(255,255,255,.6);font-family:var(--mono);font-size:8px;padding:1px 4px;border-radius:1px}
+
+/* ── Filter tag order pills ──────────────────────────── */
+.ftag-order{display:flex;flex-wrap:wrap;gap:6px;min-height:44px;border:1px solid var(--border);border-radius:2px;padding:8px;background:var(--surface2);margin-top:4px}
+.ftag-order:empty::after{content:'No tags — add from below';font-size:11px;color:rgba(255,255,255,.2);align-self:center}
+.ftag-pill{display:flex;align-items:center;gap:5px;background:rgba(201,146,43,.12);border:1px solid var(--gold);color:var(--gold-l);font-family:var(--mono);font-size:10px;letter-spacing:.07em;padding:5px 8px 5px 5px;border-radius:2px;cursor:grab;user-select:none}
+.ftag-pill:active{cursor:grabbing}
+.ftag-pill.dragging{opacity:.3}
+.ftag-pill.drag-over{border-color:var(--gold-l);background:rgba(201,146,43,.28)}
+.ftag-pill .drag-handle{color:rgba(255,255,255,.3);font-size:12px;line-height:1}
+.ftag-pill .rm-tag{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:14px;line-height:1;padding:0;display:flex;align-items:center;margin-left:2px}
+.ftag-pill .rm-tag:hover{color:var(--red)}
 </style>
 </head>
 <body>
 
 <header>
   <span class="h-title">◈ Portfolio Admin</span>
-  <span class="h-status" id="h-status">connecting…</span>
+  <div class="h-right">
+    <span class="h-status" id="h-status">connecting…</span>
+    <div class="h-actions" id="h-actions" style="display:none">
+      <span class="h-dirty" id="h-dirty"></span>
+      <span class="h-saved" id="h-saved">✓ All saved</span>
+      <button class="h-btn" onclick="restoreAll()">Restore</button>
+      <button class="h-btn" id="btn-save-all" onclick="saveAll()">Save All</button>
+    </div>
+  </div>
 </header>
 
 <div class="app">
@@ -170,99 +231,628 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
       </div>
       <ul class="sb-list" id="list-skills"></ul>
     </div>
+    <div class="sb-section">
+      <div class="sb-head">
+        <span class="sb-label">Project Views</span>
+        <button class="add-btn" onclick="newView()" title="Add view">+</button>
+      </div>
+      <ul class="sb-list" id="list-views"></ul>
+    </div>
+    <div class="sb-section">
+      <div class="sb-head">
+        <span class="sb-label">Recruiter Profiles</span>
+        <button class="add-btn" onclick="newProfile()" title="Add profile">+</button>
+      </div>
+      <ul class="sb-list" id="list-profiles"></ul>
+    </div>
   </aside>
 
-  <main class="main" id="main">
-    <div class="empty"><h2>Select an entry</h2><p>Choose from the sidebar or add a new one.</p></div>
-  </main>
+  <div class="content-pane">
+    <div class="form-topbar" id="form-topbar">
+      <div class="ftb-title" id="ftb-title"></div>
+      <div class="ftb-switches" id="ftb-switches"></div>
+      <span class="ftb-saved" id="ftb-saved">✓ Saved</span>
+      <button class="ftb-save" onclick="saveCurrentItem()">Save</button>
+    </div>
+    <main class="main" id="main">
+      <div class="empty"><h2>Select an entry</h2><p>Choose from the sidebar or add a new one.</p></div>
+    </main>
+  </div>
 </div>
 
 <script>
-let DATA = { projects:[], career:[], timeline:[], skills:[] }
-let curSection = null, curId = null
+let DATA = { projects:[], career:[], timeline:[], skills:[], filterViews:[], recruiterProfiles:[] }
+let curSection = null, curId = null, curParentId = null
+let PENDING = {}
+let _formModified = false
+let _expandedProjects = new Set()
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function init() {
   try {
     const res = await fetch('/api/data')
     DATA = await res.json()
+    if (!DATA.filterViews) DATA.filterViews = []
+    if (!DATA.recruiterProfiles) DATA.recruiterProfiles = []
+    if (!DATA.gridSettings) {
+      const fv = DATA.filterViews[0]
+      DATA.gridSettings = { columns: fv?.columns || 6, aspectRatio: fv?.aspectRatio || '3/2' }
+    }
     renderSidebar()
     document.getElementById('h-status').innerHTML =
       `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
+    document.getElementById('h-actions').style.display = 'flex'
   } catch(e) {
     document.getElementById('h-status').textContent = 'Cannot connect — is npm run admin running?'
   }
 }
 
-// ── Sidebar ──────────────────────────────────────────────────────────────────
+// ── Pending / Dirty tracking ─────────────────────────────────────────────────
+function getFromData(section, id) {
+  if (section==='project')    return DATA.projects.find(p=>p.id===id)
+  if (section==='career')     return DATA.career.find(c=>c.id===id)
+  if (section==='timeline')   return DATA.timeline.find(t=>t.id===id)
+  if (section==='skill')      return (DATA.skills||[]).find(s=>s.id===id)
+  if (section==='view')       return (DATA.filterViews||[]).find(v=>v.id===id)
+  if (section==='profile')    return (DATA.recruiterProfiles||[]).find(r=>r.id===id)
+  if (section==='subproject') {
+    const sep = id.indexOf(':'); const pid=id.slice(0,sep), sid=id.slice(sep+1)
+    return DATA.projects.find(p=>p.id===pid)?.subprojects?.find(s=>s.id===sid)
+  }
+  return null
+}
+
+function getPendingOrData(section, id) {
+  return PENDING[`${section}:${id}`] || getFromData(section, id)
+}
+
+function updateDirtyCount() {
+  const count = Object.keys(PENDING).length
+  const el = document.getElementById('h-dirty')
+  if (el) el.textContent = count ? `${count} unsaved` : ''
+  const hasSomething = count > 0 || _formModified
+  document.getElementById('btn-save-all')?.classList.toggle('gold', hasSomething)
+  document.querySelector('.ftb-save')?.classList.toggle('dirty', _formModified)
+}
+
+function stashCurrentForm() {
+  if (!curSection || !curId) return
+  const isSub = curSection === 'subproject'
+  // For regular items only stash when something changed; for subprojects always attempt
+  if (!isSub && !_formModified) return
+  const form = document.querySelector('#main form')
+  if (!form) return
+  let item = null
+  try {
+    const fd = new FormData(form)
+    if (curSection==='project')       item = collectProjectItem(fd)
+    else if (curSection==='career')   item = collectCareerItem(fd)
+    else if (curSection==='timeline') item = collectTimelineItem(fd)
+    else if (curSection==='skill')    item = collectSkillItem(fd)
+    else if (curSection==='view')     item = collectViewItem(fd)
+    else if (curSection==='profile')  item = collectProfileItem(fd)
+    else if (isSub)                   item = collectSubprojectItem(fd)
+  } catch(e) { console.warn('stash failed', e); return }
+  if (!item) return
+  const pendingKey = isSub ? `subproject:${curParentId}:${curId}` : `${curSection}:${curId}`
+  // For subprojects with no detected changes, skip if data is identical to what's stored
+  if (isSub && !_formModified) {
+    const stored = getFromData('subproject', `${curParentId}:${curId}`)
+    if (stored && JSON.stringify(stored) === JSON.stringify(item)) return
+  }
+  PENDING[pendingKey] = item
+  _formModified = false
+  updateDirtyCount()
+}
+
+async function applyPending(section, id) {
+  const key = `${section}:${id}`
+  const item = PENDING[key]
+  if (!item) return
+  writeToData(section, id, item)
+  await postData()
+  delete PENDING[key]
+  renderSidebar()
+  updateDirtyCount()
+  if (curSection===section && curId===id) showTopbar(section, item)
+  flashSaved('h-saved')
+}
+
+async function saveAll() {
+  stashCurrentForm()  // capture any unsaved edits on the current form
+  if (!Object.keys(PENDING).length) return
+  for (const [key, item] of Object.entries(PENDING)) {
+    const [sec, ...rest] = key.split(':')
+    writeToData(sec, rest.join(':'), item)
+  }
+  await postData()
+  PENDING = {}
+  _formModified = false
+  renderSidebar()
+  updateDirtyCount()
+  flashSaved('h-saved')
+}
+
+function restoreAll() {
+  PENDING = {}
+  _formModified = false
+  renderSidebar()
+  updateDirtyCount()
+  if (curSection && curId) {
+    const item = getFromData(curSection, curId)
+    openForm(curSection, item)
+  }
+}
+
+function writeToData(section, id, item) {
+  if (section==='project') {
+    const idx = DATA.projects.findIndex(p=>p.id===id)
+    if (idx>=0) DATA.projects[idx]=item; else DATA.projects.push(item)
+  } else if (section==='career') {
+    const idx = DATA.career.findIndex(c=>c.id===id)
+    if (idx>=0) DATA.career[idx]=item; else DATA.career.push(item)
+  } else if (section==='timeline') {
+    const idx = DATA.timeline.findIndex(t=>t.id===id)
+    if (idx>=0) DATA.timeline[idx]=item; else DATA.timeline.push(item)
+  } else if (section==='skill') {
+    if (!DATA.skills) DATA.skills=[]
+    const idx = DATA.skills.findIndex(s=>s.id===id)
+    if (idx>=0) DATA.skills[idx]=item; else DATA.skills.push(item)
+  } else if (section==='view') {
+    const idx = (DATA.filterViews||[]).findIndex(v=>v.id===id)
+    if (idx>=0) DATA.filterViews[idx]=item; else DATA.filterViews.push(item)
+  } else if (section==='profile') {
+    const idx = (DATA.recruiterProfiles||[]).findIndex(r=>r.id===id)
+    if (idx>=0) DATA.recruiterProfiles[idx]=item; else DATA.recruiterProfiles.push(item)
+  } else if (section==='subproject') {
+    const sep=id.indexOf(':'); const pid=id.slice(0,sep), sid=id.slice(sep+1)
+    const parent=DATA.projects.find(p=>p.id===pid); if(!parent) return
+    if(!parent.subprojects) parent.subprojects=[]
+    const idx=parent.subprojects.findIndex(s=>s.id===sid)
+    if(idx>=0) parent.subprojects[idx]=item; else parent.subprojects.push(item)
+  }
+}
+
+// ── Collect form → item objects ───────────────────────────────────────────────
+function collectProjectItem(fd) {
+  // visible is managed by the sidebar switch and auto-saved; read from DATA or fallback
+  const proj = DATA.projects.find(p=>p.id===curId)
+  const sbSw = document.querySelector(`#list-projects .sb-item[data-id="${curId}"] input[type=checkbox]`)
+  const visible = sbSw ? sbSw.checked : (proj?.visible ?? true)
+  return {
+    id: fd.get('id'),
+    title: fd.get('title'),
+    date: fd.get('date'),
+    status: fd.get('status'),
+    team: fd.get('team'),
+    tags: getTags('tags-wrap'),
+    filterTags: getFilterTags(),
+    cardSize: fd.get('cardSize'),
+    coverImage: document.getElementById('cover-in')?.value || '',
+    sub: fd.get('sub'),
+    cardDesc: fd.get('cardDesc'),
+    description: fd.get('description'),
+    images: (() => { try { return JSON.parse(document.getElementById('images-in')?.value||'[]') } catch{ return [] } })(),
+    tools: getTags('tools-wrap'),
+    link: fd.get('linkUrl') ? { label:fd.get('linkLabel'), url:fd.get('linkUrl') } : null,
+    visible,
+    sectionAspectRatio: fd.get('sectionAspectRatio') || 'auto',
+    inSelection:    document.getElementById('sw-inSelection')?.checked ?? true,
+    showInTimeline: document.getElementById('sw-timeline')?.checked ?? false,
+    subprojects:    proj?.subprojects || []
+  }
+}
+function collectCareerItem(fd) {
+  const item = DATA.career.find(c=>c.id===curId)
+  const sbSw = document.querySelector(`#list-career .sb-item[data-id="${curId}"] input[type=checkbox]`)
+  return { id:fd.get('id'), period:fd.get('period'), role:fd.get('role'), company:fd.get('company'), bullets:getBullets(), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
+}
+function collectTimelineItem(fd) {
+  return { id:fd.get('id'), period:fd.get('period'), title:fd.get('title'), company:fd.get('company'), status:fd.get('status'), bullets:getBullets(), visible:true }
+}
+function collectSkillItem(fd) {
+  const item = (DATA.skills||[]).find(s=>s.id===curId)
+  const sbSw = document.querySelector(`#list-skills .sb-item[data-id="${curId}"] input[type=checkbox]`)
+  return { id:fd.get('id'), name:fd.get('name'), abbr:fd.get('abbr'), icon:fd.get('icon')||'', level:Number(fd.get('level')), category:fd.get('category'), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
+}
+function collectViewItem(fd) {
+  const item = (DATA.filterViews||[]).find(v=>v.id===curId)
+  const sbSw = document.querySelector(`#list-views .sb-item[data-id="${curId}"] input[type=checkbox]`)
+  return { id:curId, label:fd.get('label'), tag:fd.get('tag'), projectOrder:getCoverOrder('cg-view'), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
+}
+function collectProfileItem(fd) {
+  const item = (DATA.recruiterProfiles||[]).find(r=>r.id===curId)
+  const sbSw = document.querySelector(`#list-profiles .sb-item[data-id="${curId}"] input[type=checkbox]`)
+  return { id:curId, label:fd.get('label'), tag:fd.get('tag'), filterTags:getFilterTagOrder(), projectOrder:getCoverOrder('cg-profile'), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
+}
+
+// ── Sidebar enable switch ─────────────────────────────────────────────────────
+function sbSwitchHtml(section, id, isVisible, parentId) {
+  const extra = parentId ? `,'${parentId}'` : ''
+  return `<label class="sb-sw" onclick="event.stopPropagation()" title="Enable / Disable">
+    <input type="checkbox"${isVisible?' checked':''} onchange="toggleVisible('${section}','${id}',this.checked${extra})">
+    <span class="sb-sw-track"></span>
+  </label>`
+}
+
+async function toggleVisible(section, id, value, parentId) {
+  if (section==='subproject') {
+    const parent=DATA.projects.find(p=>p.id===parentId)
+    const sub=parent?.subprojects?.find(s=>s.id===id)
+    if (sub) { sub.visible=value; await postData() }
+    const key=`subproject:${parentId}:${id}`
+    if (PENDING[key]) PENDING[key].visible=value
+    const li=document.querySelector(`[data-id="${id}"].sb-subitem`)
+    if (li) li.classList.toggle('sb-disabled', !value)
+    return
+  }
+  const dataItem = getFromData(section, id)
+  if (dataItem) {
+    dataItem.visible = value
+    await postData()
+    const key = `${section}:${id}`
+    if (PENDING[key]) PENDING[key].visible = value
+  } else {
+    const key = `${section}:${id}`
+    if (!PENDING[key]) PENDING[key] = {}
+    PENDING[key].visible = value
+  }
+  const li = document.querySelector(`[data-id="${id}"]:not(.sb-subitem)`)
+  if (li) li.classList.toggle('sb-disabled', !value)
+  if (section==='project' && curSection==='project' && curId===id) {
+    updateTopbarSwitchVisibility(value)
+  }
+}
+
+// ── Form topbar ───────────────────────────────────────────────────────────────
+function showTopbar(section, item) {
+  const titleEl  = document.getElementById('ftb-title')
+  const switchEl = document.getElementById('ftb-switches')
+  const name = section==='project'    ? (item?.title||'New Project')
+    : section==='career'     ? (item?.role||'New Career Entry')
+    : section==='skill'      ? (item?.name||'New Skill')
+    : section==='view'       ? (item?.label||'New View')
+    : section==='profile'    ? (item?.label||'New Profile')
+    : section==='subproject' ? (item?.title||'New Section')
+    : 'Edit'
+  titleEl.textContent = name
+  if (section==='project') {
+    const a = item?.inSelection !== false
+    const t = !!item?.showInTimeline
+    const isEnabled = item?.visible !== false
+    switchEl.innerHTML = `
+      <div class="ftb-sw${isEnabled?'':' hidden'}" id="ftb-sw-all">
+        <span class="ftb-sw-label">All</span>
+        <label class="switch"><input type="checkbox" id="sw-inSelection"${a?' checked':''} onchange="switchAutoSave('inSelection',this.checked)"><span class="switch-track"></span></label>
+      </div>
+      <div class="ftb-sw${isEnabled?'':' hidden'}" id="ftb-sw-timeline">
+        <span class="ftb-sw-label">Timeline</span>
+        <label class="switch"><input type="checkbox" id="sw-timeline"${t?' checked':''} onchange="switchAutoSave('showInTimeline',this.checked)"><span class="switch-track"></span></label>
+      </div>`
+  } else if (section === 'subproject') {
+    const a = item?.inSelection !== false
+    switchEl.innerHTML = `
+      <div class="ftb-sw" id="ftb-sw-all">
+        <span class="ftb-sw-label">All</span>
+        <label class="switch"><input type="checkbox" id="sub-sw-inSelection"${a?' checked':''} onchange="subSwitchAutoSave('inSelection',this.checked)"><span class="switch-track"></span></label>
+      </div>`
+  } else if (section === 'view') {
+    const cols  = DATA.gridSettings?.columns || 6
+    const ratio = DATA.gridSettings?.aspectRatio || '3/2'
+    switchEl.innerHTML = `
+      <div class="ftb-sw">
+        <span class="ftb-sw-label">Cols</span>
+        <select class="ftb-sel" onchange="gridSettingChange('columns',parseInt(this.value))">${[1,2,3,4,5,6].map(n=>`<option value="${n}"${cols===n?' selected':''}>${n}</option>`).join('')}</select>
+      </div>
+      <div class="ftb-sw">
+        <span class="ftb-sw-label">Ratio</span>
+        <select class="ftb-sel" onchange="gridSettingChange('aspectRatio',this.value)">${['1/1','4/3','3/2','16/9'].map(r=>`<option${ratio===r?' selected':''}>${r}</option>`).join('')}</select>
+      </div>`
+  } else {
+    switchEl.innerHTML = ''
+  }
+  document.getElementById('form-topbar').classList.add('visible')
+}
+
+function hideTopbar() {
+  document.getElementById('form-topbar').classList.remove('visible')
+}
+
+function updateTopbarSwitchVisibility(isEnabled) {
+  document.querySelectorAll('#ftb-switches .ftb-sw').forEach(sw => {
+    sw.classList.toggle('hidden', !isEnabled)
+  })
+}
+
+async function switchAutoSave(field, value) {
+  if (curSection !== 'project' || !curId) return
+  const proj = DATA.projects.find(p=>p.id===curId)
+  if (!proj) return
+  proj[field] = value
+  await postData()
+  flashSaved('ftb-saved')
+  renderSidebar()
+}
+
+async function subSwitchAutoSave(field, value) {
+  if (curSection!=='subproject'||!curId||!curParentId) return
+  const parent=DATA.projects.find(p=>p.id===curParentId)
+  const sub=parent?.subprojects?.find(s=>s.id===curId)
+  if (!sub) return
+  sub[field]=value; await postData(); flashSaved('ftb-saved')
+}
+
+// ── Subprojects ───────────────────────────────────────────────────────────────
+function toggleExpand(parentId) {
+  if (_expandedProjects.has(parentId)) _expandedProjects.delete(parentId)
+  else _expandedProjects.add(parentId)
+  renderSidebar()
+}
+
+function editSubproject(parentId, subId) {
+  if (curSection!=='subproject'||curId!==subId||curParentId!==parentId) stashCurrentForm()
+  curSection='subproject'; curId=subId; curParentId=parentId
+  const parent=DATA.projects.find(p=>p.id===parentId)
+  const compId=`${parentId}:${subId}`
+  const sub=PENDING[`subproject:${compId}`] || getFromData('subproject', compId)
+  if (!sub||!parent) return
+  renderSidebar()
+  _formModified=false
+  document.getElementById('main').innerHTML=subprojectForm(parent, sub)
+  document.getElementById('main').scrollTop=0
+  showTopbar('subproject', sub)
+  attachFormChangeListener()
+  updateDirtyCount()
+}
+
+function newSubproject(parentId) {
+  stashCurrentForm()
+  const parent=DATA.projects.find(p=>p.id===parentId); if(!parent) return
+  curSection='subproject'; curParentId=parentId; curId='sub_'+Date.now()
+  const maxOrder=Math.max(0,...(parent.subprojects||[]).map(s=>s.order||0))
+  const blank={id:curId,title:'',order:maxOrder+1,coverImage:'',images:[],tags:[],filterTags:'',cardSize:'default',inSelection:true,visible:true,description:'',tools:[],sectionAspectRatio:'auto'}
+  _expandedProjects.add(parentId)
+  renderSidebar()
+  _formModified=false
+  document.getElementById('main').innerHTML=subprojectForm(parent, blank)
+  document.getElementById('main').scrollTop=0
+  showTopbar('subproject', blank)
+  attachFormChangeListener()
+}
+
+function subprojectForm(parent, sub) {
+  const imgHtml=(sub.images||[]).map(img=>{
+    if(!img.startsWith('data/images/')) return ''
+    return `<div class="img-thumb${img===sub.coverImage?' cover':''}" onclick="setCover('${img}')" data-img="${img}">
+      <img src="/${img}" onerror="this.style.opacity='.3'">
+      <button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button>
+      ${img===sub.coverImage?'<div class="cover-lbl">cover</div>':''}
+    </div>`
+  }).filter(Boolean).join('')
+  const ALL_FILTER_TAGS=(DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
+  return `
+  <div class="form-head">${esc(sub.title)||'New Section'} <span style="font-size:13px;color:rgba(255,255,255,.3);font-family:var(--mono);font-weight:400">↳ ${esc(parent.title)}</span></div>
+  <form onsubmit="saveSubproject(event)">
+    <div class="grid2">
+      <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(sub.id)}" required></div>
+      <div class="fg"><label>Title</label><input type="text" name="title" value="${esc(sub.title)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Section'"></div>
+      <div class="fg"><label>Order</label><input type="number" name="order" value="${sub.order||1}" min="1"></div>
+      <div class="fg"><label>Card Size</label>
+        <select name="cardSize">
+          <option value="default"${(sub.cardSize||'default')==='default'?' selected':''}>Default (1 col)</option>
+          <option value="featured"${sub.cardSize==='featured'?' selected':''}>Featured (2 cols)</option>
+          <option value="wide"${sub.cardSize==='wide'?' selected':''}>Wide (3 cols)</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Display Tags <span style="opacity:.5">(added to parent tags in modal)</span></label>
+        <div class="tag-wrap" id="tags-wrap" onclick="focusTag('tags-in')">${pills(sub.tags||[])}<input id="tags-in" type="text" placeholder="Add tag, press Enter…" onkeydown="addTag(event,'tags-wrap','tags-in')"></div>
+      </div>
+      <div class="fg full"><label>Filter Tags <span style="opacity:.5">(for grid filtering)</span></label>
+        <div class="ftag-wrap">${ALL_FILTER_TAGS.map(t=>{const on=(sub.filterTags||'').split(' ').includes(t);return`<button type="button" class="ftag-chip${on?' active':''}" data-tag="${t}" onclick="this.classList.toggle('active')">${t}</button>`}).join('')}</div>
+      </div>
+      <div class="fg full"><label>Short Description <span style="opacity:.5">(shown on card hover)</span></label>
+        <input type="text" name="description" value="${esc(sub.description||'')}" placeholder="Brief description of this section…">
+      </div>
+    </div>
+    <div class="sec-label">Images</div>
+    <p class="cover-hint">Click an image to set as cover.</p>
+    <div class="img-grid" id="img-grid">${imgHtml}</div>
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="img-input" accept="image/*" multiple onchange="uploadImages(this)">
+      <strong>Click to upload</strong> or drag &amp; drop
+    </div>
+    <input type="hidden" name="coverImage" id="cover-in" value="${esc(sub.coverImage||'')}">
+    <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(sub.images||[]))}">
+    <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
+      <select name="sectionAspectRatio">
+        <option value="auto"${(!sub.sectionAspectRatio||sub.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
+        <option value="1/1"${sub.sectionAspectRatio==='1/1'?' selected':''}>1:1 Square</option>
+        <option value="4/3"${sub.sectionAspectRatio==='4/3'?' selected':''}>4:3</option>
+        <option value="3/2"${sub.sectionAspectRatio==='3/2'?' selected':''}>3:2</option>
+        <option value="16/9"${sub.sectionAspectRatio==='16/9'?' selected':''}>16:9 Widescreen</option>
+      </select>
+    </div>
+    <div class="sec-label">Tools Used <span style="opacity:.45;font-size:11px;font-weight:400">(pick from skills)</span></div>
+    <div class="ftag-wrap" id="tools-wrap">${(DATA.skills||[]).map(s=>{const on=(sub.tools||[]).includes(s.name);return`<button type="button" class="ftag-chip${on?' active':''}" data-tool="${esc(s.name)}" onclick="this.classList.toggle('active')">${esc(s.name)}</button>`}).join('')}</div>
+    <div class="actions">
+      <button type="button" class="btn-del" onclick="deleteSubproject()">Delete</button>
+    </div>
+  </form>`
+}
+
+function collectSubprojectItem(fd) {
+  const parent=DATA.projects.find(p=>p.id===curParentId)
+  const existing=parent?.subprojects?.find(s=>s.id===curId)
+  const li=document.querySelector(`#list-projects .sb-subitem[data-id="${curId}"] input[type=checkbox]`)
+  const visible=li?li.checked:(existing?.visible??true)
+  return {
+    id: fd.get('id'),
+    title: fd.get('title'),
+    order: parseInt(fd.get('order'))||1,
+    coverImage: document.getElementById('cover-in')?.value||'',
+    images: (()=>{try{return JSON.parse(document.getElementById('images-in')?.value||'[]')}catch{return[]}})(),
+    tags: getTags('tags-wrap'),
+    filterTags: getFilterTags(),
+    cardSize: fd.get('cardSize')||'default',
+    inSelection: document.getElementById('sub-sw-inSelection')?.checked??true,
+    visible,
+    description: fd.get('description')||'',
+    tools: [...document.querySelectorAll('#tools-wrap .ftag-chip.active')].map(b=>b.dataset.tool),
+    sectionAspectRatio: fd.get('sectionAspectRatio')||'auto'
+  }
+}
+
+async function saveSubproject(e) {
+  e.preventDefault()
+  const fd=new FormData(e.target)
+  const item=collectSubprojectItem(fd)
+  curId=item.id
+  writeToData('subproject', `${curParentId}:${item.id}`, item)
+  await postData()
+  delete PENDING[`subproject:${curParentId}:${item.id}`]
+  _formModified=false
+  flashSaved('ftb-saved')
+  renderSidebar(); updateDirtyCount()
+}
+
+async function deleteSubproject() {
+  if (!confirm('Delete this section?')) return
+  const parent=DATA.projects.find(p=>p.id===curParentId)
+  if (parent) parent.subprojects=(parent.subprojects||[]).filter(s=>s.id!==curId)
+  delete PENDING[`subproject:${curParentId}:${curId}`]
+  await postData()
+  curSection=null; curId=null; curParentId=null; hideTopbar()
+  renderSidebar(); updateDirtyCount()
+  document.getElementById('main').innerHTML='<div class="empty"><h2>Deleted</h2><p>Choose another entry or add a new one.</p></div>'
+}
+
+async function gridSettingChange(field, value) {
+  if (!DATA.gridSettings) DATA.gridSettings = { columns:6, aspectRatio:'3/2' }
+  DATA.gridSettings[field] = value
+  await postData()
+  flashSaved('ftb-saved')
+}
+
+function saveCurrentItem() {
+  const form = document.querySelector('#main form')
+  if (form) form.requestSubmit()
+}
+
+// ── Sidebar render ────────────────────────────────────────────────────────────
+function renderSidebar() {
+  document.getElementById('list-projects').innerHTML = DATA.projects.map(p => {
+    const dirty   = !!PENDING[`project:${p.id}`]
+    const enabled = p.visible !== false
+    const hasSubs = (p.subprojects||[]).length > 0
+    const expanded = _expandedProjects.has(p.id)
+    const dotColor = p.status==='released'?'var(--green)':p.status==='unreleased'?'var(--red)':'rgba(255,255,255,.18)'
+    let html = `<li class="sb-item${curSection==='project'&&curId===p.id?' active':''}${enabled?'':' sb-disabled'}" draggable="true" data-id="${p.id}" onclick="editItem('project','${p.id}')">
+      ${sbSwitchHtml('project', p.id, enabled)}
+      <span class="sb-dot" style="background:${dotColor}" title="${p.status||'wip'}"></span>
+      <span class="sb-item-name">${esc(p.title)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('project','${p.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <button class="sb-sub-add" onclick="event.stopPropagation();newSubproject('${p.id}')" title="Add section">+</button>
+      <button class="sb-expand${expanded?' open':''}${hasSubs?'':' no-subs'}" onclick="event.stopPropagation();toggleExpand('${p.id}')" title="Toggle sections">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </li>`
+    if (hasSubs && expanded) {
+      html += [...(p.subprojects||[])].sort((a,b)=>(a.order||0)-(b.order||0)).map(sub => {
+        const subDirty = !!PENDING[`subproject:${p.id}:${sub.id}`]
+        const subEnabled = sub.visible !== false
+        return `<li class="sb-item sb-subitem${curSection==='subproject'&&curId===sub.id?' active':''}${subEnabled?'':' sb-disabled'}" data-id="${sub.id}" data-parent="${p.id}" onclick="editSubproject('${p.id}','${sub.id}')">
+          ${sbSwitchHtml('subproject', sub.id, subEnabled, p.id)}
+          <span class="sb-item-name">${esc(sub.title)}</span>
+          <span class="sb-period">${sub.order||''}</span>
+          ${subDirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('subproject','${p.id}:${sub.id}')" title="Unsaved — click to save">💾</button>`:''}
+        </li>`
+      }).join('')
+    }
+    return html
+  }).join('')
+  initProjectDrag()
+
+  const career = [...DATA.career].sort((a,b) => sbYear(b.period) - sbYear(a.period))
+  document.getElementById('list-career').innerHTML = career.map(c => {
+    const dirty   = !!PENDING[`career:${c.id}`]
+    const enabled = c.visible !== false
+    return `<li class="sb-item${curSection==='career'&&curId===c.id?' active':''}${enabled?'':' sb-disabled'}" data-id="${c.id}" onclick="editItem('career','${c.id}')">
+      ${sbSwitchHtml('career', c.id, enabled)}
+      <span class="sb-item-name">${esc(c.role)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('career','${c.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <span class="sb-period">${(c.period||'').split('–')[0].trim()}</span>
+    </li>`
+  }).join('')
+
+  document.getElementById('list-skills').innerHTML = (DATA.skills||[]).map(s => {
+    const dirty   = !!PENDING[`skill:${s.id}`]
+    const enabled = s.visible !== false
+    return `<li class="sb-item${curSection==='skill'&&curId===s.id?' active':''}${enabled?'':' sb-disabled'}" data-id="${s.id}" onclick="editItem('skill','${s.id}')">
+      ${sbSwitchHtml('skill', s.id, enabled)}
+      <span class="sb-item-name">${esc(s.name)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('skill','${s.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <span class="sb-period">${s.category||''}</span>
+    </li>`
+  }).join('')
+
+  renderViewSidebar()
+  renderProfileSidebar()
+}
+
 function sbYear(str) {
   const m = String(str||'').match(/\d{4}/); return m ? parseInt(m[0],10) : 0
 }
 
-function renderSidebar() {
-  document.getElementById('list-projects').innerHTML = DATA.projects.map(p => `
-    <li class="sb-item${curSection==='project'&&curId===p.id?' active':''}${p.visible===false?' sb-hidden':''}" draggable="true" data-id="${p.id}" onclick="editItem('project','${p.id}')">
-      <span class="sb-item-name">${esc(p.title)}</span>
-      ${p.visible===false?'<span class="sb-eye" title="Hidden">◌</span>':''}
-      <span class="dot ${p.status}"></span>
-    </li>`).join('')
-  initProjectDrag()
-
-  const career = [...DATA.career].sort((a,b) => sbYear(b.period) - sbYear(a.period))
-  document.getElementById('list-career').innerHTML = career.map(c => `
-    <li class="sb-item${curSection==='career'&&curId===c.id?' active':''}" onclick="editItem('career','${c.id}')">
-      <span class="sb-item-name">${esc(c.role)}</span>
-      <span class="sb-period">${(c.period||'').split('–')[0].trim()}</span>
-    </li>`).join('')
-
-  document.getElementById('list-skills').innerHTML = (DATA.skills||[]).map(s => `
-    <li class="sb-item${curSection==='skill'&&curId===s.id?' active':''}" onclick="editItem('skill','${s.id}')">
-      <span class="sb-item-name">${esc(s.name)}</span>
-      <span class="sb-period">${s.category||''}</span>
-    </li>`).join('')
+// ── Navigate to item ──────────────────────────────────────────────────────────
+function editItem(section, id) {
+  if (curSection !== section || curId !== id) stashCurrentForm()
+  curSection = section; curId = id
+  const item = getPendingOrData(section, id)
+  renderSidebar()
+  openForm(section, item)
 }
 
-// ── Edit / New ──────────────────────────────────────────────────────────────
-function editItem(section, id) {
-  curSection = section; curId = id
-  let item
-  if (section==='project')  item = DATA.projects.find(p=>p.id===id)
-  else if (section==='career') item = DATA.career.find(c=>c.id===id)
-  else if (section==='timeline') item = DATA.timeline.find(t=>t.id===id)
-  else item = (DATA.skills||[]).find(s=>s.id===id)
-  renderSidebar()
-  renderForm(section, item)
+function openForm(section, item) {
+  _formModified = false; updateDirtyCount()
+  const main = document.getElementById('main')
+  if (section==='project')       main.innerHTML = projectForm(item)
+  else if (section==='career')   main.innerHTML = careerForm(item)
+  else if (section==='timeline') main.innerHTML = timelineForm(item)
+  else                           main.innerHTML = skillForm(item)
+  main.scrollTop = 0
+  showTopbar(section, item)
+  attachFormChangeListener()
+}
+
+function attachFormChangeListener() {
+  const form = document.querySelector('#main form')
+  if (!form) return
+  const mark = () => { _formModified = true; updateDirtyCount() }
+  form.addEventListener('input',  mark)
+  form.addEventListener('change', mark)
 }
 
 function newItem(section) {
+  stashCurrentForm()
   curSection = section
   curId = 'new_' + Date.now()
   const blank = section==='project'
-    ? { id:curId, title:'', date:'', status:'wip', team:'', tags:[], filterTags:'', cardSize:'default', coverImage:'', sub:'', cardDesc:'', description:'', images:[], tools:[], link:null, visible:true, showInTimeline:false }
+    ? { id:curId, title:'', date:'', status:'wip', team:'', tags:[], filterTags:'', cardSize:'default', coverImage:'', sub:'', cardDesc:'', description:'', images:[], tools:[], link:null, visible:true, inSelection:true, showInTimeline:false }
     : section==='career'
-    ? { id:curId, period:'', role:'', company:'', bullets:[] }
+    ? { id:curId, period:'', role:'', company:'', bullets:[], visible:true }
     : section==='timeline'
-    ? { id:curId, period:'', title:'', company:'', status:'wip', bullets:[] }
-    : { id:curId, name:'', abbr:'', level:75, category:'Concept Art' }
-  renderForm(section, blank)
+    ? { id:curId, period:'', title:'', company:'', status:'wip', bullets:[], visible:true }
+    : { id:curId, name:'', abbr:'', level:75, category:'Concept Art', visible:true }
+  openForm(section, blank)
 }
 
 // ── Forms ─────────────────────────────────────────────────────────────────────
-function renderForm(section, item) {
-  const main = document.getElementById('main')
-  if (section==='project') main.innerHTML = projectForm(item)
-  else if (section==='career') main.innerHTML = careerForm(item)
-  else if (section==='timeline') main.innerHTML = timelineForm(item)
-  else main.innerHTML = skillForm(item)
-  main.scrollTop = 0
-}
-
 function pills(arr) {
   return arr.map(t=>`<span class="pill">${esc(t)}<button onclick="removeTag(this)" type="button">×</button></span>`).join('')
 }
 
 function projectForm(p) {
-  const imgHtml = p.images.map(img => {
+  const imgHtml = (p.images||[]).map(img => {
     if (!img.startsWith('data/images/')) return ''
     return `<div class="img-thumb${img===p.coverImage?' cover':''}" onclick="setCover('${img}')" data-img="${img}">
       <img src="/${img}" onerror="this.style.opacity='.3'">
@@ -270,13 +860,14 @@ function projectForm(p) {
       ${img===p.coverImage?'<div class="cover-lbl">cover</div>':''}
     </div>`
   }).filter(Boolean).join('')
-
+  const ALL_FILTER_TAGS = (DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
+  const hasSubs = (p.subprojects||[]).length > 0
   return `
   <div class="form-head">${esc(p.title)||'New Project'} ${p.status?`<span class="badge ${p.status}">${p.status}</span>`:''}</div>
   <form onsubmit="saveItem(event)">
     <div class="grid2">
       <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(p.id)}" required></div>
-      <div class="fg"><label>Title</label><input type="text" name="title" value="${esc(p.title)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg"><label>Title</label><input type="text" name="title" value="${esc(p.title)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Project'"></div>
       <div class="fg"><label>Date</label><input type="text" name="date" value="${esc(p.date)}" placeholder="2024 – Present"></div>
       <div class="fg"><label>Status</label>
         <select name="status" onchange="updateBadge(this.value)">
@@ -287,61 +878,33 @@ function projectForm(p) {
       </div>
       <div class="fg"><label>Team / Company</label><input type="text" name="team" value="${esc(p.team)}"></div>
       <div class="fg"><label>Card Size</label>
-        <select name="cardSize">
+        <select name="cardSize"${hasSubs?' disabled style="opacity:.4" title="Card size is set per section"':''}>
           <option value="default"${p.cardSize==='default'?' selected':''}>Default (1 col)</option>
           <option value="featured"${p.cardSize==='featured'?' selected':''}>Featured (2 cols)</option>
           <option value="wide"${p.cardSize==='wide'?' selected':''}>Wide (3 cols)</option>
         </select>
       </div>
-      <div class="fg full"><label>Display Tags</label>
-        <div class="tag-wrap" id="tags-wrap" onclick="focusTag('tags-in')">${pills(p.tags)}<input id="tags-in" type="text" placeholder="Add tag, press Enter…" onkeydown="addTag(event,'tags-wrap','tags-in')"></div>
+      <div class="fg full"><label>Display Tags <span style="opacity:.5">(base — sections add their own)</span></label>
+        <div class="tag-wrap" id="tags-wrap" onclick="focusTag('tags-in')">${pills(p.tags||[])}<input id="tags-in" type="text" placeholder="Add tag, press Enter…" onkeydown="addTag(event,'tags-wrap','tags-in')"></div>
       </div>
-      <div class="fg full"><label>Filter Tags</label>
-        <div class="ftag-wrap">${
-          ['concept','character','creature','weapon','3d','fortnite','roblox','illustration'].map(t => {
-            const on = (p.filterTags||'').split(' ').includes(t)
-            return `<button type="button" class="ftag-chip${on?' active':''}" data-tag="${t}" onclick="this.classList.toggle('active')">${t}</button>`
-          }).join('')
-        }</div>
-      </div>
-      <div class="fg full"><label>Modal Subtitle (sub)</label>
-        <input type="text" name="sub" value="${esc(p.sub)}" placeholder="Studio · 2024 · Tools">
-      </div>
-      <div class="fg full"><label>Card Hover Description</label>
-        <input type="text" name="cardDesc" value="${esc(p.cardDesc)}" placeholder="Short text shown on hover…">
-      </div>
-      <div class="fg full"><label>Full Description</label>
-        <textarea name="description">${esc(p.description)}</textarea>
-      </div>
+      ${hasSubs
+        ? `<div class="fg full"><p class="cover-hint" style="margin:0;padding:8px 0;color:rgba(255,255,255,.3);font-family:var(--mono);font-size:10px;letter-spacing:.08em">Filter tags are managed per section — this project is hidden from the grid.</p></div>`
+        : `<div class="fg full"><label>Filter Tags</label>
+        <div class="ftag-wrap">${ALL_FILTER_TAGS.map(t=>{const on=(p.filterTags||'').split(' ').includes(t);return`<button type="button" class="ftag-chip${on?' active':''}" data-tag="${t}" onclick="this.classList.toggle('active')">${t}</button>`}).join('')}</div>
+      </div>`
+      }
+      <div class="fg full"><label>Modal Subtitle (sub)</label><input type="text" name="sub" value="${esc(p.sub)}" placeholder="Studio · 2024 · Tools"></div>
+      <div class="fg full"><label>Card Hover Description</label><input type="text" name="cardDesc" value="${esc(p.cardDesc)}" placeholder="Short text shown on hover…"></div>
+      <div class="fg full"><label>Full Description</label><textarea name="description">${esc(p.description)}</textarea></div>
       <div class="fg full"><label>Tools</label>
-        <div class="tag-wrap" id="tools-wrap" onclick="focusTag('tools-in')">${pills(p.tools)}<input id="tools-in" type="text" placeholder="Add tool, press Enter…" onkeydown="addTag(event,'tools-wrap','tools-in')"></div>
+        <div class="tag-wrap" id="tools-wrap" onclick="focusTag('tools-in')">${pills(p.tools||[])}<input id="tools-in" type="text" placeholder="Add tool, press Enter…" onkeydown="addTag(event,'tools-wrap','tools-in')"></div>
       </div>
     </div>
-
     <div class="sec-label">Link (optional)</div>
     <div class="grid2">
       <div class="fg"><label>Label</label><input type="text" name="linkLabel" value="${esc(p.link?.label||'')}" placeholder="View on ArtStation ↗"></div>
       <div class="fg"><label>URL</label><input type="text" name="linkUrl" value="${esc(p.link?.url||'')}" placeholder="https://…"></div>
     </div>
-
-    <div class="sec-label">Visibility</div>
-    <div class="switch-row">
-      <label class="switch">
-        <input type="checkbox" name="visible"${p.visible!==false?' checked':''}>
-        <span class="switch-track"></span>
-      </label>
-      <span class="switch-desc">Show in Portfolio</span>
-    </div>
-
-    <div class="sec-label">Timeline</div>
-    <div class="switch-row">
-      <label class="switch">
-        <input type="checkbox" name="showInTimeline"${p.showInTimeline?' checked':''}>
-        <span class="switch-track"></span>
-      </label>
-      <span class="switch-desc">Show in Project Timeline</span>
-    </div>
-
     <div class="sec-label">Images</div>
     <p class="cover-hint">Click an image to set as cover (gold border). Legacy IMGS keys are not shown here.</p>
     <div class="img-grid" id="img-grid">${imgHtml}</div>
@@ -350,11 +913,22 @@ function projectForm(p) {
       <strong>Click to upload</strong> or drag &amp; drop &nbsp;·&nbsp; <span>JPEG, PNG, WebP</span>
     </div>
     <input type="hidden" name="coverImage" id="cover-in" value="${esc(p.coverImage)}">
-    <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(p.images))}">
-
+    <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(p.images||[]))}">
+    <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
+      <select name="sectionAspectRatio">
+        <option value="auto"${(!p.sectionAspectRatio||p.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
+        <option value="1/1"${p.sectionAspectRatio==='1/1'?' selected':''}>1:1 Square</option>
+        <option value="4/3"${p.sectionAspectRatio==='4/3'?' selected':''}>4:3</option>
+        <option value="3/2"${p.sectionAspectRatio==='3/2'?' selected':''}>3:2</option>
+        <option value="16/9"${p.sectionAspectRatio==='16/9'?' selected':''}>16:9 Widescreen</option>
+      </select>
+    </div>
+    <div class="sec-label">Sections</div>
+    ${hasSubs
+      ? `<p class="cover-hint">This project is split into ${p.subprojects.length} section${p.subprojects.length>1?'s':''}. Expand the project in the sidebar to edit them. <button type="button" class="icon-btn add" style="width:auto;margin:8px 0 0" onclick="newSubproject('${esc(p.id)}')">+ Add section</button></p>`
+      : `<p class="cover-hint">No sections yet — this project shows as a single card. <button type="button" class="icon-btn add" style="width:auto;margin:8px 0 0" onclick="newSubproject('${esc(p.id)}')">+ Add first section</button></p>`
+    }
     <div class="actions">
-      <button type="submit" class="btn-save">Save</button>
-      <div class="saved" id="saved-msg">✓ Saved</div>
       <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
     </div>
   </form>`
@@ -367,17 +941,13 @@ function careerForm(c) {
     <div class="grid2">
       <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(c.id)}" required></div>
       <div class="fg"><label>Period</label><input type="text" name="period" value="${esc(c.period)}" placeholder="2020 – 2025" required></div>
-      <div class="fg full"><label>Role / Title</label><input type="text" name="role" value="${esc(c.role)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg full"><label>Role / Title</label><input type="text" name="role" value="${esc(c.role)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Career Entry'"></div>
       <div class="fg full"><label>Company / Organisation</label><input type="text" name="company" value="${esc(c.company)}"></div>
     </div>
     <div class="sec-label">Bullet Points</div>
-    <div class="bullet-list" id="bullet-list">
-      ${c.bullets.map(b=>bulletRow(b)).join('')}
-    </div>
+    <div class="bullet-list" id="bullet-list">${c.bullets.map(b=>bulletRow(b)).join('')}</div>
     <button type="button" class="icon-btn add" onclick="addBullet()">+ Add bullet</button>
     <div class="actions">
-      <button type="submit" class="btn-save">Save</button>
-      <div class="saved" id="saved-msg">✓ Saved</div>
       <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
     </div>
   </form>`
@@ -390,7 +960,7 @@ function timelineForm(t) {
     <div class="grid2">
       <div class="fg"><label>ID (slug)</label><input type="text" name="id" value="${esc(t.id)}" required></div>
       <div class="fg"><label>Period</label><input type="text" name="period" value="${esc(t.period)}" placeholder="2024" required></div>
-      <div class="fg full"><label>Title</label><input type="text" name="title" value="${esc(t.title)}" required oninput="updateHead(this.value)"></div>
+      <div class="fg full"><label>Title</label><input type="text" name="title" value="${esc(t.title)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Timeline Entry'"></div>
       <div class="fg full"><label>Company / Organisation</label><input type="text" name="company" value="${esc(t.company)}"></div>
       <div class="fg"><label>Status</label>
         <select name="status" onchange="updateBadge(this.value)">
@@ -401,13 +971,9 @@ function timelineForm(t) {
       </div>
     </div>
     <div class="sec-label">Bullet Points</div>
-    <div class="bullet-list" id="bullet-list">
-      ${t.bullets.map(b=>bulletRow(b)).join('')}
-    </div>
+    <div class="bullet-list" id="bullet-list">${t.bullets.map(b=>bulletRow(b)).join('')}</div>
     <button type="button" class="icon-btn add" onclick="addBullet()">+ Add bullet</button>
     <div class="actions">
-      <button type="submit" class="btn-save">Save</button>
-      <div class="saved" id="saved-msg">✓ Saved</div>
       <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
     </div>
   </form>`
@@ -424,8 +990,8 @@ function skillForm(s) {
         <input type="text" name="category" value="${esc(s.category)}" list="cat-list" placeholder="Concept Art">
         <datalist id="cat-list">${cats.map(c=>`<option value="${c}">`).join('')}</datalist>
       </div>
-      <div class="fg"><label>Full Name</label><input type="text" name="name" value="${esc(s.name)}" required oninput="updateHead(this.value)"></div>
-      <div class="fg"><label>Abbreviation (2–3 chars, fallback)</label><input type="text" name="abbr" value="${esc(s.abbr)}" maxlength="3" placeholder="Ps"></div>
+      <div class="fg"><label>Full Name</label><input type="text" name="name" value="${esc(s.name)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Skill'"></div>
+      <div class="fg"><label>Abbreviation (2–3 chars)</label><input type="text" name="abbr" value="${esc(s.abbr)}" maxlength="3" placeholder="Ps"></div>
       <div class="fg full"><label>Icon — emoji or https://cdn.simpleicons.org/…</label><input type="text" name="icon" value="${esc(s.icon||'')}" placeholder="✏️  or  https://cdn.simpleicons.org/blender/E87D0D"></div>
       <div class="fg full">
         <label>Level — <span id="level-val">${s.level}</span>%</label>
@@ -433,8 +999,6 @@ function skillForm(s) {
       </div>
     </div>
     <div class="actions">
-      <button type="submit" class="btn-save">Save</button>
-      <div class="saved" id="saved-msg">✓ Saved</div>
       <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
     </div>
   </form>`
@@ -446,7 +1010,6 @@ function bulletRow(text) {
 
 // ── Tag helpers ───────────────────────────────────────────────────────────────
 function focusTag(id) { document.getElementById(id)?.focus() }
-
 function addTag(e, wrapId, inputId) {
   if (e.key!=='Enter' && e.key!==',') return
   e.preventDefault()
@@ -459,28 +1022,23 @@ function addTag(e, wrapId, inputId) {
   span.innerHTML = `${esc(val)}<button onclick="removeTag(this)" type="button">×</button>`
   wrap.insertBefore(span, input)
   input.value = ''
+  _formModified = true; updateDirtyCount()
 }
-
-function removeTag(btn) { btn.parentElement.remove() }
-
+function removeTag(btn) { btn.parentElement.remove(); _formModified = true; updateDirtyCount() }
 function getTags(wrapId) {
-  return [...document.getElementById(wrapId).querySelectorAll('.pill')]
-    .map(p => p.childNodes[0].textContent.trim())
+  return [...document.getElementById(wrapId).querySelectorAll('.pill')].map(p=>p.childNodes[0].textContent.trim())
 }
-
-// ── Bullet helpers ────────────────────────────────────────────────────────────
 function addBullet() {
   const list = document.getElementById('bullet-list')
   const div = document.createElement('div')
   div.innerHTML = bulletRow('')
   list.appendChild(div.firstChild)
   list.lastChild.querySelector('input').focus()
+  _formModified = true; updateDirtyCount()
 }
-
 function getBullets() {
   return [...document.querySelectorAll('.bullet-in')].map(i=>i.value.trim()).filter(Boolean)
 }
-
 function getFilterTags() {
   return [...document.querySelectorAll('.ftag-chip.active')].map(c=>c.dataset.tag).join(' ')
 }
@@ -497,8 +1055,8 @@ async function uploadImages(input) {
   }
   input.value = ''
   updateImagesIn()
+  _formModified = true; updateDirtyCount()
 }
-
 function addThumb(p) {
   const grid = document.getElementById('img-grid')
   const div = document.createElement('div')
@@ -507,103 +1065,56 @@ function addThumb(p) {
   grid.appendChild(div)
   updateImagesIn()
 }
-
 function setCover(img) {
-  document.querySelectorAll('.img-thumb').forEach(t => {
-    t.classList.remove('cover')
-    t.querySelector('.cover-lbl')?.remove()
-  })
+  document.querySelectorAll('.img-thumb').forEach(t=>{t.classList.remove('cover');t.querySelector('.cover-lbl')?.remove()})
   const th = document.querySelector(`.img-thumb[data-img="${img}"]`)
-  if (th) {
-    th.classList.add('cover')
-    const l = document.createElement('div'); l.className='cover-lbl'; l.textContent='cover'
-    th.appendChild(l)
-  }
-  const ci = document.getElementById('cover-in')
-  if (ci) ci.value = img
+  if (th) { th.classList.add('cover'); const l=document.createElement('div');l.className='cover-lbl';l.textContent='cover';th.appendChild(l) }
+  const ci = document.getElementById('cover-in'); if (ci) ci.value = img
+  _formModified = true; updateDirtyCount()
 }
-
 async function removeImage(e, img) {
   e.stopPropagation()
   if (!confirm('Remove this image from disk?')) return
-  if (img.startsWith('data/images/')) {
-    await fetch('/api/image', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({path:img}) })
-  }
+  if (img.startsWith('data/images/')) await fetch('/api/image',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:img})})
   document.querySelector(`.img-thumb[data-img="${img}"]`)?.remove()
-  const ci = document.getElementById('cover-in')
-  if (ci?.value===img) ci.value=''
-  updateImagesIn()
+  const ci = document.getElementById('cover-in'); if (ci?.value===img) ci.value=''
+  updateImagesIn(); _formModified = true; updateDirtyCount()
 }
-
 function updateImagesIn() {
   const imgs = [...document.querySelectorAll('.img-thumb')].map(t=>t.dataset.img)
-  const el = document.getElementById('images-in')
-  if (el) el.value = JSON.stringify(imgs)
+  const el = document.getElementById('images-in'); if (el) el.value = JSON.stringify(imgs)
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
 function updateHead(val) {
-  const h = document.querySelector('.form-head')
-  if (h) h.childNodes[0].textContent = val || 'Untitled'
+  const h = document.querySelector('.form-head'); if (h) h.childNodes[0].textContent = val || 'Untitled'
 }
 function updateBadge(val) {
   let b = document.querySelector('.form-head .badge')
   if (!b) { b=document.createElement('span'); document.querySelector('.form-head').appendChild(b) }
-  b.className = `badge ${val}`; b.textContent = val
+  b.className=`badge ${val}`; b.textContent=val
+}
+function flashSaved(id) {
+  const el = document.getElementById(id); if (!el) return
+  el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2000)
 }
 
-// ── Save ─────────────────────────────────────────────────────────────────────
+// ── Save ──────────────────────────────────────────────────────────────────────
 async function saveItem(e) {
   e.preventDefault()
   const fd = new FormData(e.target)
   let item
-
-  if (curSection==='project') {
-    item = {
-      id: fd.get('id'),
-      title: fd.get('title'),
-      date: fd.get('date'),
-      status: fd.get('status'),
-      team: fd.get('team'),
-      tags: getTags('tags-wrap'),
-      filterTags: getFilterTags(),
-      cardSize: fd.get('cardSize'),
-      coverImage: fd.get('coverImage'),
-      sub: fd.get('sub'),
-      cardDesc: fd.get('cardDesc'),
-      description: fd.get('description'),
-      images: JSON.parse(fd.get('images')||'[]'),
-      tools: getTags('tools-wrap'),
-      link: fd.get('linkUrl') ? { label:fd.get('linkLabel'), url:fd.get('linkUrl') } : null,
-      visible: fd.get('visible') === 'on',
-      showInTimeline: fd.get('showInTimeline') === 'on'
-    }
-    const idx = DATA.projects.findIndex(p=>p.id===curId)
-    if (idx>=0) DATA.projects[idx]=item; else DATA.projects.push(item)
-
-  } else if (curSection==='career') {
-    item = { id:fd.get('id'), period:fd.get('period'), role:fd.get('role'), company:fd.get('company'), bullets:getBullets() }
-    const idx = DATA.career.findIndex(c=>c.id===curId)
-    if (idx>=0) DATA.career[idx]=item; else DATA.career.push(item)
-
-  } else if (curSection==='timeline') {
-    item = { id:fd.get('id'), period:fd.get('period'), title:fd.get('title'), company:fd.get('company'), status:fd.get('status'), bullets:getBullets() }
-    const idx = DATA.timeline.findIndex(t=>t.id===curId)
-    if (idx>=0) DATA.timeline[idx]=item; else DATA.timeline.push(item)
-
-  } else {
-    if (!DATA.skills) DATA.skills = []
-    item = { id:fd.get('id'), name:fd.get('name'), abbr:fd.get('abbr'), icon:fd.get('icon')||'', level:Number(fd.get('level')), category:fd.get('category') }
-    const idx = DATA.skills.findIndex(s=>s.id===curId)
-    if (idx>=0) DATA.skills[idx]=item; else DATA.skills.push(item)
-  }
-
+  if (curSection==='project')       item = collectProjectItem(fd)
+  else if (curSection==='career')   item = collectCareerItem(fd)
+  else if (curSection==='timeline') item = collectTimelineItem(fd)
+  else                              item = collectSkillItem(fd)
   curId = item.id
-  await fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
-
-  const s = document.getElementById('saved-msg')
-  if (s) { s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),2200) }
-  renderSidebar()
+  writeToData(curSection, item.id, item)
+  await postData()
+  delete PENDING[`${curSection}:${item.id}`]
+  _formModified = false
+  flashSaved('ftb-saved')
+  renderSidebar(); updateDirtyCount()
   document.getElementById('h-status').innerHTML =
     `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
 }
@@ -611,68 +1122,341 @@ async function saveItem(e) {
 // ── Delete ────────────────────────────────────────────────────────────────────
 async function deleteItem() {
   if (!confirm('Delete this entry?')) return
-  if (curSection==='project') DATA.projects = DATA.projects.filter(p=>p.id!==curId)
-  else if (curSection==='career') DATA.career = DATA.career.filter(c=>c.id!==curId)
+  if (curSection==='project')       DATA.projects = DATA.projects.filter(p=>p.id!==curId)
+  else if (curSection==='career')   DATA.career   = DATA.career.filter(c=>c.id!==curId)
   else if (curSection==='timeline') DATA.timeline = DATA.timeline.filter(t=>t.id!==curId)
   else DATA.skills = (DATA.skills||[]).filter(s=>s.id!==curId)
-  await fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
-  curSection=null; curId=null
-  renderSidebar()
+  delete PENDING[`${curSection}:${curId}`]
+  await postData()
+  curSection=null; curId=null; hideTopbar()
+  renderSidebar(); updateDirtyCount()
   document.getElementById('main').innerHTML='<div class="empty"><h2>Deleted</h2><p>Choose another entry or add a new one.</p></div>'
 }
 
-// ── Upload zone click / drag ──────────────────────────────────────────────────
-document.addEventListener('click', e => {
-  if (e.target.closest('#upload-zone') && !e.target.closest('input')) {
-    document.getElementById('img-input')?.click()
-  }
+// ── Network ───────────────────────────────────────────────────────────────────
+async function postData() {
+  await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(DATA)})
+}
+
+// ── Upload zone ───────────────────────────────────────────────────────────────
+document.addEventListener('click', e=>{
+  if (e.target.closest('#upload-zone')&&!e.target.closest('input')) document.getElementById('img-input')?.click()
 })
-document.addEventListener('dragover', e => e.preventDefault())
-document.addEventListener('drop', e => {
+document.addEventListener('dragover', e=>e.preventDefault())
+document.addEventListener('drop', e=>{
   e.preventDefault()
   if (!document.getElementById('upload-zone')) return
-  const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'))
+  const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'))
   if (!files.length) return
-  const dt = new DataTransfer(); files.forEach(f=>dt.items.add(f))
-  const input = document.getElementById('img-input')
+  const dt=new DataTransfer(); files.forEach(f=>dt.items.add(f))
+  const input=document.getElementById('img-input')
   if (input) { input.files=dt.files; uploadImages(input) }
 })
 
-// ── Escape helper ──────────────────────────────────────────────────────────────
+// ── Escape helper ─────────────────────────────────────────────────────────────
 function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
 
 // ── Drag-and-drop project reorder ─────────────────────────────────────────────
 let _dragId = null
-
 function initProjectDrag() {
-  document.querySelectorAll('#list-projects .sb-item').forEach(li => {
-    li.addEventListener('dragstart', e => {
-      _dragId = li.dataset.id
-      li.classList.add('dragging')
-      e.dataTransfer.effectAllowed = 'move'
-    })
-    li.addEventListener('dragend', () => {
-      li.classList.remove('dragging')
-      document.querySelectorAll('#list-projects .sb-item').forEach(i => i.classList.remove('drag-over'))
-    })
-    li.addEventListener('dragover', e => {
+  document.querySelectorAll('#list-projects .sb-item:not(.sb-subitem)').forEach(li=>{
+    li.addEventListener('dragstart', e=>{ _dragId=li.dataset.id; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move' })
+    li.addEventListener('dragend', ()=>{ li.classList.remove('dragging'); document.querySelectorAll('#list-projects .sb-item').forEach(i=>i.classList.remove('drag-over')) })
+    li.addEventListener('dragover', e=>{ e.preventDefault(); document.querySelectorAll('#list-projects .sb-item').forEach(i=>i.classList.remove('drag-over')); if(li.dataset.id!==_dragId)li.classList.add('drag-over') })
+    li.addEventListener('dragleave', ()=>li.classList.remove('drag-over'))
+    li.addEventListener('drop', e=>{
       e.preventDefault()
-      document.querySelectorAll('#list-projects .sb-item').forEach(i => i.classList.remove('drag-over'))
-      if (li.dataset.id !== _dragId) li.classList.add('drag-over')
-    })
-    li.addEventListener('dragleave', () => li.classList.remove('drag-over'))
-    li.addEventListener('drop', e => {
-      e.preventDefault()
-      const tgtId = li.dataset.id
-      if (!_dragId || _dragId === tgtId) return
-      const from = DATA.projects.findIndex(p => p.id === _dragId)
-      const to   = DATA.projects.findIndex(p => p.id === tgtId)
-      if (from < 0 || to < 0) return
-      DATA.projects.splice(to, 0, DATA.projects.splice(from, 1)[0])
-      fetch('/api/data', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA) })
-      renderSidebar()
+      const tgtId=li.dataset.id; if(!_dragId||_dragId===tgtId) return
+      const from=DATA.projects.findIndex(p=>p.id===_dragId), to=DATA.projects.findIndex(p=>p.id===tgtId)
+      if(from<0||to<0) return
+      DATA.projects.splice(to,0,DATA.projects.splice(from,1)[0])
+      postData(); renderSidebar()
     })
   })
+}
+
+// ── Shared helpers ─────────────────────────────────────────────────────────────
+function cgThumb(p) {
+  if (p.coverImage&&p.coverImage.startsWith('data/images/')) return '/'+p.coverImage
+  const file=(p.images||[]).find(i=>i.startsWith('data/images/')); return file?'/'+file:''
+}
+
+// ── Cover grid drag ───────────────────────────────────────────────────────────
+let _cgDragId = null
+function initCoverDrag(containerId) {
+  const container=document.getElementById(containerId); if(!container) return
+  container.querySelectorAll('.cg-item').forEach(item=>{
+    item.addEventListener('dragstart', e=>{ _cgDragId=item.dataset.id; item.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.stopPropagation() })
+    item.addEventListener('dragend', ()=>{ item.classList.remove('dragging'); container.querySelectorAll('.cg-item').forEach(i=>i.classList.remove('drag-over')); updateCoverNumbers(containerId) })
+    item.addEventListener('dragover', e=>{ e.preventDefault(); e.stopPropagation(); container.querySelectorAll('.cg-item').forEach(i=>i.classList.remove('drag-over')); if(item.dataset.id!==_cgDragId)item.classList.add('drag-over') })
+    item.addEventListener('dragleave', ()=>item.classList.remove('drag-over'))
+    item.addEventListener('drop', e=>{
+      e.preventDefault(); e.stopPropagation()
+      const tgtId=item.dataset.id; if(!_cgDragId||_cgDragId===tgtId) return
+      const items=[...container.querySelectorAll('.cg-item')]
+      const from=items.findIndex(i=>i.dataset.id===_cgDragId), to=items.findIndex(i=>i.dataset.id===tgtId)
+      if(from<0||to<0) return
+      const el=items[from]; container.removeChild(el)
+      const refreshed=[...container.querySelectorAll('.cg-item')]
+      if(to>=refreshed.length) container.appendChild(el); else container.insertBefore(el,refreshed[to])
+      updateCoverNumbers(containerId); _formModified=true
+    })
+  })
+}
+function updateCoverNumbers(containerId) {
+  document.getElementById(containerId)?.querySelectorAll('.cg-item').forEach((item,i)=>{const n=item.querySelector('.cg-num');if(n)n.textContent=i+1})
+}
+function getCoverOrder(containerId) {
+  return [...document.getElementById(containerId).querySelectorAll('.cg-item')].map(i=>i.dataset.id)
+}
+function cgItemHtml(p, index) {
+  const thumb=cgThumb(p)
+  const name=p._parentTitle?`${p._parentTitle} › ${p.title}`:p.title
+  const editFn=p._parentId?`editSubproject('${p._parentId}','${p._subId}')`:`editItem('project','${p.id}')`
+  return `<div class="cg-item" draggable="true" data-id="${esc(p.id)}">
+    ${thumb?`<img src="${thumb}" onerror="this.style.opacity='.3'">`:`<div class="cg-placeholder">${esc(name)}</div>`}
+    <span class="cg-num">${index+1}</span>
+    <div class="cg-overlay">
+      <div class="cg-name">${esc(name)}</div>
+      <button class="cg-edit" type="button" onclick="${editFn}">Edit</button>
+    </div>
+  </div>`
+}
+
+// ── Filter tag order (profile form) ──────────────────────────────────────────
+let _ftDragTag = null
+function initFilterTagDrag() {
+  const container=document.getElementById('ftag-order'); if(!container) return
+  container.querySelectorAll('.ftag-pill').forEach(pill=>{
+    pill.addEventListener('dragstart', e=>{ _ftDragTag=pill.dataset.tag; pill.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.stopPropagation() })
+    pill.addEventListener('dragend', ()=>{ pill.classList.remove('dragging'); container.querySelectorAll('.ftag-pill').forEach(p=>p.classList.remove('drag-over')) })
+    pill.addEventListener('dragover', e=>{ e.preventDefault(); e.stopPropagation(); container.querySelectorAll('.ftag-pill').forEach(p=>p.classList.remove('drag-over')); if(pill.dataset.tag!==_ftDragTag)pill.classList.add('drag-over') })
+    pill.addEventListener('dragleave', ()=>pill.classList.remove('drag-over'))
+    pill.addEventListener('drop', e=>{
+      e.preventDefault(); e.stopPropagation()
+      const tgt=pill.dataset.tag; if(!_ftDragTag||_ftDragTag===tgt) return
+      const pills=[...container.querySelectorAll('.ftag-pill')]
+      const from=pills.findIndex(p=>p.dataset.tag===_ftDragTag), to=pills.findIndex(p=>p.dataset.tag===tgt)
+      if(from<0||to<0) return
+      const el=pills[from]; container.removeChild(el)
+      const refreshed=[...container.querySelectorAll('.ftag-pill')]
+      if(to>=refreshed.length) container.appendChild(el); else container.insertBefore(el,refreshed[to])
+      _formModified=true
+    })
+  })
+}
+function getFilterTagOrder() {
+  return [...document.getElementById('ftag-order').querySelectorAll('.ftag-pill')].map(p=>p.dataset.tag)
+}
+function addFilterTagToProfile(tag, btn) {
+  btn.remove(); _formModified=true
+  const container=document.getElementById('ftag-order')
+  const pill=document.createElement('div'); pill.className='ftag-pill'; pill.draggable=true; pill.dataset.tag=tag
+  pill.innerHTML=`<span class="drag-handle">⠿</span>${esc(tag)}<button class="rm-tag" type="button" onclick="removeFilterTag(this)" title="Remove">×</button>`
+  container.appendChild(pill); initFilterTagDrag()
+}
+function removeFilterTag(btn) {
+  const pill=btn.closest('.ftag-pill'); const tag=pill.dataset.tag; pill.remove(); _formModified=true
+  const wrap=document.querySelector('.ftag-avail')
+  if (wrap) { const chip=document.createElement('button'); chip.type='button'; chip.className='ftag-chip'; chip.dataset.tag=tag; chip.textContent=tag; chip.onclick=()=>addFilterTagToProfile(tag,chip); wrap.appendChild(chip) }
+}
+
+// ── Project Views ─────────────────────────────────────────────────────────────
+function renderViewSidebar() {
+  const list=document.getElementById('list-views'); if(!list) return
+  list.innerHTML=(DATA.filterViews||[]).map(v=>{
+    const dirty=!!PENDING[`view:${v.id}`]
+    const enabled=v.visible!==false
+    return `<li class="sb-item${curSection==='view'&&curId===v.id?' active':''}${enabled?'':' sb-disabled'}" draggable="true" data-id="${v.id}" onclick="editView('${v.id}')">
+      ${sbSwitchHtml('view',v.id,enabled)}
+      <span class="sb-item-name">${esc(v.label)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('view','${v.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <span class="sb-period">#${esc(v.tag)}</span>
+    </li>`
+  }).join('')
+  initViewDrag()
+}
+function initViewDrag() {
+  let dragId=null
+  document.querySelectorAll('#list-views .sb-item').forEach(li=>{
+    li.addEventListener('dragstart', e=>{ dragId=li.dataset.id; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move' })
+    li.addEventListener('dragend', ()=>{ li.classList.remove('dragging'); document.querySelectorAll('#list-views .sb-item').forEach(i=>i.classList.remove('drag-over')) })
+    li.addEventListener('dragover', e=>{ e.preventDefault(); document.querySelectorAll('#list-views .sb-item').forEach(i=>i.classList.remove('drag-over')); if(li.dataset.id!==dragId)li.classList.add('drag-over') })
+    li.addEventListener('dragleave', ()=>li.classList.remove('drag-over'))
+    li.addEventListener('drop', e=>{
+      e.preventDefault(); const tgt=li.dataset.id; if(!dragId||dragId===tgt) return
+      const from=DATA.filterViews.findIndex(v=>v.id===dragId), to=DATA.filterViews.findIndex(v=>v.id===tgt)
+      if(from<0||to<0) return
+      DATA.filterViews.splice(to,0,DATA.filterViews.splice(from,1)[0])
+      postData().then(()=>renderViewSidebar())
+    })
+  })
+}
+function editView(id) {
+  if (curSection!=='view'||curId!==id) stashCurrentForm()
+  curSection='view'; curId=id
+  const v=getPendingOrData('view',id); renderViewSidebar(); if(!v) return
+  _formModified=false
+  document.getElementById('main').innerHTML=viewForm(v)
+  document.getElementById('main').scrollTop=0
+  showTopbar('view',v); initCoverDrag('cg-view'); attachFormChangeListener()
+}
+function newView() {
+  stashCurrentForm()
+  if (!DATA.filterViews) DATA.filterViews=[]
+  curSection='view'; curId='view_'+Date.now()
+  const blank={id:curId,label:'',tag:'',columns:6,aspectRatio:'3/2',projectOrder:[],visible:true}
+  _formModified=false
+  document.getElementById('main').innerHTML=viewForm(blank)
+  document.getElementById('main').scrollTop=0
+  showTopbar('view',blank); initCoverDrag('cg-view'); attachFormChangeListener()
+}
+function viewForm(v) {
+  // Expand: projects with subs → one card per visible subproject; without → parent card
+  const allCards = []
+  DATA.projects.filter(p=>p.visible!==false).forEach(p => {
+    const subs=(p.subprojects||[]).filter(s=>s.visible!==false)
+    if (subs.length) {
+      subs.forEach(sub => allCards.push({
+        id:`${p.id}__${sub.id}`, title:sub.title, _parentTitle:p.title,
+        _parentId:p.id, _subId:sub.id,
+        coverImage:sub.coverImage, images:sub.images||[],
+        filterTags:sub.filterTags||'', inSelection:sub.inSelection!==false
+      }))
+    } else {
+      allCards.push(p)
+    }
+  })
+  let viewCards=v.id==='all'
+    ?allCards.filter(c=>c.inSelection!==false)
+    :allCards.filter(c=>v.tag&&(c.filterTags||'').split(' ').includes(v.tag))
+  const order=v.projectOrder||[]
+  if (order.length) { const ordered=order.map(id=>viewCards.find(c=>c.id===id)).filter(Boolean); const rest=viewCards.filter(c=>!order.includes(c.id)); viewCards=[...ordered,...rest] }
+  const hint=v.id==='all'?'Showing projects/sections marked "Include in All". Drag to set display order.':`Showing projects tagged "${v.tag||'—'}". Drag to set display order.`
+  return `
+  <div class="form-head">${esc(v.label)||'New View'}</div>
+  <form onsubmit="saveView(event)">
+    <div class="grid2">
+      <div class="fg"><label>Label</label><input type="text" name="label" value="${esc(v.label)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New View'"></div>
+      <div class="fg"><label>Tag (filter key)</label><input type="text" name="tag" value="${esc(v.tag)}"${v.id==='all'?' readonly style="opacity:.5"':''}></div>
+    </div>
+    <div class="sec-label">Project Order</div>
+    <p class="cover-hint">${hint}</p>
+    <div class="cg-container" id="cg-view">${viewCards.map((p,i)=>cgItemHtml(p,i)).join('')}</div>
+    ${v.id!=='all'?`<div class="actions"><button type="button" class="btn-del" onclick="deleteView()">Delete</button></div>`:''}
+  </form>`
+}
+async function saveView(e) {
+  e.preventDefault()
+  if (!DATA.filterViews) DATA.filterViews=[]
+  const fd=new FormData(e.target); const item=collectViewItem(fd)
+  const idx=DATA.filterViews.findIndex(v=>v.id===curId)
+  if (idx>=0) DATA.filterViews[idx]=item; else DATA.filterViews.push(item)
+  await postData(); delete PENDING[`view:${curId}`]; _formModified=false
+  flashSaved('ftb-saved'); renderViewSidebar(); updateDirtyCount()
+}
+async function deleteView() {
+  if (!confirm('Delete this view?')) return
+  DATA.filterViews=(DATA.filterViews||[]).filter(v=>v.id!==curId)
+  delete PENDING[`view:${curId}`]; await postData()
+  curSection=null; curId=null; hideTopbar(); renderViewSidebar(); updateDirtyCount()
+  document.getElementById('main').innerHTML='<div class="empty"><h2>Deleted</h2><p>Choose another entry or add a new one.</p></div>'
+}
+
+// ── Recruiter Profiles ────────────────────────────────────────────────────────
+function renderProfileSidebar() {
+  const list=document.getElementById('list-profiles'); if(!list) return
+  list.innerHTML=(DATA.recruiterProfiles||[]).map(rp=>{
+    const dirty=!!PENDING[`profile:${rp.id}`]
+    const enabled=rp.visible!==false
+    return `<li class="sb-item${curSection==='profile'&&curId===rp.id?' active':''}${enabled?'':' sb-disabled'}" draggable="true" data-id="${rp.id}" onclick="editProfile('${rp.id}')">
+      ${sbSwitchHtml('profile',rp.id,enabled)}
+      <span class="sb-item-name">${esc(rp.label)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('profile','${rp.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <span class="sb-period">${esc(rp.tag)}</span>
+    </li>`
+  }).join('')
+  initProfileDrag()
+}
+function initProfileDrag() {
+  let dragId=null
+  document.querySelectorAll('#list-profiles .sb-item').forEach(li=>{
+    li.addEventListener('dragstart', e=>{ dragId=li.dataset.id; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move' })
+    li.addEventListener('dragend', ()=>{ li.classList.remove('dragging'); document.querySelectorAll('#list-profiles .sb-item').forEach(i=>i.classList.remove('drag-over')) })
+    li.addEventListener('dragover', e=>{ e.preventDefault(); document.querySelectorAll('#list-profiles .sb-item').forEach(i=>i.classList.remove('drag-over')); if(li.dataset.id!==dragId)li.classList.add('drag-over') })
+    li.addEventListener('dragleave', ()=>li.classList.remove('drag-over'))
+    li.addEventListener('drop', e=>{
+      e.preventDefault(); const tgt=li.dataset.id; if(!dragId||dragId===tgt) return
+      const from=DATA.recruiterProfiles.findIndex(r=>r.id===dragId), to=DATA.recruiterProfiles.findIndex(r=>r.id===tgt)
+      if(from<0||to<0) return
+      DATA.recruiterProfiles.splice(to,0,DATA.recruiterProfiles.splice(from,1)[0])
+      postData().then(()=>renderProfileSidebar())
+    })
+  })
+}
+function editProfile(id) {
+  if (curSection!=='profile'||curId!==id) stashCurrentForm()
+  curSection='profile'; curId=id
+  const rp=getPendingOrData('profile',id); renderProfileSidebar(); if(!rp) return
+  _formModified=false
+  document.getElementById('main').innerHTML=profileForm(rp)
+  document.getElementById('main').scrollTop=0
+  showTopbar('profile',rp); initCoverDrag('cg-profile'); initFilterTagDrag(); attachFormChangeListener()
+}
+function newProfile() {
+  stashCurrentForm()
+  if (!DATA.recruiterProfiles) DATA.recruiterProfiles=[]
+  curSection='profile'; curId='rp_'+Date.now()
+  const blank={id:curId,label:'',tag:'',filterTags:[],projectOrder:[],visible:true}
+  _formModified=false
+  document.getElementById('main').innerHTML=profileForm(blank)
+  document.getElementById('main').scrollTop=0
+  showTopbar('profile',blank); initCoverDrag('cg-profile'); initFilterTagDrag(); attachFormChangeListener()
+}
+function profileForm(rp) {
+  const ALL_TAGS=(DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
+  const activeTags=Array.isArray(rp.filterTags)?rp.filterTags:(rp.filterTags||'').split(' ').filter(Boolean)
+  const available=ALL_TAGS.filter(t=>!activeTags.includes(t))
+  const pillsHtml=activeTags.map(t=>`<div class="ftag-pill" draggable="true" data-tag="${t}"><span class="drag-handle">⠿</span>${esc(t)}<button class="rm-tag" type="button" onclick="removeFilterTag(this)" title="Remove">×</button></div>`).join('')
+  const availHtml=available.map(t=>`<button type="button" class="ftag-chip" data-tag="${t}" onclick="addFilterTagToProfile('${t}',this)">${t}</button>`).join('')
+  const allProjects=DATA.projects.filter(p=>p.visible!==false)
+  const order=rp.projectOrder||[]
+  let projs; if(order.length){const ordered=order.map(id=>allProjects.find(p=>p.id===id)).filter(Boolean);const rest=allProjects.filter(p=>!order.includes(p.id));projs=[...ordered,...rest]}else{projs=allProjects}
+  return `
+  <div class="form-head">${esc(rp.label)||'New Profile'}</div>
+  <form onsubmit="saveProfile(event)">
+    <div class="grid2">
+      <div class="fg"><label>Label</label><input type="text" name="label" value="${esc(rp.label)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Profile'"></div>
+      <div class="fg"><label>Tag (profile key)</label><input type="text" name="tag" value="${esc(rp.tag)}" required></div>
+    </div>
+    <div class="sec-label">Filter Tags (ordered)</div>
+    <p class="cover-hint">These tags define what appears in the Shift+P panel for this profile. Drag to reorder.</p>
+    <div class="ftag-order" id="ftag-order">${pillsHtml}</div>
+    <p class="cover-hint" style="margin-top:10px">Add tags:</p>
+    <div class="ftag-wrap ftag-avail">${availHtml}</div>
+    <div class="sec-label">Project Order for "All" view</div>
+    <p class="cover-hint">Order shown when this recruiter profile is active. Drag to reorder.</p>
+    <div class="cg-container" id="cg-profile">${projs.map((p,i)=>cgItemHtml(p,i)).join('')}</div>
+    <div class="actions">
+      <button type="button" class="btn-del" onclick="deleteProfile()">Delete</button>
+    </div>
+  </form>`
+}
+async function saveProfile(e) {
+  e.preventDefault()
+  if (!DATA.recruiterProfiles) DATA.recruiterProfiles=[]
+  const fd=new FormData(e.target); const item=collectProfileItem(fd)
+  const idx=DATA.recruiterProfiles.findIndex(r=>r.id===curId)
+  if (idx>=0) DATA.recruiterProfiles[idx]=item; else DATA.recruiterProfiles.push(item)
+  await postData(); delete PENDING[`profile:${curId}`]; _formModified=false
+  flashSaved('ftb-saved'); renderProfileSidebar(); updateDirtyCount()
+}
+async function deleteProfile() {
+  if (!confirm('Delete this profile?')) return
+  DATA.recruiterProfiles=(DATA.recruiterProfiles||[]).filter(r=>r.id!==curId)
+  delete PENDING[`profile:${curId}`]; await postData()
+  curSection=null; curId=null; hideTopbar(); renderProfileSidebar(); updateDirtyCount()
+  document.getElementById('main').innerHTML='<div class="empty"><h2>Deleted</h2><p>Choose another entry or add a new one.</p></div>'
 }
 
 init()
