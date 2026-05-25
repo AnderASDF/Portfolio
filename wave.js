@@ -134,23 +134,27 @@ window.WaveEffect = (function () {
       rafId = requestAnimationFrame(loop);
     }
 
-    // gamma > 0 = device tilted right (right side down).
-    // To keep water level with gravity, right side of surface must go DOWN in canvas (higher Y).
-    // tiltYAt = -tan(tilt)*(x-W/2): positive tilt → left side down, negative → right side down.
-    // So negate gamma so positive physical tilt → surface falls toward that side.
     function onOrientation(e) {
       if (e.gamma == null) return;
-      targetTilt = -Math.max(-40, Math.min(40, e.gamma)) * (Math.PI / 180) * opts.tiltGain;
+      targetTilt = Math.max(-40, Math.min(40, e.gamma)) * (Math.PI / 180) * opts.tiltGain;
     }
 
     if (typeof DeviceOrientationEvent !== 'undefined') {
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ — must be triggered by a user gesture
-        document.addEventListener('touchstart', () => {
+        // iOS 13+ (Safari, Arc, Brave) — permission must come from a user gesture.
+        // Listen for both touchstart and click so any first interaction triggers it.
+        let requested = false;
+        function requestOrientationPermission() {
+          if (requested) return;
+          requested = true;
+          document.removeEventListener('touchstart', requestOrientationPermission);
+          document.removeEventListener('click',      requestOrientationPermission);
           DeviceOrientationEvent.requestPermission()
             .then(s => { if (s === 'granted') window.addEventListener('deviceorientation', onOrientation); })
             .catch(() => {});
-        }, { once: true });
+        }
+        document.addEventListener('touchstart', requestOrientationPermission);
+        document.addEventListener('click',      requestOrientationPermission);
       } else {
         window.addEventListener('deviceorientation', onOrientation);
       }

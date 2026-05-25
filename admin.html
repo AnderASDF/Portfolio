@@ -240,6 +240,13 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
     </div>
     <div class="sb-section">
       <div class="sb-head">
+        <span class="sb-label">Socials</span>
+        <button class="add-btn" onclick="newSocial()" title="Add social">+</button>
+      </div>
+      <ul class="sb-list" id="list-socials"></ul>
+    </div>
+    <div class="sb-section">
+      <div class="sb-head">
         <span class="sb-label">Recruiter Profiles</span>
         <button class="add-btn" onclick="newProfile()" title="Add profile">+</button>
       </div>
@@ -261,7 +268,7 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
 </div>
 
 <script>
-let DATA = { projects:[], career:[], timeline:[], skills:[], filterViews:[], recruiterProfiles:[] }
+let DATA = { projects:[], career:[], timeline:[], skills:[], filterViews:[], recruiterProfiles:[], socials:[] }
 let curSection = null, curId = null, curParentId = null
 let PENDING = {}
 let _formModified = false
@@ -274,6 +281,7 @@ async function init() {
     DATA = await res.json()
     if (!DATA.filterViews) DATA.filterViews = []
     if (!DATA.recruiterProfiles) DATA.recruiterProfiles = []
+    if (!DATA.socials) DATA.socials = []
     if (!DATA.gridSettings) {
       const fv = DATA.filterViews[0]
       DATA.gridSettings = { columns: fv?.columns || 6, aspectRatio: fv?.aspectRatio || '3/2' }
@@ -295,6 +303,7 @@ function getFromData(section, id) {
   if (section==='skill')      return (DATA.skills||[]).find(s=>s.id===id)
   if (section==='view')       return (DATA.filterViews||[]).find(v=>v.id===id)
   if (section==='profile')    return (DATA.recruiterProfiles||[]).find(r=>r.id===id)
+  if (section==='social')     return (DATA.socials||[]).find(s=>s.id===id)
   if (section==='subproject') {
     const sep = id.indexOf(':'); const pid=id.slice(0,sep), sid=id.slice(sep+1)
     return DATA.projects.find(p=>p.id===pid)?.subprojects?.find(s=>s.id===sid)
@@ -331,6 +340,7 @@ function stashCurrentForm() {
     else if (curSection==='skill')    item = collectSkillItem(fd)
     else if (curSection==='view')     item = collectViewItem(fd)
     else if (curSection==='profile')  item = collectProfileItem(fd)
+    else if (curSection==='social')   item = collectSocialItem(fd)
     else if (isSub)                   item = collectSubprojectItem(fd)
   } catch(e) { console.warn('stash failed', e); return }
   if (!item) return
@@ -404,6 +414,10 @@ function writeToData(section, id, item) {
   } else if (section==='profile') {
     const idx = (DATA.recruiterProfiles||[]).findIndex(r=>r.id===id)
     if (idx>=0) DATA.recruiterProfiles[idx]=item; else DATA.recruiterProfiles.push(item)
+  } else if (section==='social') {
+    if (!DATA.socials) DATA.socials=[]
+    const idx = DATA.socials.findIndex(s=>s.id===id)
+    if (idx>=0) DATA.socials[idx]=item; else DATA.socials.push(item)
   } else if (section==='subproject') {
     const sep=id.indexOf(':'); const pid=id.slice(0,sep), sid=id.slice(sep+1)
     const parent=DATA.projects.find(p=>p.id===pid); if(!parent) return
@@ -453,7 +467,7 @@ function collectTimelineItem(fd) {
 function collectSkillItem(fd) {
   const item = (DATA.skills||[]).find(s=>s.id===curId)
   const sbSw = document.querySelector(`#list-skills .sb-item[data-id="${curId}"] input[type=checkbox]`)
-  return { id:fd.get('id'), name:fd.get('name'), abbr:fd.get('abbr'), icon:fd.get('icon')||'', level:Number(fd.get('level')), category:fd.get('category'), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
+  return { id:fd.get('id'), name:fd.get('name'), abbr:fd.get('abbr'), icon:fd.get('icon')||'', iconColor:fd.get('iconColor')||'', level:Number(fd.get('level')), category:fd.get('category'), visible: sbSw ? sbSw.checked : (item?.visible ?? true) }
 }
 function collectViewItem(fd) {
   const item = (DATA.filterViews||[]).find(v=>v.id===curId)
@@ -513,6 +527,7 @@ function showTopbar(section, item) {
     : section==='skill'      ? (item?.name||'New Skill')
     : section==='view'       ? (item?.label||'New View')
     : section==='profile'    ? (item?.label||'New Profile')
+    : section==='social'     ? (item?.label||'New Social')
     : section==='subproject' ? (item?.title||'New Section')
     : 'Edit'
   titleEl.textContent = name
@@ -795,6 +810,15 @@ function renderSidebar() {
     </li>`
   }).join('')
 
+  document.getElementById('list-socials').innerHTML = (DATA.socials||[]).map(s => {
+    const dirty = !!PENDING[`social:${s.id}`]
+    return `<li class="sb-item${curSection==='social'&&curId===s.id?' active':''}" data-id="${s.id}" onclick="editItem('social','${s.id}')">
+      <span class="sb-item-name">${esc(s.label||s.id)}</span>
+      ${dirty?`<button class="sb-floppy" onclick="event.stopPropagation();applyPending('social','${s.id}')" title="Unsaved — click to save">💾</button>`:''}
+      <span class="sb-period">${esc(s.iconType||'')}</span>
+    </li>`
+  }).join('')
+
   renderViewSidebar()
   renderProfileSidebar()
 }
@@ -818,6 +842,7 @@ function openForm(section, item) {
   if (section==='project')       main.innerHTML = projectForm(item)
   else if (section==='career')   main.innerHTML = careerForm(item)
   else if (section==='timeline') main.innerHTML = timelineForm(item)
+  else if (section==='social')   main.innerHTML = socialForm(item)
   else                           main.innerHTML = skillForm(item)
   main.scrollTop = 0
   showTopbar(section, item)
@@ -842,6 +867,8 @@ function newItem(section) {
     ? { id:curId, period:'', role:'', company:'', bullets:[], visible:true }
     : section==='timeline'
     ? { id:curId, period:'', title:'', company:'', status:'wip', bullets:[], visible:true }
+    : section==='social'
+    ? { id:curId, label:'', href:'', title:'', iconType:'email', iconFile:'', target:'' }
     : { id:curId, name:'', abbr:'', level:75, category:'Concept Art', visible:true }
   openForm(section, blank)
 }
@@ -981,6 +1008,13 @@ function timelineForm(t) {
 
 function skillForm(s) {
   const cats = ['Concept Art','2D Tools','3D & Engine','Game Dev','Soft Skills','Languages']
+  const iconVal = s.icon || ''
+  let previewHtml
+  if (iconVal.startsWith('http') || iconVal.startsWith('data/')) {
+    previewHtml = `<img src="${esc(iconVal)}" style="max-width:34px;max-height:34px;object-fit:contain">`
+  } else {
+    previewHtml = `<span style="font-size:22px">${esc(iconVal)}</span>`
+  }
   return `
   <div class="form-head">${esc(s.name)||'New Skill'}</div>
   <form onsubmit="saveItem(event)">
@@ -992,10 +1026,120 @@ function skillForm(s) {
       </div>
       <div class="fg"><label>Full Name</label><input type="text" name="name" value="${esc(s.name)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Skill'"></div>
       <div class="fg"><label>Abbreviation (2–3 chars)</label><input type="text" name="abbr" value="${esc(s.abbr)}" maxlength="3" placeholder="Ps"></div>
-      <div class="fg full"><label>Icon — emoji or https://cdn.simpleicons.org/…</label><input type="text" name="icon" value="${esc(s.icon||'')}" placeholder="✏️  or  https://cdn.simpleicons.org/blender/E87D0D"></div>
+      <div class="fg full">
+        <label>Icon — emoji, URL, or upload a file</label>
+        <input type="text" name="icon" value="${esc(iconVal)}" placeholder="✏️  or  https://cdn.simpleicons.org/blender/E87D0D" oninput="updateSkillIconPreview(this.value)">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+          <label class="upload-zone" style="margin:0;flex:1;padding:7px 12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">
+            <input type="file" accept="image/*" style="display:none" onchange="uploadSkillIcon(this)">
+            📁 Upload icon file
+          </label>
+          <div id="skill-icon-preview" style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.12);border-radius:4px;flex-shrink:0;background:${esc(s.iconColor||'transparent')}">${previewHtml}</div>
+        </div>
+      </div>
+      <div class="fg full">
+        <label>Icon Color <span style="opacity:.45;font-size:11px">(background tint for the icon)</span></label>
+        <div style="display:flex;align-items:center;gap:10px">
+          <input type="color" name="iconColor" value="${esc(s.iconColor||'#000000')}" style="width:42px;height:34px;padding:2px;border:1px solid rgba(255,255,255,.12);border-radius:2px;background:none;cursor:pointer" oninput="document.getElementById('iconColorText').value=this.value;document.getElementById('skill-icon-preview').style.background=this.value">
+          <input type="text" id="iconColorText" value="${esc(s.iconColor||'')}" placeholder="leave empty for none" style="flex:1" oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/)){document.querySelector('[name=iconColor]').value=this.value;document.getElementById('skill-icon-preview').style.background=this.value}">
+          <button type="button" style="padding:6px 10px;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);border-radius:2px;cursor:pointer;font-size:11px" onclick="document.querySelector('[name=iconColor]').value='#000000';document.getElementById('iconColorText').value='';document.getElementById('skill-icon-preview').style.background='transparent';_formModified=true;updateDirtyCount()">Clear</button>
+        </div>
+      </div>
       <div class="fg full">
         <label>Level — <span id="level-val">${s.level}</span>%</label>
         <input type="range" name="level" min="0" max="100" value="${s.level}" oninput="document.getElementById('level-val').textContent=this.value">
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-del" onclick="deleteItem()">Delete</button>
+    </div>
+  </form>`
+}
+
+async function uploadSkillIcon(input) {
+  const idInput = document.querySelector('[name=id]')
+  const id = 'skill_' + (idInput?.value || 'temp')
+  const fd = new FormData()
+  fd.append('image', input.files[0])
+  const res = await fetch(`/api/upload/${id}`, { method: 'POST', body: fd })
+  const { path } = await res.json()
+  const iconInput = document.querySelector('[name=icon]')
+  if (iconInput) { iconInput.value = path; updateSkillIconPreview(path) }
+  input.value = ''
+  _formModified = true; updateDirtyCount()
+}
+
+function updateSkillIconPreview(val) {
+  const el = document.getElementById('skill-icon-preview')
+  if (!el) return
+  if (val.startsWith('http') || val.startsWith('data/')) {
+    el.innerHTML = `<img src="${val}" style="max-width:34px;max-height:34px;object-fit:contain">`
+  } else {
+    el.innerHTML = `<span style="font-size:22px">${esc(val)}</span>`
+  }
+}
+
+// ── Socials ───────────────────────────────────────────────────────────────────
+const _ADMIN_SOCIAL_TYPES = ['email','artstation','linkedin','twitter','phone','instagram','youtube','behance','github','discord','custom']
+
+function newSocial() {
+  stashCurrentForm()
+  curSection = 'social'
+  curId = 'social_' + Date.now()
+  openForm('social', { id:curId, label:'', href:'', title:'', iconType:'email', iconFile:'', target:'' })
+}
+
+function collectSocialItem(fd) {
+  return { id:curId, label:fd.get('label'), href:fd.get('href'), title:fd.get('title'), iconType:fd.get('iconType'), iconFile:fd.get('iconFile')||'', target:fd.get('target')||'' }
+}
+
+async function uploadSocialIcon(input) {
+  const fd = new FormData()
+  fd.append('image', input.files[0])
+  const res = await fetch(`/api/upload/social_${curId}`, { method:'POST', body:fd })
+  const { path } = await res.json()
+  const iconFileInput = document.querySelector('[name=iconFile]')
+  if (iconFileInput) iconFileInput.value = path
+  const preview = document.getElementById('social-icon-preview')
+  if (preview) preview.innerHTML = `<img src="/${path}" style="max-width:34px;max-height:34px;object-fit:contain">`
+  input.value = ''
+  _formModified = true; updateDirtyCount()
+}
+
+function socialForm(s) {
+  const iconFileVal = s.iconFile || ''
+  const previewHtml = iconFileVal
+    ? `<img src="${esc(iconFileVal)}" style="max-width:34px;max-height:34px;object-fit:contain">`
+    : `<span style="opacity:.3;font-size:11px">none</span>`
+  return `
+  <div class="form-head">${esc(s.label)||'New Social'}</div>
+  <form onsubmit="saveItem(event)">
+    <div class="grid2">
+      <div class="fg"><label>Label</label><input type="text" name="label" value="${esc(s.label)}" required oninput="updateHead(this.value);document.getElementById('ftb-title').textContent=this.value||'New Social'"></div>
+      <div class="fg"><label>Icon Type</label>
+        <select name="iconType" style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--white);padding:8px 10px;border-radius:2px;font-size:13px">
+          ${_ADMIN_SOCIAL_TYPES.map(t=>`<option value="${t}"${s.iconType===t?' selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fg full"><label>URL / href</label><input type="text" name="href" value="${esc(s.href)}" placeholder="https://… or mailto:… or tel:…" required></div>
+      <div class="fg"><label>Tooltip text</label><input type="text" name="title" value="${esc(s.title)}" placeholder="shown on hover"></div>
+      <div class="fg"><label>Target</label>
+        <select name="target" style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--white);padding:8px 10px;border-radius:2px;font-size:13px">
+          <option value=""${!s.target?' selected':''}>same tab</option>
+          <option value="_blank"${s.target==='_blank'?' selected':''}>new tab (_blank)</option>
+        </select>
+      </div>
+      <div class="fg full">
+        <label>Custom icon file <span style="opacity:.45;font-size:11px">(overrides Icon Type)</span></label>
+        <input type="hidden" name="iconFile" value="${esc(iconFileVal)}">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+          <label class="upload-zone" style="margin:0;flex:1;padding:7px 12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">
+            <input type="file" accept="image/*" style="display:none" onchange="uploadSocialIcon(this)">
+            📁 Upload icon file
+          </label>
+          <div id="social-icon-preview" style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.12);border-radius:4px;flex-shrink:0">${previewHtml}</div>
+          ${iconFileVal?`<button type="button" style="padding:6px 10px;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);border-radius:2px;cursor:pointer;font-size:11px" onclick="document.querySelector('[name=iconFile]').value='';document.getElementById('social-icon-preview').innerHTML='<span style=&quot;opacity:.3;font-size:11px&quot;>none</span>';_formModified=true;updateDirtyCount()">Clear</button>`:''}
+        </div>
       </div>
     </div>
     <div class="actions">
@@ -1125,6 +1269,7 @@ async function deleteItem() {
   if (curSection==='project')       DATA.projects = DATA.projects.filter(p=>p.id!==curId)
   else if (curSection==='career')   DATA.career   = DATA.career.filter(c=>c.id!==curId)
   else if (curSection==='timeline') DATA.timeline = DATA.timeline.filter(t=>t.id!==curId)
+  else if (curSection==='social') DATA.socials = (DATA.socials||[]).filter(s=>s.id!==curId)
   else DATA.skills = (DATA.skills||[]).filter(s=>s.id!==curId)
   delete PENDING[`${curSection}:${curId}`]
   await postData()

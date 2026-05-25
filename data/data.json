@@ -257,9 +257,11 @@
         "Gameplay Prototyping"
       ],
       "link": null,
-      "showInTimeline": true,
       "visible": true,
-      "inSelection": true
+      "sectionAspectRatio": "auto",
+      "inSelection": true,
+      "showInTimeline": false,
+      "subprojects": []
     },
     {
       "id": "animatronics",
@@ -409,7 +411,7 @@
         "Environment",
         "Published"
       ],
-      "filterTags": "character creature 3d fortnite environment",
+      "filterTags": "character creature 3d environment fortnite",
       "cardSize": "default",
       "coverImage": "backrooms",
       "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
@@ -426,9 +428,11 @@
         "Environment Design"
       ],
       "link": null,
-      "showInTimeline": true,
       "visible": true,
-      "inSelection": true
+      "sectionAspectRatio": "auto",
+      "inSelection": true,
+      "showInTimeline": false,
+      "subprojects": []
     },
     {
       "id": "comune041",
@@ -647,129 +651,145 @@
       "id": "character_design",
       "name": "Character Design",
       "abbr": "",
-      "icon": "✏️",
+      "icon": "data/images/skill_character_design/1779747825553_Characters.png",
       "level": 95,
-      "category": "Concept Art"
+      "category": "Concept Art",
+      "visible": true
     },
     {
       "id": "weapon_design",
       "name": "Weapon Design",
       "abbr": "Wp",
+      "icon": "data/images/skill_weapon_design/1779747834664_Weapon.png",
       "level": 92,
       "category": "Concept Art",
-      "icon": "⚔️"
+      "visible": true
     },
     {
       "id": "creature_design",
       "name": "Creature Design",
       "abbr": "Cr",
+      "icon": "data/images/skill_creature_design/1779747840634_Creatures.png",
       "level": 85,
       "category": "Concept Art",
-      "icon": "🐉"
+      "visible": true
     },
     {
       "id": "vfx_concept",
       "name": "VFX Concept Art",
       "abbr": "Vx",
+      "icon": "data/images/skill_vfx_concept/1779747846371_VFX.png",
       "level": 82,
       "category": "Concept Art",
-      "icon": "✨"
+      "visible": true
     },
     {
       "id": "env_concept",
       "name": "Environment",
       "abbr": "Ev",
+      "icon": "data/images/skill_env_concept/1779747851972_Environments.png",
       "level": 76,
       "category": "Concept Art",
-      "icon": "🏔️"
+      "visible": true
     },
     {
       "id": "silhouette",
       "name": "Silhouette Ideation",
       "abbr": "Si",
+      "icon": "data/images/skill_silhouette/1779747857587_Silhouette.png",
       "level": 90,
       "category": "Concept Art",
-      "icon": "🎭"
+      "visible": true
     },
     {
       "id": "worldbuilding",
       "name": "Worldbuilding",
       "abbr": "Wb",
+      "icon": "data/images/skill_worldbuilding/1779747863201_Worldbuilding.png",
       "level": 80,
       "category": "Concept Art",
-      "icon": "🌍"
+      "visible": true
     },
     {
       "id": "photoshop",
       "name": "Photoshop",
       "abbr": "Ps",
+      "icon": "data/images/skill_photoshop/1779747870098_Photoshop.png",
       "level": 93,
       "category": "2D Tools",
-      "icon": "https://cdn.simpleicons.org/adobephotoshop/31A8FF"
+      "visible": true
     },
     {
       "id": "procreate",
       "name": "Procreate",
       "abbr": "Pc",
+      "icon": "data/images/skill_procreate/1779747874871_Procreate.png",
       "level": 90,
       "category": "2D Tools",
-      "icon": "https://cdn.simpleicons.org/procreate/5C3080"
+      "visible": true
     },
     {
       "id": "illustrator",
       "name": "Illustrator",
       "abbr": "Ai",
+      "icon": "data/images/skill_illustrator/1779747880483_Illustrator.png",
       "level": 70,
       "category": "2D Tools",
-      "icon": "https://cdn.simpleicons.org/adobeillustrator/FF9A00"
+      "visible": true
     },
     {
       "id": "blender",
       "name": "Blender",
       "abbr": "Bl",
+      "icon": "data/images/skill_blender/1779747885314_Blender.png",
       "level": 88,
       "category": "3D & Engine",
-      "icon": "https://cdn.simpleicons.org/blender/E87D0D"
+      "visible": true
     },
     {
       "id": "ue5",
       "name": "Unreal Engine 5",
       "abbr": "UE",
+      "icon": "data/images/skill_ue5/1779747891832_Unreal_.png",
       "level": 80,
       "category": "3D & Engine",
-      "icon": "https://cdn.simpleicons.org/unrealengine/3D1F5C"
+      "visible": true
     },
     {
       "id": "substance",
       "name": "Substance Painter",
       "abbr": "Sp",
+      "icon": "data/images/skill_substance/1779747896836_Substance.png",
       "level": 74,
       "category": "3D & Engine",
-      "icon": "https://cdn.simpleicons.org/adobesubstance3dpainter/7C4FFF"
+      "visible": true
     },
     {
       "id": "unity",
       "name": "Unity",
       "abbr": "Un",
+      "icon": "data/images/skill_unity/1779747904083_Unity.png",
       "level": 60,
       "category": "3D & Engine",
-      "icon": "https://cdn.simpleicons.org/unity/5C3080"
+      "visible": true
     },
     {
       "id": "fortnite_uefn",
       "name": "Fortnite UEFN",
       "abbr": "Fn",
+      "icon": "data/images/skill_fortnite_uefn/1779747918160_Unreal_.png",
       "level": 85,
       "category": "Game Dev",
-      "icon": "https://cdn.simpleicons.org/epicgames/3D1F5C"
+      "visible": true
     },
     {
       "id": "roblox_studio",
       "name": "Roblox Studio",
       "abbr": "Rb",
+      "icon": "data/images/skill_roblox_studio/1779747923107_Roblox.png",
       "level": 78,
       "category": "Game Dev",
-      "icon": "https://cdn.simpleicons.org/roblox/E8243C"
+      "visible": true
     },
     {
       "id": "qa_testing",
@@ -777,7 +797,8 @@
       "abbr": "QA",
       "level": 80,
       "category": "Game Dev",
-      "icon": "🔍"
+      "icon": "🔍",
+      "visible": false
     },
     {
       "id": "html_css",
@@ -785,7 +806,8 @@
       "abbr": "Hc",
       "level": 72,
       "category": "Game Dev",
-      "icon": "https://cdn.simpleicons.org/html5/E34F26"
+      "icon": "https://cdn.simpleicons.org/html5/E34F26",
+      "visible": false
     }
   ],
   "filterViews": [
@@ -1048,5 +1070,12 @@
   "gridSettings": {
     "columns": 4,
     "aspectRatio": "3/2"
-  }
+  },
+  "socials": [
+    { "id": "email",      "label": "Email",       "href": "mailto:faneseandrea@gmail.com",          "title": "faneseandrea@gmail.com",    "iconType": "email" },
+    { "id": "artstation", "label": "ArtStation",  "href": "https://www.artstation.com/andrea_fanese","title": "ArtStation",                "iconType": "artstation", "target": "_blank" },
+    { "id": "linkedin",   "label": "LinkedIn",    "href": "https://www.linkedin.com/in/andrea-fanese","title": "LinkedIn",                 "iconType": "linkedin",   "target": "_blank" },
+    { "id": "twitter",    "label": "Twitter / X", "href": "https://x.com/andre_fnfn",               "title": "Twitter / X",               "iconType": "twitter",    "target": "_blank" },
+    { "id": "phone",      "label": "Phone",       "href": "tel:+393480443450",                      "title": "+39 348 044 3450",           "iconType": "phone" }
+  ]
 }
