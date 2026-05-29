@@ -193,11 +193,20 @@ section{padding:100px 60px;}
 .modal-link-mobile{display:none;}
 
 /* LIGHTBOX */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:2000;align-items:center;justify-content:center;}
-.lightbox.open{display:flex;}
-.lightbox img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:2px;}
-.lightbox video{max-width:92vw;max-height:92vh;border-radius:2px;background:#000;}
-.lightbox-close{position:absolute;top:20px;right:28px;color:white;font-size:32px;cursor:pointer;background:none;border:none;line-height:1;}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:2000;overflow:hidden;}
+.lightbox.open{display:block;}
+.lightbox-close{position:absolute;top:20px;right:28px;color:rgba(255,255,255,.7);font-size:32px;cursor:pointer;background:none;border:none;line-height:1;z-index:10;transition:color .15s;}
+.lightbox-close:hover{color:#fff;}
+#lb-stage{position:absolute;inset:0;overflow:hidden;cursor:zoom-in;}
+#lb-stage.lb-zoomed{cursor:grab;}
+#lb-stage.lb-dragging{cursor:grabbing!important;}
+#lightbox-img{position:absolute;top:0;left:0;transform-origin:0 0;max-width:none;max-height:none;border-radius:2px;user-select:none;-webkit-user-drag:none;}
+.lightbox video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:92vw;max-height:92vh;border-radius:2px;background:#000;}
+.lb-toolbar{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 10px;z-index:10;}
+.lb-tb-btn{background:none;border:none;color:rgba(255,255,255,.65);font-size:17px;width:30px;height:28px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:background .12s,color .12s;font-family:'DM Mono',monospace;letter-spacing:0;}
+.lb-tb-btn:hover{background:rgba(255,255,255,.12);color:#fff;}
+.lb-zoom-level{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.5);min-width:46px;text-align:center;letter-spacing:.06em;}
+.lb-sep{width:1px;height:16px;background:rgba(255,255,255,.15);margin:0 4px;flex-shrink:0;}
 /* video in modal gallery */
 .modal-video{width:100%;height:auto;display:block;border-radius:4px;background:#000;}
 /* progressive image loading: thumb (blurred) → full (sharp) */

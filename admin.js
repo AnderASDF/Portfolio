@@ -66,8 +66,16 @@ app.post('/api/data', (req, res) => {
 })
 
 app.post('/api/upload/:id', upload.any(), (req, res) => {
-  const main = (req.files || []).find(f => f.fieldname === 'image')
+  const files = req.files || []
+  const main  = files.find(f => f.fieldname === 'image')
   if (!main) return res.status(400).json({ error: 'no file' })
+  const dir = path.join(ROOT, 'data', 'images', req.params.id)
+  for (const variant of ['thumb', 'preview']) {
+    const vf = files.find(f => f.fieldname === variant)
+    if (!vf) continue
+    const target = path.join(dir, main.filename.replace(/(\.[^.]+)$/, `_${variant}$1`))
+    try { fs.renameSync(path.join(dir, vf.filename), target) } catch (_) {}
+  }
   res.json({ path: `data/images/${req.params.id}/${main.filename}` })
 })
 

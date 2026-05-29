@@ -62,6 +62,14 @@ header{background:var(--purple);padding:0 20px;height:50px;display:flex;align-it
 .pms-btn{padding:5px 14px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);transition:.15s;font-family:var(--mono);}
 .pms-btn.active{background:rgba(201,146,43,.18);color:var(--gold);border-color:var(--gold);}
 .pms-btn:hover:not(.active){color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.25);}
+/* gradient picker */
+.grad-toggle{background:none;border:1px solid var(--border);color:rgba(255,255,255,.35);padding:2px 9px;font-size:9px;font-family:var(--mono);font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.grad-toggle:hover{border-color:rgba(201,146,43,.5);color:var(--gold-l)}
+.grad-toggle.active{background:rgba(201,146,43,.1);border-color:var(--gold);color:var(--gold)}
+.grad-picker{align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:4px;border:1px solid var(--border);margin-bottom:10px}
+.grad-picker-preview{flex:1;min-height:38px;border-radius:3px;border:1px solid rgba(255,255,255,.1)}
+.grad-picker-col{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--gray)}
+.grad-picker-col input[type=color]{width:36px;height:30px;border:1px solid var(--border);border-radius:3px;cursor:pointer;padding:2px;background:var(--surface)}
 /* legacy image key placeholder */
 .img-thumb.legacy-key{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);}
 .img-thumb.legacy-key span{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);word-break:break-all;padding:4px;text-align:center;line-height:1.4;}
@@ -859,6 +867,9 @@ function subprojectForm(parent, sub) {
   const parentInSel = parent.inSelection !== false
   const imgHtml=(sub.images||[]).map(img=>renderAdminThumb(img, img===sub.coverImage, img===(sub.bgImage||''))).join('')
   const ALL_FILTER_TAGS=(DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
+  const _bgV = sub.bgImage||''; const _bgG=_bgV.startsWith('linear-gradient')
+  const _bgM=_bgG?_bgV.match(/linear-gradient\(to bottom,\s*(#[0-9a-f]{3,8})\s*,\s*(#[0-9a-f]{3,8})\s*\)/i):null
+  const _bgC1=_bgM?_bgM[1]:'#6633aa'; const _bgC2=_bgM?_bgM[2]:'#110022'
   return `
   <div class="form-head">${esc(sub.title)||'New Section'} <span style="font-size:13px;color:rgba(255,255,255,.3);font-family:var(--mono);font-weight:400">↳ ${esc(parent.title)}</span>
     <div class="pms-wrap">
@@ -902,8 +913,17 @@ function subprojectForm(parent, sub) {
     <input type="hidden" name="coverImage" id="cover-in" value="${esc(sub.coverImage||'')}">
     <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(sub.images||[]))}">
     <input type="hidden" name="bgImage" id="bg-in" value="${esc(sub.bgImage||'')}">
-    <div class="sec-label">Transparency Background <span style="opacity:.4;font-size:11px;font-weight:400">(optional — shows behind transparent PNG/GIF)</span></div>
-    <p class="cover-hint">${(sub.bgImage||'')?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(sub.bgImage)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it.'}</p>
+    <div class="sec-label" style="display:flex;align-items:center;gap:10px">
+      <button type="button" id="grad-toggle" class="grad-toggle${_bgG?' active':''}" onclick="toggleGradPicker()">◈ Gradient</button>
+      Transparency Background <span style="opacity:.35;font-size:11px;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span>
+    </div>
+    <div id="grad-picker" class="grad-picker" style="display:${_bgG?'flex':'none'}">
+      <div class="grad-picker-col">TOP<input type="color" id="grad-c1" value="${_bgC1}" oninput="_updateGradPreview()"></div>
+      <div id="grad-picker-preview" class="grad-picker-preview" style="background:linear-gradient(to bottom,${_bgC1},${_bgC2})"></div>
+      <div class="grad-picker-col">BOTTOM<input type="color" id="grad-c2" value="${_bgC2}" oninput="_updateGradPreview()"></div>
+      <button type="button" onclick="applyGradient()" class="h-btn gold" style="height:30px;padding:0 14px">Apply</button>
+    </div>
+    <p class="cover-hint" id="bg-hint">${_bgG?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">vertical gradient</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:(_bgV?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(_bgV)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it, or use Gradient.')}</p>
     <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
       <select name="sectionAspectRatio">
         <option value="auto"${(!sub.sectionAspectRatio||sub.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
@@ -1122,6 +1142,9 @@ function projectForm(p) {
   const imgHtml = (p.images||[]).map(img => renderAdminThumb(img, img===p.coverImage, img===(p.bgImage||''))).join('')
   const ALL_FILTER_TAGS = (DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
   const hasSubs = (p.subprojects||[]).length > 0
+  const _bgV = p.bgImage||''; const _bgG=_bgV.startsWith('linear-gradient')
+  const _bgM=_bgG?_bgV.match(/linear-gradient\(to bottom,\s*(#[0-9a-f]{3,8})\s*,\s*(#[0-9a-f]{3,8})\s*\)/i):null
+  const _bgC1=_bgM?_bgM[1]:'#6633aa'; const _bgC2=_bgM?_bgM[2]:'#110022'
   return `
   <div class="form-head">${esc(p.title)||'New Project'} ${p.status?`<span class="badge ${p.status}">${p.status}</span>`:''}
     <div class="pms-wrap">
@@ -1184,8 +1207,17 @@ function projectForm(p) {
     <input type="hidden" name="coverImage" id="cover-in" value="${esc(p.coverImage)}">
     <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(p.images||[]))}">
     <input type="hidden" name="bgImage" id="bg-in" value="${esc(p.bgImage||'')}">
-    <div class="sec-label">Transparency Background <span style="opacity:.4;font-size:11px;font-weight:400">(optional — shows behind transparent PNG/GIF)</span></div>
-    <p class="cover-hint">${(p.bgImage||'')?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(p.bgImage)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it.'}</p>
+    <div class="sec-label" style="display:flex;align-items:center;gap:10px">
+      <button type="button" id="grad-toggle" class="grad-toggle${_bgG?' active':''}" onclick="toggleGradPicker()">◈ Gradient</button>
+      Transparency Background <span style="opacity:.35;font-size:11px;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span>
+    </div>
+    <div id="grad-picker" class="grad-picker" style="display:${_bgG?'flex':'none'}">
+      <div class="grad-picker-col">TOP<input type="color" id="grad-c1" value="${_bgC1}" oninput="_updateGradPreview()"></div>
+      <div id="grad-picker-preview" class="grad-picker-preview" style="background:linear-gradient(to bottom,${_bgC1},${_bgC2})"></div>
+      <div class="grad-picker-col">BOTTOM<input type="color" id="grad-c2" value="${_bgC2}" oninput="_updateGradPreview()"></div>
+      <button type="button" onclick="applyGradient()" class="h-btn gold" style="height:30px;padding:0 14px">Apply</button>
+    </div>
+    <p class="cover-hint" id="bg-hint">${_bgG?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">vertical gradient</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:(_bgV?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(_bgV)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it, or use Gradient.')}</p>
     <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
       <select name="sectionAspectRatio">
         <option value="auto"${(!p.sectionAspectRatio||p.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
@@ -1443,7 +1475,7 @@ async function compressToHD(file) {
     img.onerror = () => { URL.revokeObjectURL(url); resolve(file) }
     img.onload = () => {
       URL.revokeObjectURL(url)
-      const MAX_W = 1280, MAX_H = 720
+      const MAX_W = 3840, MAX_H = 3840
       const scale = Math.min(MAX_W / img.naturalWidth, MAX_H / img.naturalHeight, 1)
       if (scale >= 1) { resolve(file); return }
       const W = Math.round(img.naturalWidth * scale), H = Math.round(img.naturalHeight * scale)
@@ -1487,6 +1519,29 @@ async function compressToThumb(file) {
       ctx.drawImage(img, 0, 0, W, H)
       const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg'
       canvas.toBlob(blob => resolve(blob ? new File([blob], 'thumb.' + (outType === 'image/png' ? 'png' : 'jpg'), { type: outType }) : null), outType, outType === 'image/png' ? undefined : 0.65)
+    }
+    img.src = url
+  })
+}
+
+async function compressToPreview(file) {
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(null) }
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const MAX = 1920
+      const scale = Math.min(MAX / img.naturalWidth, MAX / img.naturalHeight, 1)
+      if (scale >= 1) { resolve(null); return }
+      const W = Math.round(img.naturalWidth * scale), H = Math.round(img.naturalHeight * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = W; canvas.height = H
+      const ctx = canvas.getContext('2d')
+      if (file.type === 'image/png') ctx.clearRect(0, 0, W, H)
+      ctx.drawImage(img, 0, 0, W, H)
+      const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg'
+      canvas.toBlob(blob => resolve(blob ? new File([blob], 'preview.' + (outType === 'image/png' ? 'png' : 'jpg'), { type: outType }) : null), outType, outType === 'image/png' ? undefined : 0.82)
     }
     img.src = url
   })
@@ -1544,8 +1599,12 @@ async function uploadImages(input) {
       const fd = new FormData()
       fd.append('image', ready)
       if (ready.type === 'image/jpeg' || ready.type === 'image/png' || ready.type === 'image/webp') {
-        const thumb = await _withTimeout(compressToThumb(ready).catch(() => null), 5000)
-        if (thumb) fd.append('thumb', thumb)
+        const [thumb, preview] = await Promise.all([
+          _withTimeout(compressToThumb(ready).catch(() => null), 5000),
+          _withTimeout(compressToPreview(ready).catch(() => null), 8000)
+        ])
+        if (thumb)   fd.append('thumb',   thumb)
+        if (preview) fd.append('preview', preview)
       }
       const res = await fetch(`/api/upload/${id}`, { method: 'POST', body: fd })
       if (!res.ok) throw new Error(`upload error ${res.status}`)
@@ -1651,6 +1710,49 @@ function setBg(e, img) {
     if (th) { th.classList.add('is-bg'); const l=document.createElement('div');l.className='bg-lbl';l.textContent='bg';th.appendChild(l) }
   }
   updateSlots(); _formModified = true; updateDirtyCount()
+  _updateBgHint()
+}
+
+function toggleGradPicker() {
+  const picker = document.getElementById('grad-picker')
+  const btn    = document.getElementById('grad-toggle')
+  if (!picker) return
+  const opening = picker.style.display === 'none'
+  picker.style.display = opening ? 'flex' : 'none'
+  btn?.classList.toggle('active', opening)
+  if (opening) _updateGradPreview()
+}
+
+function _updateGradPreview() {
+  const c1   = document.getElementById('grad-c1')?.value   || '#6633aa'
+  const c2   = document.getElementById('grad-c2')?.value   || '#110022'
+  const prev = document.getElementById('grad-picker-preview')
+  if (prev) prev.style.background = `linear-gradient(to bottom, ${c1}, ${c2})`
+}
+
+function applyGradient() {
+  const c1 = document.getElementById('grad-c1')?.value || '#6633aa'
+  const c2 = document.getElementById('grad-c2')?.value || '#110022'
+  const bi = document.getElementById('bg-in'); if (!bi) return
+  bi.value = `linear-gradient(to bottom, ${c1}, ${c2})`
+  document.querySelectorAll('.img-thumb').forEach(t => { t.classList.remove('is-bg'); t.querySelector('.bg-lbl')?.remove() })
+  updateSlots(); _formModified = true; updateDirtyCount()
+  _updateBgHint()
+}
+
+function _updateBgHint() {
+  const hint = document.getElementById('bg-hint'); if (!hint) return
+  const val  = document.getElementById('bg-in')?.value || ''
+  const isG  = val.startsWith('linear-gradient') || val.startsWith('radial-gradient')
+  const rmBtn = `<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`
+  if (!val)     hint.innerHTML = 'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it, or use Gradient.'
+  else if (isG) hint.innerHTML = `Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">vertical gradient</span> &nbsp;${rmBtn}`
+  else          hint.innerHTML = `Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(val)}</span> &nbsp;${rmBtn}`
+  // sync toggle button state
+  const btn = document.getElementById('grad-toggle')
+  if (btn) btn.classList.toggle('active', isG)
+  const picker = document.getElementById('grad-picker')
+  if (picker && !isG) picker.style.display = 'none'
 }
 
 // ── Image pairing ─────────────────────────────────────────────────────────────

@@ -79,20 +79,53 @@
       "cardSize": "default",
       "coverImage": "data/images/new_1779155856406/1779156032765_thumb1.png",
       "sub": "",
-      "cardDesc": "",
-      "description": "",
+      "cardDesc": "A live Roblox PvP hide-and-seek game commissioned by a YouTuber group with over 1M followers. Handled the full character pipeline—from initial concept art to 3D modeling and animation—for both ghost and hunter factions.",
+      "description": "A commercial commission developed for a prominent influencer group exceeding one million followers, delivered as an active, playable Roblox multiplayer map. The gameplay architecture centers on a team-based PvP hide-and-seek dynamic between two opposing factions: ghosts and ghost hunters.",
       "images": [
         "data/images/new_1779155856406/1779156032765_thumb1.png",
-        "data/images/new_1779155856406/1779189794917_Screenshot_2026-04-10_121920.png"
+        "data/images/new_1779155856406/1780050728542_concept_ghost.png",
+        "data/images/new_1779155856406/1780050090606_curse.mp4||data/images/new_1779155856406/1780050090630_nightmare.mp4",
+        "data/images/new_1779155856406/1780050090661_phantom.mp4||data/images/new_1779155856406/1780050090709_yuuki.mp4"
       ],
       "tools": [],
       "link": {
         "label": "Play on Roblox ↗",
         "url": "https://www.roblox.com/games/119050089766144/GHOSTED-Stregone-Cerca"
       },
-      "visible": false,
+      "visible": true,
+      "inSelection": true,
+      "sectionAspectRatio": "16/9",
+      "bgImage": "linear-gradient(to bottom, #6a485b, #110022)",
       "showInTimeline": true,
-      "inSelection": true
+      "subprojects": []
+    },
+    {
+      "id": "new_1780043347962",
+      "title": "Zombie Roblox",
+      "date": "",
+      "status": "wip",
+      "team": "",
+      "tags": [],
+      "filterTags": "",
+      "cardSize": "default",
+      "coverImage": "data/images/new_1780043347962/1780046163245_zombie_roblox.png",
+      "sub": "",
+      "cardDesc": "",
+      "description": "",
+      "images": [
+        "data/images/new_1780043347962/1780046163245_zombie_roblox.png",
+        "data/images/new_1780043347962/1780043935639_zombie_draft2.png||data/images/new_1780043347962/1780049040602_zombie_spawn.mp4",
+        "data/images/new_1780043347962/1780049040530_zombie_damage.mp4||data/images/new_1780043347962/1780049040502_zombie_attack.mp4",
+        "data/images/new_1780043347962/1780049040629_zombie_walk_.mp4||data/images/new_1780043347962/1780049040550_zombie_run.mp4"
+      ],
+      "tools": [],
+      "link": null,
+      "visible": true,
+      "inSelection": true,
+      "sectionAspectRatio": "4/3",
+      "bgImage": "linear-gradient(to bottom, #898876, #313732)",
+      "showInTimeline": false,
+      "subprojects": []
     },
     {
       "id": "rkn",
@@ -140,11 +173,11 @@
             "data/images/sub_1779708234888/1780012231390_rkn_background.png",
             "data/images/sub_1779708234888/1780014332033_drsfts_1.png",
             "data/images/sub_1779708234888/1780010548375_render.png||data/images/sub_1779708234888/1780013108934_gun_custom.mp4",
-            "data/images/sub_1779708234888/1780014480324_drafts.png||data/images/sub_1779708234888/1780014480238_drafts_2.png",
+            "data/images/sub_1779708234888/1780014480238_drafts_2.png||data/images/sub_1779708234888/1780014480324_drafts.png",
             "data/images/sub_1779708234888/1780014480601_tome_4.png",
             "data/images/sub_1779708234888/1780013108988_tome_arm_9-16.mp4||data/images/sub_1779708234888/1780013109020_tome_book_custom.mp4",
-            "data/images/sub_1779708234888/1780014455069_drafs_2.png",
             "data/images/sub_1779708234888/1780014455368_drafs.png",
+            "data/images/sub_1779708234888/1780014455069_drafs_2.png",
             "data/images/sub_1779708234888/1780014627980_render_1.png",
             "data/images/sub_1779708234888/1780014455776_render_2.png||data/images/sub_1779708234888/1780014641746_chest_custom_1.mp4",
             "data/images/sub_1779708234888/1780014702016_drafts.png||data/images/sub_1779708234888/1780014701853_drafts_2.png",
@@ -171,10 +204,12 @@
           "coverImage": "data/images/sub_1779708490933/1779803517808_cover_rkn_demon.png",
           "images": [
             "data/images/sub_1779708490933/1779803517808_cover_rkn_demon.png",
+            "data/images/sub_1779708490933/1780044054347_rkn_background.png",
             "data/images/sub_1779708490933/1779708575797_slide_3.png",
+            "data/images/sub_1779708490933/1779708585189_slide_4.png",
             "data/images/sub_1779708490933/1779708576400_slide_5.png",
             "data/images/sub_1779708490933/1779708576463_slide_6.png",
-            "data/images/sub_1779708490933/1779708585189_slide_4.png"
+            "data/images/sub_1779708490933/1780045096946_final_front.png||data/images/sub_1779708490933/1780045097548_wings_corrected.png"
           ],
           "tags": [],
           "filterTags": "concept character creature  ",
@@ -187,7 +222,7 @@
             "Procreate"
           ],
           "sectionAspectRatio": "auto",
-          "bgImage": ""
+          "bgImage": "data/images/sub_1779708490933/1780044054347_rkn_background.png"
         },
         {
           "id": "sub_1779739945418",
@@ -197,10 +232,10 @@
           "images": [
             "data/images/sub_1779739945418/1780016231409_cover_rkn_characters.png",
             "data/images/sub_1779739945418/1780016213178_draft_2.png||data/images/sub_1779739945418/1780016213452_draft_6.png",
-            "data/images/sub_1779739945418/1780016212626_color_4.png",
+            "data/images/sub_1779739945418/1780045254959_color_4.png",
             "data/images/sub_1779739945418/1780016213274_draft_4_secondary_character_.png",
-            "data/images/sub_1779739945418/1780016212954_color_kid_2.png",
-            "data/images/sub_1779739945418/1780016244390_rkn_background.png"
+            "data/images/sub_1779739945418/1780016244390_rkn_background.png",
+            "data/images/sub_1779739945418/1780045255790_color_kid_2.png"
           ],
           "tags": [],
           "filterTags": "concept character  ",
@@ -411,15 +446,18 @@
       ],
       "filterTags": "concept character creature 3d environment",
       "cardSize": "default",
-      "coverImage": "animals_concept_1",
+      "coverImage": "data/images/animals/1780051239942_Screenshot_2025-06-16_171440.png",
       "sub": "Horror Game Prototype · Unreal Engine 5, Blender",
       "cardDesc": "A horror reinterpretation of Animal Crossing — unsettling chibi characters, 3D environments, and a working dialogue system in UE5.",
       "description": "A horror reinterpretation of Animal Crossing developed as a team project. The concept reimagines the game's cute chibi characters in a sinister, unsettling light. The project included full character concept sheets, 3D modelling of characters, buildings and environmental props in Blender, and implementation in Unreal Engine 5 with a working dialogue system and explorable village environment. The project was not released.",
       "images": [
-        "animals_concept_1",
-        "animals_concept_2",
-        "animals_3d_1",
-        "animals_3d_2"
+        "data/images/animals/1780051239942_Screenshot_2025-06-16_171440.png",
+        "data/images/animals/1780051006150_ac_1.png||data/images/animals/1780051006924_ac_3.png",
+        "data/images/animals/1780051104621_concept_draft2.png",
+        "data/images/animals/1780051236082_Screenshot_2025-06-16_171440.png",
+        "data/images/animals/1780051236509_Screenshot_2025-06-16_171530.png",
+        "data/images/animals/1780050907047_house.png||data/images/animals/1780050908073_tree.png",
+        "data/images/animals/1780050907172_kaka.png||data/images/animals/1780050907819_red2.png"
       ],
       "tools": [
         "Photoshop",
@@ -429,9 +467,12 @@
         "Environment Art"
       ],
       "link": null,
-      "visible": false,
+      "visible": true,
       "inSelection": true,
-      "showInTimeline": false
+      "sectionAspectRatio": "auto",
+      "bgImage": "",
+      "showInTimeline": false,
+      "subprojects": []
     },
     {
       "id": "eventhorizon",
@@ -478,12 +519,16 @@
       ],
       "filterTags": "character creature 3d environment fortnite",
       "cardSize": "default",
-      "coverImage": "backrooms",
+      "coverImage": "data/images/backrooms/1780051490443_Screenshot_2025-06-27_211006.png",
       "sub": "Fortnite UEFN · 2024 · 3D Assets & Environment",
       "cardDesc": "Environment design and full character/creature roster — from concept through final 3D implementation on Fortnite Creative 2.0.",
       "description": "The last project developed for Fortnite Creative 2.0. Like the other Studio Neptune projects, this covered both the environment design and all characters and creatures — from concept through to final 3D model implementation. Assets include a yellow robot guard character, a humanoid creature sculpt, environment props, and game UI icons. Published and playable on Fortnite.",
       "images": [
-        "backrooms"
+        "data/images/backrooms/1780051490443_Screenshot_2025-06-27_211006.png",
+        "data/images/backrooms/1780051490120_Screenshot_2025-06-27_210725.png",
+        "data/images/backrooms/1780051507776_Screenshot_2025-06-27_211006.png",
+        "data/images/backrooms/1780051489786_Screenshot_2025-06-04_153521.png||data/images/backrooms/1780051489394_Portfolio_2026_-_Andrea_Fanese.png",
+        "data/images/backrooms/1780051489457_Screenshot_2025-05-20_123656.png||data/images/backrooms/1780051489537_Screenshot_2025-06-03_125054.png"
       ],
       "tools": [
         "Blender",
@@ -493,9 +538,10 @@
         "Environment Design"
       ],
       "link": null,
-      "visible": false,
-      "sectionAspectRatio": "auto",
+      "visible": true,
       "inSelection": true,
+      "sectionAspectRatio": "auto",
+      "bgImage": "",
       "showInTimeline": false,
       "subprojects": []
     },
@@ -900,17 +946,25 @@
       "label": "All",
       "tag": "all",
       "projectOrder": [
-        "rkn__sub_1779708490933",
-        "illustrations 2026",
+        "new_1780043347962",
         "rkn__sub_1779708234888",
+        "new_1779155856406",
+        "rkn__sub_1779708490933",
+        "backrooms",
+        "animals",
+        "illustrations 2026",
         "charillus",
         "rkn__sub_1779739945418",
         "animatronics"
       ],
       "cardSizes": {
-        "rkn__sub_1779708490933": "featured",
-        "illustrations 2026": "default",
+        "new_1780043347962": "default",
         "rkn__sub_1779708234888": "default",
+        "new_1779155856406": "default",
+        "rkn__sub_1779708490933": "default",
+        "backrooms": "default",
+        "animals": "default",
+        "illustrations 2026": "default",
         "charillus": "default",
         "rkn__sub_1779739945418": "default",
         "animatronics": "default"

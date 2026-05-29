@@ -177,10 +177,20 @@
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="">
+  <div id="lb-stage">
+    <img id="lightbox-img" src="" alt="" draggable="false" ondblclick="_lbToggle1x(event)">
+  </div>
   <video id="lightbox-video" controls playsinline style="display:none"></video>
+  <div class="lb-toolbar" id="lb-toolbar" style="display:none">
+    <button class="lb-tb-btn" onclick="_lbZoomStep(-1)" title="Zoom out">−</button>
+    <span class="lb-zoom-level" id="lb-zoom-level">100%</span>
+    <button class="lb-tb-btn" onclick="_lbZoomStep(1)" title="Zoom in">+</button>
+    <span class="lb-sep"></span>
+    <button class="lb-tb-btn" onclick="_lbFit()" title="Fit to screen">⊡</button>
+    <button class="lb-tb-btn" onclick="_lbZoom1x()" title="Actual pixels (1:1)">1:1</button>
+  </div>
 </div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
