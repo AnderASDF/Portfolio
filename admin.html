@@ -419,6 +419,7 @@ async function init() {
     document.getElementById('h-status').innerHTML =
       `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
     document.getElementById('h-actions').style.display = 'flex'
+    _restoreAdminState()
   } catch(e) {
     document.getElementById('h-status').textContent = 'Cannot connect — is npm run admin running?'
   }
@@ -465,6 +466,50 @@ function switchCat(cat) {
   _activeCat = cat
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.dataset.cat===cat))
   document.querySelectorAll('.cat-pane').forEach(p=>p.classList.toggle('active', p.id===`pane-${cat}`))
+}
+
+function _saveAdminState() {
+  const panel = document.querySelector('.cat-panel')
+  const main  = document.getElementById('main')
+  sessionStorage.setItem('adm_state', JSON.stringify({
+    section: curSection, id: curId, parentId: curParentId,
+    sidebarSy: panel ? panel.scrollTop : 0,
+    mainSy:    main   ? main.scrollTop  : 0
+  }))
+}
+
+function _restoreAdminState() {
+  try {
+    const raw = sessionStorage.getItem('adm_state')
+    if (!raw) return
+    const { section, id, parentId, sidebarSy, mainSy } = JSON.parse(raw)
+    if (!section || !id) return
+    if (section === 'sitecontent') {
+      openSiteContent()
+    } else if (section === 'subproject') {
+      const parent = DATA.projects.find(p => p.id === parentId)
+      const sub = (parent?.subprojects || []).find(s => s.id === id)
+      if (parent && sub) editSubproject(parentId, id)
+      else return
+    } else if (section === 'view') {
+      if (DATA.filterViews?.find(v => v.id === id)) editView(id)
+      else return
+    } else if (section === 'profile') {
+      if (DATA.recruiterProfiles?.find(r => r.id === id)) editProfile(id)
+      else return
+    } else {
+      if (!getFromData(section, id)) return
+      editItem(section, id)
+    }
+    requestAnimationFrame(() => {
+      const panel = document.querySelector('.cat-panel')
+      const main  = document.getElementById('main')
+      if (panel && sidebarSy) panel.scrollTop = sidebarSy
+      if (main  && mainSy)   main.scrollTop  = mainSy
+    })
+  } catch(e) {
+    sessionStorage.removeItem('adm_state')
+  }
 }
 
 function stashCurrentForm() {
@@ -791,6 +836,7 @@ function editSubproject(parentId, subId) {
   showTopbar('subproject', sub)
   attachFormChangeListener()
   updateDirtyCount()
+  _saveAdminState()
 }
 
 function newSubproject(parentId) {
@@ -1024,6 +1070,7 @@ function editItem(section, id) {
   const cat = _sectionToCat[section]; if (cat) switchCat(cat)
   renderSidebar()
   openForm(section, item)
+  _saveAdminState()
 }
 
 function openForm(section, item) {
@@ -1765,6 +1812,7 @@ function openSiteContent() {
   document.getElementById('ftb-switches').innerHTML = ''
   document.getElementById('form-topbar').classList.add('visible')
   attachFormChangeListener()
+  _saveAdminState()
 }
 
 function siteContentForm(sc) {
@@ -2047,6 +2095,7 @@ function editView(id) {
   document.getElementById('main').scrollTop=0
   showTopbar('view',v); initCoverDrag('cg-view'); attachFormChangeListener()
   setTimeout(()=>updateCvGridRows('cg-view'),0)
+  _saveAdminState()
 }
 function newView() {
   stashCurrentForm()
@@ -2166,6 +2215,7 @@ function editProfile(id) {
   document.getElementById('main').scrollTop=0
   showTopbar('profile',rp); initCoverDrag('cg-profile'); initFilterTagDrag(); attachFormChangeListener()
   setTimeout(()=>updateCvGridRows('cg-profile'),0)
+  _saveAdminState()
 }
 function newProfile() {
   stashCurrentForm()
