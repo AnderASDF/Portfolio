@@ -132,13 +132,23 @@
           "id": "sub_1779708234888",
           "title": "Weapons",
           "order": 1,
-          "coverImage": "data/images/sub_1779708234888/1779708629070_chest_cover.png",
+          "coverImage": "data/images/sub_1779708234888/1780013935564_cover_rkn_weapons.png",
           "images": [
-            "data/images/sub_1779708234888/1779708629070_chest_cover.png",
-            "data/images/sub_1779708234888/1779708629367_gun_cover.png",
-            "data/images/sub_1779708234888/1779708629612_sack_cover.png",
-            "data/images/sub_1779708234888/1779708629664_tome_cover.png",
-            "data/images/sub_1779708234888/1779708629969_untitled.png"
+            "data/images/sub_1779708234888/1780013935564_cover_rkn_weapons.png",
+            "data/images/sub_1779708234888/1780010753114_drafts.png",
+            "data/images/sub_1779708234888/1780014090634_dagger_9-16.mp4||data/images/sub_1779708234888/1780014134543_final.png",
+            "data/images/sub_1779708234888/1780012231390_rkn_background.png",
+            "data/images/sub_1779708234888/1780014332033_drsfts_1.png",
+            "data/images/sub_1779708234888/1780010548375_render.png||data/images/sub_1779708234888/1780013108934_gun_custom.mp4",
+            "data/images/sub_1779708234888/1780014480238_drafts_2.png||data/images/sub_1779708234888/1780014480324_drafts.png",
+            "data/images/sub_1779708234888/1780014480601_tome_4.png",
+            "data/images/sub_1779708234888/1780013108988_tome_arm_9-16.mp4||data/images/sub_1779708234888/1780013109020_tome_book_custom.mp4",
+            "data/images/sub_1779708234888/1780014455069_drafs_2.png",
+            "data/images/sub_1779708234888/1780014455368_drafs.png",
+            "data/images/sub_1779708234888/1780014627980_render_1.png",
+            "data/images/sub_1779708234888/1780014455776_render_2.png||data/images/sub_1779708234888/1780014641746_chest_custom_1.mp4",
+            "data/images/sub_1779708234888/1780014702016_drafts.png||data/images/sub_1779708234888/1780014701853_drafts_2.png",
+            "data/images/sub_1779708234888/1780014702173_render.png||data/images/sub_1779708234888/1780013108968_sack_9-16.mp4"
           ],
           "tags": [],
           "filterTags": "concept creature 3d   ",
@@ -151,7 +161,8 @@
             "Procreate",
             "Blender"
           ],
-          "sectionAspectRatio": "16/9"
+          "sectionAspectRatio": "16/9",
+          "bgImage": "data/images/sub_1779708234888/1780012231390_rkn_background.png"
         },
         {
           "id": "sub_1779708490933",
@@ -175,18 +186,21 @@
             "Photoshop",
             "Procreate"
           ],
-          "sectionAspectRatio": "auto"
+          "sectionAspectRatio": "auto",
+          "bgImage": ""
         },
         {
           "id": "sub_1779739945418",
           "title": "Main Characters",
           "order": 3,
-          "coverImage": "data/images/sub_1779739945418/1779740031384_slide_4.png",
+          "coverImage": "data/images/sub_1779739945418/1780016231409_cover_rkn_characters.png",
           "images": [
-            "data/images/sub_1779739945418/1779740031030_slide_1.png",
-            "data/images/sub_1779739945418/1779740031335_slide_2.png",
-            "data/images/sub_1779739945418/1779740031354_slide_3.png",
-            "data/images/sub_1779739945418/1779740031384_slide_4.png"
+            "data/images/sub_1779739945418/1780016231409_cover_rkn_characters.png",
+            "data/images/sub_1779739945418/1780016213178_draft_2.png||data/images/sub_1779739945418/1780016213452_draft_6.png",
+            "data/images/sub_1779739945418/1780016212626_color_4.png",
+            "data/images/sub_1779739945418/1780016213274_draft_4_secondary_character_.png",
+            "data/images/sub_1779739945418/1780016212954_color_kid_2.png",
+            "data/images/sub_1779739945418/1780016244390_rkn_background.png"
           ],
           "tags": [],
           "filterTags": "concept character  ",
@@ -198,7 +212,8 @@
             "Photoshop",
             "Procreate"
           ],
-          "sectionAspectRatio": "auto"
+          "sectionAspectRatio": "16/9",
+          "bgImage": "data/images/sub_1779739945418/1780016244390_rkn_background.png"
         }
       ]
     },
@@ -236,6 +251,7 @@
       "visible": true,
       "inSelection": true,
       "sectionAspectRatio": "auto",
+      "bgImage": "",
       "showInTimeline": false,
       "subprojects": []
     },
@@ -614,14 +630,15 @@
     {
       "id": "neptune",
       "period": "2020 – 2025",
-      "role": "Art Director · Concept Artist · 3D Generalist",
-      "company": "Studio Neptune — Fortnite Creative / UEFN / Roblox",
+      "role": "Main Concept Artist · Main 3D Generalist",
+      "company": "Studio Neptune — Fortnite Creative / Roblox",
       "bullets": [
         "Led art direction for multiple shipped projects — 500,000+ players reached collectively.",
         "Full pipeline: concept → 3D modelling → texturing → engine implementation.",
         "Character, creature, environment and prop design across stylized and dark-realism aesthetics.",
         "Contributed to three Event Horizon game jam titles: Deadline, Kronoparadox, Bad to the Root."
-      ]
+      ],
+      "visible": true
     },
     {
       "id": "rkn_career",
@@ -637,11 +654,12 @@
       "id": "qa_tester",
       "period": "2021 – Present",
       "role": "Video Game QA Tester",
-      "company": "Game Tester Platform · Aurora Studio",
+      "company": "Lionbridge Game Tester · Aurora Studio",
       "bullets": [
         "Tested AA/AAA titles and participated in closed online betas.",
         "Structured bug reporting and UX documentation."
-      ]
+      ],
+      "visible": true
     }
   ],
   "timeline": [
@@ -1207,5 +1225,25 @@
       "category": null,
       "visible": true
     }
-  ]
+  ],
+  "siteContent": {
+    "hero_tagline": "Concept Artist · 3D Generalist  · Illustrator",
+    "hero_desc": "I design characters, weapons, and worlds — from dark fantasy creatures to stylized game-ready 3D assets. 5+ years shaping visual identities for projects that reached <strong style=\"color:var(--gold-light)\">500,000+ players</strong>.",
+    "hero_stat1_num": "500K+",
+    "hero_stat1_label": "Players reached across published projects",
+    "hero_stat2_num": "5+",
+    "hero_stat2_label": "Years of game art & concept work",
+    "hero_stat3_num": "10+",
+    "hero_stat3_label": "Published & shipped projects",
+    "hero_stat4_num": "C1",
+    "hero_stat4_label": "English — IELTS certified",
+    "about_p1": "Born in a coastal city and a lifelong swimmer, fluidity shapes both my character and my digital workflow. As a concept artist and 3D generalist, I treat pipelines as adaptive environments, bridging 2D ideation—silhouettes, line art, colour finals—with full 3D implementation in Blender and Unreal Engine.",
+    "about_p2": "This fluid approach allows me to take any form a project requires, moving seamlessly across stylized, dark fantasy, and horror aesthetics. My technical and artistic adaptability spans building characters from thumbnail to 3D model, designing weapons with silhouette-first pipelines, and shipping live maps on Fortnite and Roblox. Currently contributing as VFX & Weapon Concept Artist on an indie title with a 15-person team.",
+    "about_p3": "Looking for a full-time position as a concept artist — ideally in a studio that values iterative design, creative collaboration, and strong world-building.",
+    "contact_label": "MY CONTACTS",
+    "contact_heading": "Let's keep in touch",
+    "contact_subtitle": "Looking for a freelance as a concept artist. Open to studios worldwide.",
+    "skills_subtitle": "Tools and disciplines I work with regularly.",
+    "footer_note": "Andrea Fanese · Concept Artist · Portfolio 2026 · Pescara, Italy"
+  }
 }

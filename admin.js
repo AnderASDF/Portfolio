@@ -38,8 +38,10 @@ const storage = multer.diskStorage({
     cb(null, dir)
   },
   filename(req, file, cb) {
+    if (!req._ts) req._ts = Date.now()
     const safe = file.originalname.replace(/[^\w.\-]/g, '_')
-    cb(null, `${Date.now()}_${safe}`)
+    // if the client already set a timestamped filename (e.g. for thumbs), use it verbatim
+    cb(null, /^\d{10,}_/.test(safe) ? safe : `${req._ts}_${safe}`)
   }
 })
 const upload = multer({ storage })
@@ -63,8 +65,10 @@ app.post('/api/data', (req, res) => {
   }
 })
 
-app.post('/api/upload/:id', upload.single('image'), (req, res) => {
-  res.json({ path: `data/images/${req.params.id}/${req.file.filename}` })
+app.post('/api/upload/:id', upload.any(), (req, res) => {
+  const main = (req.files || []).find(f => f.fieldname === 'image')
+  if (!main) return res.status(400).json({ error: 'no file' })
+  res.json({ path: `data/images/${req.params.id}/${main.filename}` })
 })
 
 app.delete('/api/image', (req, res) => {

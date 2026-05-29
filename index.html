@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andrea Fanese — Concept Artist & 3D Generalist</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="images/propic.png">
+<link rel="apple-touch-icon" href="images/propic.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,12 +25,12 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-left">
-    <p class="tag-line">Concept Artist · 3D Generalist ·<br class="tag-br"> VFX & Weapon Designer</p>
+    <p class="tag-line" id="hero-tagline">Concept Artist · 3D Generalist ·<br class="tag-br"> VFX & Weapon Designer</p>
     <div class="hero-identity">
       <img class="hero-propic-img" src="images/propic.png" alt="Andrea Fanese">
       <h1 class="hero-name">Andrea<br><em>Fanese</em></h1>
     </div>
-    <p class="hero-desc">I design characters, weapons, and worlds — from dark fantasy creatures to stylized game-ready 3D assets. 5+ years shaping visual identities for projects that reached <strong style="color:var(--gold-light)">500,000+ players</strong>.</p>
+    <p class="hero-desc" id="hero-desc">I design characters, weapons, and worlds — from dark fantasy creatures to stylized game-ready 3D assets. 5+ years shaping visual identities for projects that reached <strong style="color:var(--gold-light)">500,000+ players</strong>.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="#contact" class="btn btn-outline">Get in touch</a>
@@ -37,10 +39,10 @@
   <div class="hero-right">
     <div class="hero-stats">
       <p class="hero-stats-label">By the numbers</p>
-      <div class="stat"><div class="stat-number">500K+</div><div class="stat-label">Players reached across published projects</div></div>
-      <div class="stat"><div class="stat-number">5+</div><div class="stat-label">Years of game art & concept work</div></div>
-      <div class="stat"><div class="stat-number">10+</div><div class="stat-label">Published & shipped projects</div></div>
-      <div class="stat"><div class="stat-number">C1</div><div class="stat-label">English — IELTS certified</div></div>
+      <div class="stat"><div class="stat-number" id="hero-stat1-num">500K+</div><div class="stat-label" id="hero-stat1-label">Players reached across published projects</div></div>
+      <div class="stat"><div class="stat-number" id="hero-stat2-num">5+</div><div class="stat-label" id="hero-stat2-label">Years of game art & concept work</div></div>
+      <div class="stat"><div class="stat-number" id="hero-stat3-num">10+</div><div class="stat-label" id="hero-stat3-label">Published & shipped projects</div></div>
+      <div class="stat"><div class="stat-number" id="hero-stat4-num">C1</div><div class="stat-label" id="hero-stat4-label">English — IELTS certified</div></div>
     </div>
   </div>
   <canvas class="hero-wave-canvas" id="wave-hero"></canvas>
@@ -61,9 +63,9 @@
     <h2 class="section-title">to be <em>fluid.</em></h2>
   </div>
   <div>
-    <p class="about-body">Born in a coastal city and a lifelong swimmer, fluidity shapes both my character and my digital workflow. As a concept artist and 3D generalist, I treat pipelines as adaptive environments, bridging 2D ideation—silhouettes, line art, colour finals—with full 3D implementation in Blender and Unreal Engine.</p>
-    <p class="about-body">This fluid approach allows me to take any form a project requires, moving seamlessly across stylized, dark fantasy, and horror aesthetics. My technical and artistic adaptability spans building characters from thumbnail to 3D model, designing weapons with silhouette-first pipelines, and shipping live maps on Fortnite and Roblox. Currently contributing as VFX & Weapon Concept Artist on an indie title with a 15-person team.</p>
-    <p class="about-body">Looking for a full-time position as a concept artist — ideally in a studio that values iterative design, creative collaboration, and strong world-building.</p>
+    <p class="about-body" id="about-p1">Born in a coastal city and a lifelong swimmer, fluidity shapes both my character and my digital workflow. As a concept artist and 3D generalist, I treat pipelines as adaptive environments, bridging 2D ideation—silhouettes, line art, colour finals—with full 3D implementation in Blender and Unreal Engine.</p>
+    <p class="about-body" id="about-p2">This fluid approach allows me to take any form a project requires, moving seamlessly across stylized, dark fantasy, and horror aesthetics. My technical and artistic adaptability spans building characters from thumbnail to 3D model, designing weapons with silhouette-first pipelines, and shipping live maps on Fortnite and Roblox. Currently contributing as VFX & Weapon Concept Artist on an indie title with a 15-person team.</p>
+    <p class="about-body" id="about-p3">Looking for a full-time position as a concept artist — ideally in a studio that values iterative design, creative collaboration, and strong world-building.</p>
     <div class="skill-chips">
       <span class="chip highlight">Character Design</span><span class="chip highlight">Weapon Design</span><span class="chip highlight">Prop & Creature</span>
       <span class="chip">VFX Concept</span><span class="chip">Environment</span><span class="chip">Worldbuilding</span>
@@ -117,7 +119,7 @@
   <div class="skills-header">
     <p class="section-label">Toolbox</p>
     <h2 class="section-title">Skills &amp; <em style="color:var(--gold-light)">Tools</em></h2>
-    <p class="section-sub">Tools and disciplines I work with regularly.</p>
+    <p class="section-sub" id="skills-subtitle">Tools and disciplines I work with regularly.</p>
   </div>
 
   <div class="bubble-stage" id="bubble-stage">
@@ -149,11 +151,11 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <p class="section-label" style="justify-content:center;display:flex;">Get in touch</p>
-  <h2 class="section-title" style="text-align:center;">Let's build something<br><em style="color:var(--gold-light)">memorable</em></h2>
-  <p class="section-sub">Looking for a full-time position as a concept artist. Open to studios worldwide.</p>
+  <p class="section-label" id="contact-label" style="justify-content:center;display:flex;">Get in touch</p>
+  <h2 class="section-title" id="contact-heading" style="text-align:center;">Let's build something<br><em style="color:var(--gold-light)">memorable</em></h2>
+  <p class="section-sub" id="contact-subtitle">Looking for a full-time position as a concept artist. Open to studios worldwide.</p>
   <div class="contact-links" id="contact-links"></div>
-  <p class="footer-note">Andrea Fanese · Concept Artist · Portfolio 2026 · Pescara, Italy</p>
+  <p class="footer-note" id="footer-note">Andrea Fanese · Concept Artist · Portfolio 2026 · Pescara, Italy</p>
 </section>
 
 <!-- MODAL -->
@@ -178,6 +180,7 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
+  <video id="lightbox-video" controls playsinline style="display:none"></video>
 </div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>

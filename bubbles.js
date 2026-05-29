@@ -12,6 +12,28 @@
     'Game Dev':    'b-gamedev',
   };
 
+  // ── 1) SEED + PRNG deterministico ────────────────────────────────
+  let SEED = 34024;
+  const _qsSeed = new URLSearchParams(location.search).get('seed');
+  if (_qsSeed !== null && _qsSeed !== '') SEED = +_qsSeed;
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function seededShuffle(arr, rng) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
   // ── Bubble sizes: sqrt scale proportional to level ────────────────
   const values   = raw.map(s => Math.max(20, s.level || 50));
   const maxValue = d3.max(values);
@@ -28,9 +50,13 @@
   }));
 
   // ── Responsive stage sizing ────────────────────────────────────────
-  const TOTAL_AREA = d3.sum(simNodes, n => Math.PI * n.r * n.r);
+  const TOTAL_BUBBLE_AREA = d3.sum(simNodes, n => Math.PI * n.r * n.r);
+
+  // ── 2) CONTENT_R – raggio di contenuto (indipendente dal box) ────
+  const CONTENT_R = Math.sqrt(TOTAL_BUBBLE_AREA / Math.PI);
+
   const DENSITY    = 0.30;
-  const STAGE_AREA = TOTAL_AREA / DENSITY;
+  const STAGE_AREA = TOTAL_BUBBLE_AREA / DENSITY;
   const MIN_H = 360, MAX_H = 680;
 
   const stage = document.getElementById('bubble-stage');
@@ -46,23 +72,36 @@
   stage.style.height = H + 'px';
   svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-  // ── Category cluster centres (2×2 grid, adapts to W/H) ────────────
-  function catCentres(W, H) {
-    return {
-      'Concept Art':  { x: W * 0.28, y: H * 0.40 },
-      '2D Tools':     { x: W * 0.70, y: H * 0.32 },
-      '3D & Engine':  { x: W * 0.38, y: H * 0.70 },
-      'Game Dev':     { x: W * 0.75, y: H * 0.70 },
-    };
+  // ── 3) catCenters – anello compatto + seed ─────────────────────────
+  function catCenters(W, H, seed) {
+    const cx = W / 2, cy = H / 2;
+    const cats = ['Concept Art', '2D Tools', '3D & Engine', 'Game Dev'];
+    const rng = mulberry32((seed >>> 0) || 1);
+    const order = seededShuffle(cats, rng);
+    const rot = rng() * Math.PI * 2;
+    const ringR = CONTENT_R * 0.62;
+    const out = {};
+    order.forEach((cat, i) => {
+      const ang = rot + (i / cats.length) * Math.PI * 2;
+      out[cat] = { x: cx + Math.cos(ang) * ringR, y: cy + Math.sin(ang) * ringR };
+    });
+    return out;
   }
 
-  let centres = catCentres(W, H);
+  let centers = catCenters(W, H, SEED);
 
-  // Seed positions near category centre with jitter
+  // ── 4a) Ancora per categoria – la bolla più grande attrae le minori
+  const catAnchor = {};
   simNodes.forEach(n => {
-    const c = centres[n.cat] || { x: W / 2, y: H / 2 };
-    n.x = c.x + (Math.random() - 0.5) * 60;
-    n.y = c.y + (Math.random() - 0.5) * 60;
+    if (!catAnchor[n.cat] || n.r > catAnchor[n.cat].r) catAnchor[n.cat] = n;
+  });
+
+  // Posizioni iniziali vicino al centro categoria (jitter deterministico)
+  const rngJitter = mulberry32(SEED + 1);
+  simNodes.forEach(n => {
+    const c = centers[n.cat] || { x: W / 2, y: H / 2 };
+    n.x = c.x + (rngJitter() - 0.5) * 60;
+    n.y = c.y + (rngJitter() - 0.5) * 60;
   });
 
   // ── SVG helpers ────────────────────────────────────────────────────
@@ -73,7 +112,6 @@
     for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
     return el;
   }
-
 
   // ── Build bubble DOM ───────────────────────────────────────────────
   const bubbleEls = [];
@@ -131,11 +169,29 @@
   // ── Force simulation ───────────────────────────────────────────────
   const PAD = 4;
 
+  // ── 4b) Forza anchor – le piccole si raccolgono attorno alla grande
+  function forceAnchor(strength) {
+    let nodes;
+    function force(alpha) {
+      for (const n of nodes) {
+        const a = catAnchor[n.cat];
+        if (!a || a === n) continue;
+        const k = strength * alpha * (a.r / n.r);
+        n.vx += (a.x - n.x) * k;
+        n.vy += (a.y - n.y) * k;
+      }
+    }
+    force.initialize = (_) => { nodes = _; };
+    return force;
+  }
+
+  // ── 4c) Simulazione con anchor + strengths abbassati a 0.045 ──────
   const sim = d3.forceSimulation(simNodes)
     .velocityDecay(0.28)
-    .force('collide', d3.forceCollide(d => d.r + 4).strength(1).iterations(3))
-    .force('x', d3.forceX(d => centres[d.cat]?.x ?? W / 2).strength(0.06))
-    .force('y', d3.forceY(d => centres[d.cat]?.y ?? H / 2).strength(0.06))
+    .force('collide', d3.forceCollide(d => d.r + 3).strength(1).iterations(3))
+    .force('x', d3.forceX(d => centers[d.cat]?.x ?? W / 2).strength(0.045))
+    .force('y', d3.forceY(d => centers[d.cat]?.y ?? H / 2).strength(0.045))
+    .force('anchor', forceAnchor(0.09))
     .on('tick', () => {
       for (const n of simNodes) {
         if (n.x < n.r + PAD)     { n.x = n.r + PAD;     n.vx *= -0.3; }
@@ -207,7 +263,7 @@
     tooltip.classList.remove('active');
   });
 
-  // ── Resize ────────────────────────────────────────────────────────
+  // ── Resize (aggiorna centers + forze con stesso seed) ─────────────
   let resizeTimer;
   function onResize() {
     tooltip.classList.remove('active');
@@ -218,10 +274,10 @@
       W = dims.W; H = dims.H;
       stage.style.height = H + 'px';
       svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      centres = catCentres(W, H);
+      centers = catCenters(W, H, SEED);
       sim
-        .force('x', d3.forceX(d => centres[d.cat]?.x ?? W / 2).strength(0.06))
-        .force('y', d3.forceY(d => centres[d.cat]?.y ?? H / 2).strength(0.06))
+        .force('x', d3.forceX(d => centers[d.cat]?.x ?? W / 2).strength(0.045))
+        .force('y', d3.forceY(d => centers[d.cat]?.y ?? H / 2).strength(0.045))
         .alpha(0.55).restart();
     }, 30);
   }

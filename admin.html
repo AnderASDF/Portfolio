@@ -175,6 +175,8 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
 .actions{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);align-items:center}
 .btn-del{background:none;border:1px solid rgba(248,113,113,.35);color:var(--red);padding:9px 18px;font-size:12px;border-radius:2px;cursor:pointer;margin-left:auto;transition:all .15s}
 .btn-del:hover{background:rgba(248,113,113,.1)}
+.btn-save-inline{background:var(--gold);color:var(--purple);border:none;padding:9px 28px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .15s}
+.btn-save-inline:hover{background:var(--gold-l)}
 
 /* ── Cover grid ──────────────────────────────────────── */
 .cg-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:8px}
@@ -221,6 +223,62 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
 .cv-slot-btn{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);font-size:8px;font-family:var(--mono);width:18px;height:16px;border-radius:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;padding:0}
 .cv-slot-btn.active{background:var(--gold);color:var(--purple);border-color:var(--gold)}
 .cv-slot-btn:hover:not(.active){border-color:var(--gold-l);color:var(--gold-l)}
+
+/* ── Cat nav (icon tab bar) ──────────────────────────────────────────── */
+.sidebar{display:flex;flex-direction:row;overflow:hidden;overflow-y:hidden}
+.cat-nav{width:58px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:6px;gap:1px;flex-shrink:0;overflow-y:auto}
+.cat-btn{width:50px;height:50px;border:none;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:rgba(255,255,255,.35);background:transparent;transition:all .15s;position:relative;padding:0;flex-shrink:0}
+.cat-btn:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7)}
+.cat-btn.active{background:rgba(201,146,43,.12);color:var(--gold)}
+.cat-btn svg{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cat-label{font-family:var(--mono);font-size:6.5px;letter-spacing:.06em;text-transform:uppercase;line-height:1;margin-top:1px}
+.cat-dirty{position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--gold);display:none;pointer-events:none}
+.cat-btn.has-dirty .cat-dirty{display:block}
+.cat-panel{flex:1;min-width:0;overflow-y:auto;overflow-x:hidden}
+.cat-pane{display:none}
+.cat-pane.active{display:block}
+
+/* ── Image pair thumbs (admin) ───────────────────────────────────────── */
+.img-pair-thumb{width:158px!important;height:auto!important;cursor:default!important}
+.img-pair-inner{display:flex;width:100%;gap:2px}
+.img-pair-half{flex:1;overflow:hidden;aspect-ratio:16/9;position:relative}
+.img-pair-half img,.img-pair-half video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.pair-btn{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.7);border:none;color:rgba(255,255,255,.65);width:16px;height:16px;border-radius:2px;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;z-index:2}
+.img-thumb:hover .pair-btn{opacity:1}
+.pair-btn.active{background:var(--gold);color:var(--purple);opacity:1}
+.pair-swap-btn{position:absolute;bottom:2px;left:20px;background:rgba(0,0,0,.7);border:none;color:rgba(255,255,255,.65);width:16px;height:16px;border-radius:2px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;z-index:2}
+.img-pair-thumb:hover .pair-swap-btn{opacity:1}
+.pair-split-btn{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.7);border:none;color:var(--red);width:17px;height:17px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;line-height:1;z-index:2}
+.img-pair-thumb:hover .pair-split-btn{opacity:1}
+.img-grid.pairing-mode .img-thumb:not(.pairing-source){outline:2px dashed rgba(201,146,43,.5);outline-offset:1px;cursor:crosshair}
+.img-grid.pairing-mode .img-thumb:not(.pairing-source):hover{outline-color:var(--gold)}
+.img-thumb.pairing-source .pair-btn{background:var(--gold);color:var(--purple);opacity:1}
+/* cover button */
+.cover-btn{position:absolute;top:2px;left:2px;background:rgba(0,0,0,.7);border:none;color:rgba(255,255,255,.55);width:16px;height:16px;border-radius:2px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;z-index:2}
+.img-thumb:hover .cover-btn{opacity:1}
+.img-thumb.cover .cover-btn{background:rgba(201,146,43,.9);color:var(--white);opacity:1}
+/* cover + bg slot strip — inline with gallery images */
+.img-slots{display:contents}
+/* hide cover and bg from gallery grid (they're shown in slots) */
+#img-grid .img-thumb.cover,#img-grid .img-thumb.is-bg{display:none!important}
+.img-slot{position:relative;width:78px;height:78px;border-radius:2px;overflow:hidden;flex-shrink:0;border:2px solid transparent}
+.img-slot img{width:100%;height:100%;object-fit:cover;display:block}
+.img-slot-empty{background:var(--surface2);border:1px dashed var(--border)!important;display:flex;align-items:center;justify-content:center}
+#slot-cover:not(.img-slot-empty){border-color:var(--gold)}
+#slot-bg:not(.img-slot-empty){border-color:rgba(92,48,128,.75)}
+.slot-lbl{position:absolute;bottom:0;left:0;right:0;font-size:8px;text-align:center;padding:2px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+#slot-cover:not(.img-slot-empty) .slot-lbl,#slot-bg:not(.img-slot-empty) .slot-lbl{background:rgba(0,0,0,.6);color:var(--white)}
+.img-slot-empty .slot-lbl{color:rgba(255,255,255,.25)}
+.slot-rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);border:none;color:var(--red);width:17px;height:17px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+/* transparency bg button */
+.bg-btn{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,.7);border:none;color:rgba(255,255,255,.55);width:16px;height:16px;border-radius:2px;font-size:6.5px;font-family:var(--mono);font-weight:700;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;z-index:2;text-transform:uppercase}
+.img-thumb:hover .bg-btn{opacity:1}
+.img-thumb.is-bg .bg-btn{background:rgba(92,48,128,.95);color:var(--white);opacity:1}
+.bg-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(92,48,128,.88);font-size:8px;text-align:center;padding:2px;color:var(--white);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+/* video thumbs */
+.vid-thumb{cursor:default!important}
+.vid-thumb video{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}
+.vid-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.85);pointer-events:none;text-shadow:0 1px 4px rgba(0,0,0,.7)}
 </style>
 </head>
 <body>
@@ -240,47 +298,87 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
 
 <div class="app">
   <aside class="sidebar">
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Projects</span>
-        <button class="add-btn" onclick="newItem('project')" title="Add project">+</button>
+    <nav class="cat-nav" id="cat-nav">
+      <button class="cat-btn active" data-cat="projects" onclick="switchCat('projects')" title="Projects">
+        <svg viewBox="0 0 24 24"><path d="M3 7h4l2-2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg>
+        <span class="cat-label">Projects</span><span class="cat-dirty" id="catdirty-projects"></span>
+      </button>
+      <button class="cat-btn" data-cat="career" onclick="switchCat('career')" title="Work History">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        <span class="cat-label">Work</span><span class="cat-dirty" id="catdirty-career"></span>
+      </button>
+      <button class="cat-btn" data-cat="skills" onclick="switchCat('skills')" title="Skills">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="cat-label">Skills</span><span class="cat-dirty" id="catdirty-skills"></span>
+      </button>
+      <button class="cat-btn" data-cat="views" onclick="switchCat('views')" title="Project Views">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span class="cat-label">Views</span><span class="cat-dirty" id="catdirty-views"></span>
+      </button>
+      <button class="cat-btn" data-cat="socials" onclick="switchCat('socials')" title="Socials">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="cat-label">Socials</span><span class="cat-dirty" id="catdirty-socials"></span>
+      </button>
+      <button class="cat-btn" data-cat="profiles" onclick="switchCat('profiles')" title="Recruiter Profiles">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="cat-label">Profiles</span><span class="cat-dirty" id="catdirty-profiles"></span>
+      </button>
+      <button class="cat-btn" data-cat="texts" onclick="switchCat('texts')" title="Page Texts">
+        <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="4" y1="14" x2="14" y2="14"/></svg>
+        <span class="cat-label">Texts</span><span class="cat-dirty" id="catdirty-texts"></span>
+      </button>
+    </nav>
+    <div class="cat-panel" id="cat-panel">
+      <div class="cat-pane active" id="pane-projects">
+        <div class="sb-head">
+          <span class="sb-label">Projects</span>
+          <button class="add-btn" onclick="newItem('project')" title="Add project">+</button>
+        </div>
+        <ul class="sb-list" id="list-projects"></ul>
       </div>
-      <ul class="sb-list" id="list-projects"></ul>
-    </div>
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Work History</span>
-        <button class="add-btn" onclick="newItem('career')" title="Add career entry">+</button>
+      <div class="cat-pane" id="pane-career">
+        <div class="sb-head">
+          <span class="sb-label">Work History</span>
+          <button class="add-btn" onclick="newItem('career')" title="Add career entry">+</button>
+        </div>
+        <ul class="sb-list" id="list-career"></ul>
       </div>
-      <ul class="sb-list" id="list-career"></ul>
-    </div>
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Skills</span>
-        <button class="add-btn" onclick="newItem('skill')" title="Add skill">+</button>
+      <div class="cat-pane" id="pane-skills">
+        <div class="sb-head">
+          <span class="sb-label">Skills</span>
+          <button class="add-btn" onclick="newItem('skill')" title="Add skill">+</button>
+        </div>
+        <ul class="sb-list" id="list-skills"></ul>
       </div>
-      <ul class="sb-list" id="list-skills"></ul>
-    </div>
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Project Views</span>
-        <button class="add-btn" onclick="newView()" title="Add view">+</button>
+      <div class="cat-pane" id="pane-views">
+        <div class="sb-head">
+          <span class="sb-label">Project Views</span>
+          <button class="add-btn" onclick="newView()" title="Add view">+</button>
+        </div>
+        <ul class="sb-list" id="list-views"></ul>
       </div>
-      <ul class="sb-list" id="list-views"></ul>
-    </div>
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Socials</span>
-        <button class="add-btn" onclick="newSocial()" title="Add social">+</button>
+      <div class="cat-pane" id="pane-socials">
+        <div class="sb-head">
+          <span class="sb-label">Socials</span>
+          <button class="add-btn" onclick="newSocial()" title="Add social">+</button>
+        </div>
+        <ul class="sb-list" id="list-socials"></ul>
       </div>
-      <ul class="sb-list" id="list-socials"></ul>
-    </div>
-    <div class="sb-section">
-      <div class="sb-head">
-        <span class="sb-label">Recruiter Profiles</span>
-        <button class="add-btn" onclick="newProfile()" title="Add profile">+</button>
+      <div class="cat-pane" id="pane-profiles">
+        <div class="sb-head">
+          <span class="sb-label">Recruiter Profiles</span>
+          <button class="add-btn" onclick="newProfile()" title="Add profile">+</button>
+        </div>
+        <ul class="sb-list" id="list-profiles"></ul>
       </div>
-      <ul class="sb-list" id="list-profiles"></ul>
+      <div class="cat-pane" id="pane-texts">
+        <div class="sb-head"><span class="sb-label">Page Texts</span></div>
+        <ul class="sb-list">
+          <li class="sb-item" id="sb-sitecontent" onclick="openSiteContent()">
+            <span class="sb-item-name">Titles &amp; Descriptions</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </aside>
 
@@ -298,7 +396,7 @@ input[type=range]:focus{outline:none;border-color:var(--gold)}
 </div>
 
 <script>
-let DATA = { projects:[], career:[], timeline:[], skills:[], filterViews:[], recruiterProfiles:[], socials:[] }
+let DATA = { projects:[], career:[], timeline:[], skills:[], filterViews:[], recruiterProfiles:[], socials:[], siteContent:{} }
 let curSection = null, curId = null, curParentId = null
 let PENDING = {}
 let _formModified = false
@@ -316,6 +414,7 @@ async function init() {
       const fv = DATA.filterViews[0]
       DATA.gridSettings = { columns: fv?.columns || 6, aspectRatio: fv?.aspectRatio || '3/2' }
     }
+    if (!DATA.siteContent) DATA.siteContent = {}
     renderSidebar()
     document.getElementById('h-status').innerHTML =
       `<b>${DATA.projects.length}</b> projects &middot; <b>${DATA.career.length}</b> work &middot; <b>${(DATA.skills||[]).length}</b> skills`
@@ -327,13 +426,14 @@ async function init() {
 
 // ── Pending / Dirty tracking ─────────────────────────────────────────────────
 function getFromData(section, id) {
-  if (section==='project')    return DATA.projects.find(p=>p.id===id)
-  if (section==='career')     return DATA.career.find(c=>c.id===id)
-  if (section==='timeline')   return DATA.timeline.find(t=>t.id===id)
-  if (section==='skill')      return (DATA.skills||[]).find(s=>s.id===id)
-  if (section==='view')       return (DATA.filterViews||[]).find(v=>v.id===id)
-  if (section==='profile')    return (DATA.recruiterProfiles||[]).find(r=>r.id===id)
-  if (section==='social')     return (DATA.socials||[]).find(s=>s.id===id)
+  if (section==='project')     return DATA.projects.find(p=>p.id===id)
+  if (section==='career')      return DATA.career.find(c=>c.id===id)
+  if (section==='timeline')    return DATA.timeline.find(t=>t.id===id)
+  if (section==='skill')       return (DATA.skills||[]).find(s=>s.id===id)
+  if (section==='view')        return (DATA.filterViews||[]).find(v=>v.id===id)
+  if (section==='profile')     return (DATA.recruiterProfiles||[]).find(r=>r.id===id)
+  if (section==='social')      return (DATA.socials||[]).find(s=>s.id===id)
+  if (section==='sitecontent') return DATA.siteContent || {}
   if (section==='subproject') {
     const sep = id.indexOf(':'); const pid=id.slice(0,sep), sid=id.slice(sep+1)
     return DATA.projects.find(p=>p.id===pid)?.subprojects?.find(s=>s.id===sid)
@@ -352,9 +452,23 @@ function updateDirtyCount() {
   const hasSomething = count > 0 || _formModified
   document.getElementById('btn-save-all')?.classList.toggle('gold', hasSomething)
   document.querySelector('.ftb-save')?.classList.toggle('dirty', _formModified)
+  // category dirty dots
+  const catMap = {project:'projects',career:'career',skill:'skills',view:'views',social:'socials',profile:'profiles',subproject:'projects',sitecontent:'texts'}
+  const dirtyCats = new Set()
+  for (const key of Object.keys(PENDING)) { const cat=catMap[key.split(':')[0]]; if(cat) dirtyCats.add(cat) }
+  if (_formModified && curSection) { const cat=catMap[curSection]; if(cat) dirtyCats.add(cat) }
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('has-dirty',dirtyCats.has(b.dataset.cat)))
+}
+
+let _activeCat = 'projects'
+function switchCat(cat) {
+  _activeCat = cat
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.dataset.cat===cat))
+  document.querySelectorAll('.cat-pane').forEach(p=>p.classList.toggle('active', p.id===`pane-${cat}`))
 }
 
 function stashCurrentForm() {
+  if (typeof _cancelPairMode === 'function') _cancelPairMode()
   if (!curSection || !curId) return
   const isSub = curSection === 'subproject'
   // For regular items only stash when something changed; for subprojects always attempt
@@ -364,14 +478,15 @@ function stashCurrentForm() {
   let item = null
   try {
     const fd = new FormData(form)
-    if (curSection==='project')       item = collectProjectItem(fd)
-    else if (curSection==='career')   item = collectCareerItem(fd)
-    else if (curSection==='timeline') item = collectTimelineItem(fd)
-    else if (curSection==='skill')    item = collectSkillItem(fd)
-    else if (curSection==='view')     item = collectViewItem(fd)
-    else if (curSection==='profile')  item = collectProfileItem(fd)
-    else if (curSection==='social')   item = collectSocialItem(fd)
-    else if (isSub)                   item = collectSubprojectItem(fd)
+    if (curSection==='project')          item = collectProjectItem(fd)
+    else if (curSection==='career')      item = collectCareerItem(fd)
+    else if (curSection==='timeline')    item = collectTimelineItem(fd)
+    else if (curSection==='skill')       item = collectSkillItem(fd)
+    else if (curSection==='view')        item = collectViewItem(fd)
+    else if (curSection==='profile')     item = collectProfileItem(fd)
+    else if (curSection==='social')      item = collectSocialItem(fd)
+    else if (isSub)                      item = collectSubprojectItem(fd)
+    else if (curSection==='sitecontent') { const sc={}; for(const [k,v] of fd.entries()) sc[k]=v; item=sc }
   } catch(e) { console.warn('stash failed', e); return }
   if (!item) return
   const pendingKey = isSub ? `subproject:${curParentId}:${curId}` : `${curSection}:${curId}`
@@ -418,7 +533,9 @@ function restoreAll() {
   _formModified = false
   renderSidebar()
   updateDirtyCount()
-  if (curSection && curId) {
+  if (curSection === 'sitecontent') {
+    openSiteContent()
+  } else if (curSection && curId) {
     const item = getFromData(curSection, curId)
     openForm(curSection, item)
   }
@@ -454,6 +571,8 @@ function writeToData(section, id, item) {
     if(!parent.subprojects) parent.subprojects=[]
     const idx=parent.subprojects.findIndex(s=>s.id===sid)
     if(idx>=0) parent.subprojects[idx]=item; else parent.subprojects.push(item)
+  } else if (section==='sitecontent') {
+    DATA.siteContent = item
   }
 }
 
@@ -482,6 +601,7 @@ function collectProjectItem(fd) {
     visible,
     inSelection,
     sectionAspectRatio: fd.get('sectionAspectRatio') || 'auto',
+    bgImage: document.getElementById('bg-in')?.value || '',
     showInTimeline: document.getElementById('sw-timeline')?.checked ?? false,
     subprojects:    proj?.subprojects || []
   }
@@ -573,13 +693,14 @@ async function toggleVisible(section, id, value, parentId) {
 function showTopbar(section, item) {
   const titleEl  = document.getElementById('ftb-title')
   const switchEl = document.getElementById('ftb-switches')
-  const name = section==='project'    ? (item?.title||'New Project')
-    : section==='career'     ? (item?.role||'New Career Entry')
-    : section==='skill'      ? (item?.name||'New Skill')
-    : section==='view'       ? (item?.label||'New View')
-    : section==='profile'    ? (item?.label||'New Profile')
-    : section==='social'     ? (item?.label||'New Social')
-    : section==='subproject' ? (item?.title||'New Section')
+  const name = section==='project'     ? (item?.title||'New Project')
+    : section==='career'      ? (item?.role||'New Career Entry')
+    : section==='skill'       ? (item?.name||'New Skill')
+    : section==='view'        ? (item?.label||'New View')
+    : section==='profile'     ? (item?.label||'New Profile')
+    : section==='social'      ? (item?.label||'New Social')
+    : section==='subproject'  ? (item?.title||'New Section')
+    : section==='sitecontent' ? 'Titles & Descriptions'
     : 'Edit'
   titleEl.textContent = name
   if (section==='project') {
@@ -690,14 +811,7 @@ function newSubproject(parentId) {
 
 function subprojectForm(parent, sub) {
   const parentInSel = parent.inSelection !== false
-  const imgHtml=(sub.images||[]).map(img=>{
-    if(!img.startsWith('data/images/')) return `<div class="img-thumb legacy-key" data-img="${img}" title="${img}"><span>${img}</span><button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button></div>`
-    return `<div class="img-thumb${img===sub.coverImage?' cover':''}" onclick="setCover('${img}')" data-img="${img}">
-      <img src="/${img}" onerror="this.style.opacity='.3'">
-      <button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button>
-      ${img===sub.coverImage?'<div class="cover-lbl">cover</div>':''}
-    </div>`
-  }).join('')
+  const imgHtml=(sub.images||[]).map(img=>renderAdminThumb(img, img===sub.coverImage, img===(sub.bgImage||''))).join('')
   const ALL_FILTER_TAGS=(DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
   return `
   <div class="form-head">${esc(sub.title)||'New Section'} <span style="font-size:13px;color:rgba(255,255,255,.3);font-family:var(--mono);font-weight:400">↳ ${esc(parent.title)}</span>
@@ -729,18 +843,21 @@ function subprojectForm(parent, sub) {
         <input type="text" name="description" value="${esc(sub.description||'')}" placeholder="Brief description of this section…">
       </div>
     </div>
-    <div class="sec-label">Images</div>
-    <p class="cover-hint">Click an image to set as cover.</p>
-    <div class="img-grid" id="img-grid">${imgHtml}</div>
+    <div class="sec-label">Gallery</div>
+    <p class="cover-hint">★ = cover &nbsp;·&nbsp; BG = transparency background &nbsp;·&nbsp; GIF and MP4 supported.</p>
+    <div class="img-grid" id="img-grid">${_buildSlotsHtml(sub.coverImage||'', sub.bgImage||'')}${imgHtml}</div>
     <div style="display:flex;gap:8px;align-items:stretch;margin-top:8px">
       <div class="upload-zone" id="upload-zone" style="flex:1;margin-top:0">
-        <input type="file" id="img-input" accept="image/*" multiple onchange="uploadImages(this)">
+        <input type="file" id="img-input" accept="image/*,.gif,video/mp4,.mp4" multiple onchange="uploadImages(this)">
         <strong>Click to upload</strong> or drag &amp; drop
       </div>
       <button type="button" onclick="clearAllImages()" title="Delete all images" style="flex-shrink:0;background:none;border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:2px;padding:0 14px;font-size:11px;cursor:pointer;transition:background .15s;white-space:nowrap" onmouseover="this.style.background='rgba(248,113,113,.08)'" onmouseout="this.style.background='none'">× Clear all</button>
     </div>
     <input type="hidden" name="coverImage" id="cover-in" value="${esc(sub.coverImage||'')}">
     <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(sub.images||[]))}">
+    <input type="hidden" name="bgImage" id="bg-in" value="${esc(sub.bgImage||'')}">
+    <div class="sec-label">Transparency Background <span style="opacity:.4;font-size:11px;font-weight:400">(optional — shows behind transparent PNG/GIF)</span></div>
+    <p class="cover-hint">${(sub.bgImage||'')?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(sub.bgImage)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it.'}</p>
     <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
       <select name="sectionAspectRatio">
         <option value="auto"${(!sub.sectionAspectRatio||sub.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
@@ -776,7 +893,8 @@ function collectSubprojectItem(fd) {
     visible,
     description: fd.get('description')||'',
     tools: [...document.querySelectorAll('#tools-wrap .ftag-chip.active')].map(b=>b.dataset.tool),
-    sectionAspectRatio: fd.get('sectionAspectRatio')||'auto'
+    sectionAspectRatio: fd.get('sectionAspectRatio')||'auto',
+    bgImage: document.getElementById('bg-in')?.value||''
   }
 }
 
@@ -898,10 +1016,12 @@ function sbYear(str) {
 }
 
 // ── Navigate to item ──────────────────────────────────────────────────────────
+const _sectionToCat = {project:'projects',career:'career',skill:'skills',view:'views',social:'socials',profile:'profiles',subproject:'projects',sitecontent:'texts'}
 function editItem(section, id) {
   if (curSection !== section || curId !== id) stashCurrentForm()
   curSection = section; curId = id
   const item = getPendingOrData(section, id)
+  const cat = _sectionToCat[section]; if (cat) switchCat(cat)
   renderSidebar()
   openForm(section, item)
 }
@@ -930,6 +1050,7 @@ function attachFormChangeListener() {
 
 function newItem(section) {
   stashCurrentForm()
+  const cat = _sectionToCat[section]; if (cat) switchCat(cat)
   curSection = section
   curId = 'new_' + Date.now()
   const blank = section==='project'
@@ -951,14 +1072,7 @@ function pills(arr) {
 
 function projectForm(p) {
   const inSel = p.inSelection !== false
-  const imgHtml = (p.images||[]).map(img => {
-    if (!img.startsWith('data/images/')) return `<div class="img-thumb legacy-key" data-img="${img}" title="${img}"><span>${img}</span><button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button></div>`
-    return `<div class="img-thumb${img===p.coverImage?' cover':''}" onclick="setCover('${img}')" data-img="${img}">
-      <img src="/${img}" onerror="this.style.opacity='.3'">
-      <button class="rm" onclick="removeImage(event,'${img}')" type="button">×</button>
-      ${img===p.coverImage?'<div class="cover-lbl">cover</div>':''}
-    </div>`
-  }).join('')
+  const imgHtml = (p.images||[]).map(img => renderAdminThumb(img, img===p.coverImage, img===(p.bgImage||''))).join('')
   const ALL_FILTER_TAGS = (DATA.filterViews||[]).filter(v=>v.id!=='all'&&v.tag).map(v=>v.tag)
   const hasSubs = (p.subprojects||[]).length > 0
   return `
@@ -1010,18 +1124,21 @@ function projectForm(p) {
       <div class="fg"><label>Label</label><input type="text" name="linkLabel" value="${esc(p.link?.label||'')}" placeholder="View on ArtStation ↗"></div>
       <div class="fg"><label>URL</label><input type="text" name="linkUrl" value="${esc(p.link?.url||'')}" placeholder="https://…"></div>
     </div>
-    <div class="sec-label">Images</div>
-    <p class="cover-hint">Click an image to set as cover (gold border). Legacy IMGS keys are not shown here.</p>
-    <div class="img-grid" id="img-grid">${imgHtml}</div>
+    <div class="sec-label">Gallery</div>
+    <p class="cover-hint">★ = cover &nbsp;·&nbsp; BG = transparency background &nbsp;·&nbsp; GIF and MP4 supported. Legacy IMGS not shown.</p>
+    <div class="img-grid" id="img-grid">${_buildSlotsHtml(p.coverImage||'', p.bgImage||'')}${imgHtml}</div>
     <div style="display:flex;gap:8px;align-items:stretch;margin-top:8px">
       <div class="upload-zone" id="upload-zone" style="flex:1;margin-top:0">
-        <input type="file" id="img-input" accept="image/*" multiple onchange="uploadImages(this)">
-        <strong>Click to upload</strong> or drag &amp; drop &nbsp;·&nbsp; <span>JPEG, PNG, WebP</span>
+        <input type="file" id="img-input" accept="image/*,.gif,video/mp4,.mp4" multiple onchange="uploadImages(this)">
+        <strong>Click to upload</strong> or drag &amp; drop &nbsp;·&nbsp; <span>JPEG, PNG, WebP · GIF · MP4</span>
       </div>
       <button type="button" onclick="clearAllImages()" title="Delete all images" style="flex-shrink:0;background:none;border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:2px;padding:0 14px;font-size:11px;cursor:pointer;transition:background .15s;white-space:nowrap" onmouseover="this.style.background='rgba(248,113,113,.08)'" onmouseout="this.style.background='none'">× Clear all</button>
     </div>
     <input type="hidden" name="coverImage" id="cover-in" value="${esc(p.coverImage)}">
     <input type="hidden" name="images" id="images-in" value="${esc(JSON.stringify(p.images||[]))}">
+    <input type="hidden" name="bgImage" id="bg-in" value="${esc(p.bgImage||'')}">
+    <div class="sec-label">Transparency Background <span style="opacity:.4;font-size:11px;font-weight:400">(optional — shows behind transparent PNG/GIF)</span></div>
+    <p class="cover-hint">${(p.bgImage||'')?`Active: <span style="color:var(--gold-l);font-family:var(--mono);font-size:10px">${esc(p.bgImage)}</span> &nbsp;<button type="button" onclick="setBg(event,'')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:11px;padding:0;vertical-align:baseline">remove</button>`:'None set. Click the <strong style="color:rgba(255,255,255,.6)">BG</strong> button on a gallery image above to set it.'}</p>
     <div class="fg" style="margin-top:12px"><label>Image Aspect Ratio <span style="opacity:.45;font-size:11px;font-weight:400">(auto = natural size, others letterbox with contain)</span></label>
       <select name="sectionAspectRatio">
         <option value="auto"${(!p.sectionAspectRatio||p.sectionAspectRatio==='auto')?' selected':''}>Auto (natural)</option>
@@ -1269,34 +1386,150 @@ function getFilterTags() {
 }
 
 // ── Image helpers ─────────────────────────────────────────────────────────────
+const _pairIconSvg = `<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="0.5" y="1" width="4.5" height="10" rx="0.5"/><rect x="7" y="1" width="4.5" height="10" rx="0.5"/></svg>`
+function _isAdminVideo(p) { return /\.(mp4|webm|ogg)$/i.test(p) }
+
+async function compressToHD(file) {
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file) }
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const MAX_W = 1280, MAX_H = 720
+      const scale = Math.min(MAX_W / img.naturalWidth, MAX_H / img.naturalHeight, 1)
+      if (scale >= 1) { resolve(file); return }
+      const W = Math.round(img.naturalWidth * scale), H = Math.round(img.naturalHeight * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = W; canvas.height = H
+      const ctx = canvas.getContext('2d')
+      const isPng = file.type === 'image/png'
+      if (isPng) ctx.clearRect(0, 0, W, H)
+      ctx.drawImage(img, 0, 0, W, H)
+      const outType = isPng ? 'image/png' : 'image/jpeg'
+      const outExt  = isPng ? '.png' : '.jpg'
+      canvas.toBlob(blob => {
+        const name = file.name.replace(/\.[^.]+$/, '') + outExt
+        resolve(new File([blob], name, { type: outType }))
+      }, outType, isPng ? undefined : 0.85)
+    }
+    img.src = url
+  })
+}
+
+async function prepareFile(file) {
+  if (file.type.startsWith('video/') || file.type === 'image/gif') return file
+  if (!file.type.startsWith('image/')) return file
+  return compressToHD(file)
+}
+
+async function compressToThumb(file) {
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(null) }
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const MAX = 480
+      const scale = Math.min(MAX / img.naturalWidth, MAX / img.naturalHeight, 1)
+      const W = Math.round(img.naturalWidth * scale), H = Math.round(img.naturalHeight * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = W; canvas.height = H
+      const ctx = canvas.getContext('2d')
+      if (file.type === 'image/png') ctx.clearRect(0, 0, W, H)
+      ctx.drawImage(img, 0, 0, W, H)
+      const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg'
+      canvas.toBlob(blob => resolve(blob ? new File([blob], 'thumb.' + (outType === 'image/png' ? 'png' : 'jpg'), { type: outType }) : null), outType, outType === 'image/png' ? undefined : 0.65)
+    }
+    img.src = url
+  })
+}
+
+function _pairHalfHtml(p) {
+  const src = p.startsWith('data/') ? `/${p}` : p
+  const inner = _isAdminVideo(p)
+    ? `<video src="${src}" muted playsinline preload="metadata" onloadedmetadata="this.currentTime=0.1"></video>`
+    : `<img src="${src}" onerror="this.style.opacity='.3'">`
+  return `<div class="img-pair-half">${inner}</div>`
+}
+
+function renderAdminThumb(img, isCover, isBg) {
+  // pair key must be checked FIRST — pair keys can end with .mp4 etc. and would be misdetected as video
+  if (img.includes('||')) {
+    const [a, b] = img.split('||')
+    return `<div class="img-thumb img-pair-thumb" data-img="${esc(img)}">
+      <div class="img-pair-inner">${_pairHalfHtml(a)}${_pairHalfHtml(b)}</div>
+      <button class="pair-swap-btn" onclick="swapPair(event,'${esc(img)}')" type="button" title="Swap">⇄</button>
+      <button class="pair-split-btn" onclick="splitPair(event,'${esc(img)}')" type="button" title="Unpair">⊣⊢</button>
+      ${isCover?'<div class="cover-lbl">cover</div>':''}
+    </div>`
+  }
+  if (_isAdminVideo(img)) {
+    const src = img.startsWith('data/') ? `/${img}` : img
+    return `<div class="img-thumb vid-thumb" data-img="${esc(img)}">
+      <video src="${src}" muted playsinline preload="metadata" onloadedmetadata="this.currentTime=0.1"></video>
+      <span class="vid-badge">▶</span>
+      <button class="rm" onclick="removeImage(event,'${esc(img)}')" type="button">×</button>
+      <button class="pair-btn" onclick="togglePairMode(event,'${esc(img)}')" type="button" title="Pair with another file">${_pairIconSvg}</button>
+    </div>`
+  }
+  if (!img.startsWith('data/images/')) {
+    return `<div class="img-thumb legacy-key" data-img="${esc(img)}" title="${esc(img)}"><span>${esc(img)}</span><button class="rm" onclick="removeImage(event,'${esc(img)}')" type="button">×</button></div>`
+  }
+  return `<div class="img-thumb${isCover?' cover':''}${isBg?' is-bg':''}" data-img="${esc(img)}">
+    <img src="/${img}" onerror="this.style.opacity='.3'">
+    <button class="rm" onclick="removeImage(event,'${esc(img)}')" type="button">×</button>
+    ${isCover?'<div class="cover-lbl">cover</div>':''}
+    ${isBg?'<div class="bg-lbl">bg</div>':''}
+    <button class="cover-btn" onclick="event.stopPropagation();setCover('${esc(img)}')" type="button" title="Set as cover">★</button>
+    <button class="pair-btn" onclick="togglePairMode(event,'${esc(img)}')" type="button" title="Pair with another image">${_pairIconSvg}</button>
+    <button class="bg-btn" onclick="setBg(event,'${esc(img)}')" type="button" title="Set as background for transparent images">BG</button>
+  </div>`
+}
+
+const _withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r(null), ms))])
+
 async function uploadImages(input) {
   const id = document.querySelector('[name=id]')?.value || 'temp'
   for (const file of input.files) {
-    const fd = new FormData()
-    fd.append('image', file)
-    const res = await fetch(`/api/upload/${id}`, { method:'POST', body:fd })
-    const { path } = await res.json()
-    addThumb(path)
+    try {
+      const ready = await _withTimeout(prepareFile(file), 15000) || file
+      const fd = new FormData()
+      fd.append('image', ready)
+      if (ready.type === 'image/jpeg' || ready.type === 'image/png' || ready.type === 'image/webp') {
+        const thumb = await _withTimeout(compressToThumb(ready).catch(() => null), 5000)
+        if (thumb) fd.append('thumb', thumb)
+      }
+      const res = await fetch(`/api/upload/${id}`, { method: 'POST', body: fd })
+      if (!res.ok) throw new Error(`upload error ${res.status}`)
+      const data = await res.json()
+      if (data.path) addThumb(data.path)
+    } catch (err) {
+      console.error('Upload failed:', err)
+    }
   }
   input.value = ''
   updateImagesIn()
   _formModified = true; updateDirtyCount()
 }
 function addThumb(p) {
-  const grid = document.getElementById('img-grid')
+  if (!p) return
+  const grid = document.getElementById('img-grid'); if (!grid) return
   const div = document.createElement('div')
-  div.className = 'img-thumb'; div.dataset.img = p; div.onclick = () => setCover(p)
-  div.innerHTML = `<img src="/${p}"><button class="rm" onclick="removeImage(event,'${p}')" type="button">×</button>`
-  grid.appendChild(div)
-  initOneImageDrag(div)
+  div.innerHTML = renderAdminThumb(p, false)
+  const thumb = div.firstElementChild; if (!thumb) return
+  grid.appendChild(thumb)
+  initOneImageDrag(thumb)
   updateImagesIn()
 }
 function setCover(img) {
+  if (img.includes('||')) return
+  if (document.getElementById('bg-in')?.value === img) return  // bg can't be cover
   const ci = document.getElementById('cover-in')
   if (ci?.value === img) {
     document.querySelectorAll('.img-thumb').forEach(t=>{t.classList.remove('cover');t.querySelector('.cover-lbl')?.remove()})
     ci.value = ''
-    _formModified = true; updateDirtyCount()
+    updateSlots(); _formModified = true; updateDirtyCount()
     return
   }
   document.querySelectorAll('.img-thumb').forEach(t=>{t.classList.remove('cover');t.querySelector('.cover-lbl')?.remove()})
@@ -1308,19 +1541,19 @@ function setCover(img) {
     if (grid && grid.firstChild !== th) grid.insertBefore(th, grid.firstChild)
   }
   if (ci) ci.value = img
-  updateImagesIn()
-  _formModified = true; updateDirtyCount()
+  updateSlots(); updateImagesIn(); _formModified = true; updateDirtyCount()
 }
 async function clearAllImages() {
   const imgs = [...document.querySelectorAll('#img-grid .img-thumb')].map(t => t.dataset.img).filter(Boolean)
   if (!imgs.length) return
   if (!confirm(`Delete all ${imgs.length} image${imgs.length>1?'s':''}?`)) return
-  const uploads = imgs.filter(p => p.startsWith('data/images/'))
+  const uploads = imgs.flatMap(p=>p.includes('||')?p.split('||'):[p]).filter(p => p.startsWith('data/images/'))
   await Promise.all(uploads.map(p => fetch('/api/image',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:p})})))
   document.getElementById('img-grid').innerHTML = ''
   document.getElementById('cover-in').value = ''
   document.getElementById('images-in').value = '[]'
-  _formModified = true; updateDirtyCount()
+  const _bi = document.getElementById('bg-in'); if (_bi) _bi.value = ''
+  updateSlots(); _formModified = true; updateDirtyCount()
 }
 async function removeImage(e, img) {
   e.stopPropagation()
@@ -1328,11 +1561,113 @@ async function removeImage(e, img) {
   if (img.startsWith('data/images/')) await fetch('/api/image',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:img})})
   document.querySelector(`.img-thumb[data-img="${img}"]`)?.remove()
   const ci = document.getElementById('cover-in'); if (ci?.value===img) ci.value=''
-  updateImagesIn(); _formModified = true; updateDirtyCount()
+  const bi = document.getElementById('bg-in'); if (bi?.value===img) bi.value=''
+  updateSlots(); updateImagesIn(); _formModified = true; updateDirtyCount()
 }
 function updateImagesIn() {
-  const imgs = [...document.querySelectorAll('.img-thumb')].map(t=>t.dataset.img)
+  const imgs = [...document.querySelectorAll('.img-thumb')].map(t=>t.dataset.img).filter(Boolean)
   const el = document.getElementById('images-in'); if (el) el.value = JSON.stringify(imgs)
+}
+
+// ── Cover / BG slots ──────────────────────────────────────────────────────────
+function _buildSlotsHtml(coverVal, bgVal) {
+  const mk = (id, label, val, onClear) => {
+    if (!val) return `<div class="img-slot img-slot-empty" id="${id}"><span class="slot-lbl">${label}</span></div>`
+    const src = val.startsWith('data/') ? `/${val}` : val
+    return `<div class="img-slot" id="${id}"><img src="${src}" onerror="this.style.opacity='.3'"><span class="slot-lbl">${label}</span><button class="slot-rm" type="button" onclick="${onClear}" title="Remove">×</button></div>`
+  }
+  return `<div class="img-slots" id="img-slots">${mk('slot-cover','Cover',coverVal,'clearCover()')}${mk('slot-bg','Background',bgVal,"setBg(event,'')")}</div>`
+}
+function updateSlots() {
+  const cv = document.getElementById('cover-in')?.value || ''
+  const bv = document.getElementById('bg-in')?.value || ''
+  const el = document.getElementById('img-slots'); if (!el) return
+  const tmp = document.createElement('div'); tmp.innerHTML = _buildSlotsHtml(cv, bv); el.replaceWith(tmp.firstElementChild)
+}
+function clearCover() {
+  document.querySelectorAll('.img-thumb').forEach(t => { t.classList.remove('cover'); t.querySelector('.cover-lbl')?.remove() })
+  const ci = document.getElementById('cover-in'); if (ci) ci.value = ''
+  updateSlots(); updateImagesIn(); _formModified = true; updateDirtyCount()
+}
+
+// ── Transparency background ───────────────────────────────────────────────────
+function setBg(e, img) {
+  e.stopPropagation()
+  const bi = document.getElementById('bg-in'); if (!bi) return
+  const currently = bi.value
+  document.querySelectorAll('.img-thumb').forEach(t => { t.classList.remove('is-bg'); t.querySelector('.bg-lbl')?.remove() })
+  if (!img || currently === img) {
+    bi.value = ''
+  } else {
+    bi.value = img
+    const th = document.querySelector(`.img-thumb[data-img="${CSS.escape(img)}"]`)
+    if (th) { th.classList.add('is-bg'); const l=document.createElement('div');l.className='bg-lbl';l.textContent='bg';th.appendChild(l) }
+  }
+  updateSlots(); _formModified = true; updateDirtyCount()
+}
+
+// ── Image pairing ─────────────────────────────────────────────────────────────
+let _pairingSource = null
+function togglePairMode(e, img) {
+  e.stopPropagation()
+  const grid = document.getElementById('img-grid'); if (!grid) return
+  if (_pairingSource === null) {
+    _pairingSource = img
+    grid.classList.add('pairing-mode')
+    const src = grid.querySelector(`.img-thumb[data-img="${CSS.escape(img)}"]`)
+    if (src) src.classList.add('pairing-source')
+  } else if (_pairingSource === img) {
+    _cancelPairMode()
+  } else {
+    _createPair(_pairingSource, img)
+  }
+}
+function _cancelPairMode() {
+  const grid = document.getElementById('img-grid'); if (!grid) return
+  grid.classList.remove('pairing-mode')
+  grid.querySelectorAll('.pairing-source').forEach(el=>el.classList.remove('pairing-source'))
+  _pairingSource = null
+}
+function _createPair(imgA, imgB) {
+  const grid = document.getElementById('img-grid'); if (!grid) return
+  const thA = grid.querySelector(`.img-thumb[data-img="${CSS.escape(imgA)}"]`)
+  const thB = grid.querySelector(`.img-thumb[data-img="${CSS.escape(imgB)}"]`)
+  if (!thA || !thB) { _cancelPairMode(); return }
+  const pairKey = `${imgA}||${imgB}`
+  const div = document.createElement('div')
+  div.className = 'img-thumb img-pair-thumb'
+  div.dataset.img = pairKey
+  div.innerHTML = `<div class="img-pair-inner">${_pairHalfHtml(imgA)}${_pairHalfHtml(imgB)}</div><button class="pair-swap-btn" onclick="swapPair(event,'${pairKey}')" type="button" title="Swap">⇄</button><button class="pair-split-btn" onclick="splitPair(event,'${pairKey}')" type="button" title="Unpair">⊣⊢</button>`
+  grid.insertBefore(div, thA)
+  thA.remove(); thB.remove()
+  initOneImageDrag(div)
+  _cancelPairMode()
+  updateImagesIn(); _formModified = true; updateDirtyCount()
+}
+function swapPair(e, pairKey) {
+  e.stopPropagation()
+  const [a, b] = pairKey.split('||')
+  const newKey = `${b}||${a}`
+  const th = document.querySelector(`.img-thumb[data-img="${CSS.escape(pairKey)}"]`)
+  if (!th) return
+  th.dataset.img = newKey
+  const inner = th.querySelector('.img-pair-inner')
+  if (inner) inner.innerHTML = `${_pairHalfHtml(b)}${_pairHalfHtml(a)}`
+  th.querySelector('.pair-swap-btn')?.setAttribute('onclick', `swapPair(event,'${newKey}')`)
+  th.querySelector('.pair-split-btn')?.setAttribute('onclick', `splitPair(event,'${newKey}')`)
+  updateImagesIn(); _formModified = true; updateDirtyCount()
+}
+function splitPair(e, pairKey) {
+  e.stopPropagation()
+  const [a, b] = pairKey.split('||')
+  const th = document.querySelector(`.img-thumb[data-img="${CSS.escape(pairKey)}"]`)
+  if (!th) return
+  const grid = document.getElementById('img-grid')
+  const mkDiv = img => { const d = document.createElement('div'); d.innerHTML = renderAdminThumb(img, false, false); return d.firstElementChild }
+  const tA = mkDiv(a), tB = mkDiv(b)
+  grid.insertBefore(tA, th); grid.insertBefore(tB, th); th.remove()
+  initOneImageDrag(tA); initOneImageDrag(tB)
+  updateImagesIn(); _formModified = true; updateDirtyCount()
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
@@ -1390,9 +1725,20 @@ async function postData() {
   await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(DATA)})
 }
 
-// ── Upload zone ───────────────────────────────────────────────────────────────
+// ── Upload zone & pairing mode intercept ─────────────────────────────────────
 document.addEventListener('click', e=>{
   if (e.target.closest('#upload-zone')&&!e.target.closest('input')) document.getElementById('img-input')?.click()
+  // Intercept clicks in pairing mode
+  const grid = document.getElementById('img-grid')
+  if (grid?.classList.contains('pairing-mode') && _pairingSource) {
+    const thumb = e.target.closest('.img-thumb')
+    if (thumb && !thumb.classList.contains('pairing-source') && !thumb.classList.contains('img-pair-thumb') && !e.target.closest('.pair-btn,.rm,.pair-swap-btn,.pair-split-btn')) {
+      e.stopPropagation()
+      _createPair(_pairingSource, thumb.dataset.img)
+    } else if (!thumb && !e.target.closest('.pair-btn')) {
+      _cancelPairMode()
+    }
+  }
 })
 document.addEventListener('dragover', e=>e.preventDefault())
 document.addEventListener('drop', e=>{
@@ -1404,6 +1750,77 @@ document.addEventListener('drop', e=>{
   const input=document.getElementById('img-input')
   if (input) { input.files=dt.files; uploadImages(input) }
 })
+
+// ── Page Texts (siteContent) ──────────────────────────────────────────────────
+function openSiteContent() {
+  stashCurrentForm()
+  curSection = 'sitecontent'; curId = '__siteContent__'
+  switchCat('texts')
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'))
+  document.getElementById('sb-sitecontent')?.classList.add('active')
+  const main = document.getElementById('main')
+  main.innerHTML = siteContentForm(DATA.siteContent || {})
+  main.scrollTop = 0
+  document.getElementById('ftb-title').textContent = 'Titles & Descriptions'
+  document.getElementById('ftb-switches').innerHTML = ''
+  document.getElementById('form-topbar').classList.add('visible')
+  attachFormChangeListener()
+}
+
+function siteContentForm(sc) {
+  function ta(name, val, rows) {
+    return `<textarea name="${name}" rows="${rows||3}" style="width:100%;resize:vertical">${esc(val||'')}</textarea>`
+  }
+  function inp(name, val) {
+    return `<input type="text" name="${name}" value="${esc(val||'')}">`
+  }
+  return `
+  <div class="form-head">Titles &amp; Descriptions</div>
+  <form onsubmit="saveSiteContent(event)">
+    <p style="margin:0 0 8px;font-size:11px;opacity:.45;letter-spacing:.06em;text-transform:uppercase">Hero</p>
+    <div class="grid2">
+      <div class="fg full"><label>Tagline <span style="opacity:.4;font-size:11px">(supports HTML)</span></label>${ta('hero_tagline', sc.hero_tagline, 2)}</div>
+      <div class="fg full"><label>Description <span style="opacity:.4;font-size:11px">(supports HTML)</span></label>${ta('hero_desc', sc.hero_desc, 4)}</div>
+      <div class="fg"><label>Stat 1 — Number</label>${inp('hero_stat1_num', sc.hero_stat1_num)}</div>
+      <div class="fg"><label>Stat 1 — Label</label>${inp('hero_stat1_label', sc.hero_stat1_label)}</div>
+      <div class="fg"><label>Stat 2 — Number</label>${inp('hero_stat2_num', sc.hero_stat2_num)}</div>
+      <div class="fg"><label>Stat 2 — Label</label>${inp('hero_stat2_label', sc.hero_stat2_label)}</div>
+      <div class="fg"><label>Stat 3 — Number</label>${inp('hero_stat3_num', sc.hero_stat3_num)}</div>
+      <div class="fg"><label>Stat 3 — Label</label>${inp('hero_stat3_label', sc.hero_stat3_label)}</div>
+      <div class="fg"><label>Stat 4 — Number</label>${inp('hero_stat4_num', sc.hero_stat4_num)}</div>
+      <div class="fg"><label>Stat 4 — Label</label>${inp('hero_stat4_label', sc.hero_stat4_label)}</div>
+    </div>
+    <p style="margin:16px 0 8px;font-size:11px;opacity:.45;letter-spacing:.06em;text-transform:uppercase">About</p>
+    <div class="grid2">
+      <div class="fg full"><label>Paragraph 1</label>${ta('about_p1', sc.about_p1, 4)}</div>
+      <div class="fg full"><label>Paragraph 2</label>${ta('about_p2', sc.about_p2, 4)}</div>
+      <div class="fg full"><label>Paragraph 3</label>${ta('about_p3', sc.about_p3, 3)}</div>
+    </div>
+    <p style="margin:16px 0 8px;font-size:11px;opacity:.45;letter-spacing:.06em;text-transform:uppercase">Contact</p>
+    <div class="grid2">
+      <div class="fg full"><label>Label <span style="opacity:.4;font-size:11px">(small caps above heading)</span></label>${inp('contact_label', sc.contact_label)}</div>
+      <div class="fg full"><label>Heading <span style="opacity:.4;font-size:11px">(supports HTML — &lt;em style="color:var(--gold-light)"&gt; for gold italic)</span></label>${ta('contact_heading', sc.contact_heading, 2)}</div>
+      <div class="fg full"><label>Subtitle</label>${inp('contact_subtitle', sc.contact_subtitle)}</div>
+    </div>
+    <p style="margin:16px 0 8px;font-size:11px;opacity:.45;letter-spacing:.06em;text-transform:uppercase">Other</p>
+    <div class="grid2">
+      <div class="fg full"><label>Skills subtitle</label>${inp('skills_subtitle', sc.skills_subtitle)}</div>
+      <div class="fg full"><label>Footer note</label>${inp('footer_note', sc.footer_note)}</div>
+    </div>
+    <div class="actions"><button type="submit" class="btn-save-inline">Save</button></div>
+  </form>`
+}
+
+async function saveSiteContent(e) {
+  e.preventDefault()
+  const fd = new FormData(e.target)
+  const sc = {}
+  for (const [k, v] of fd.entries()) sc[k] = v
+  DATA.siteContent = sc
+  await postData()
+  _formModified = false; updateDirtyCount()
+  flashSaved('ftb-saved')
+}
 
 // ── Escape helper ─────────────────────────────────────────────────────────────
 function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
